@@ -1,3 +1,17 @@
+# Copyright 2018 Stanford University
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Downloads SQuAD train and dev sets, preprocesses and writes tokenized versions to file"""
 
 import os
@@ -152,10 +166,11 @@ def preprocess_and_write(dataset, tier, out_dir):
     """
 
     num_exs = 0 # number of examples written to file
-    num_mappingprob, num_tokenprob = 0, 0
+    num_mappingprob, num_tokenprob, num_spanalignprob = 0, 0, 0
     examples = []
 
     for articles_id in tqdm(range(len(dataset['data'])), desc="Preprocessing {}".format(tier)):
+
         article_paragraphs = dataset['data'][articles_id]['paragraphs']
         for pid in range(len(article_paragraphs)):
 
@@ -190,7 +205,11 @@ def preprocess_and_write(dataset, tier, out_dir):
                 ans_end_charloc = ans_start_charloc + len(ans_text) # answer end loc (character count) (exclusive)
 
                 # Check that the provided character spans match the provided answer text
-                assert context[ans_start_charloc:ans_end_charloc] == ans_text
+                if context[ans_start_charloc:ans_end_charloc] != ans_text:
+                  # Sometimes this is misaligned, mostly because "narrow builds" of Python 2 interpret certain Unicode characters to have length 2 https://stackoverflow.com/questions/29109944/python-returns-length-of-2-for-single-unicode-character-string
+                  # We should upgrade to Python 3 next year!
+                  num_spanalignprob += 1
+                  continue
 
                 # get word locs for answer start and end (inclusive)
                 ans_start_wordloc = charloc2wordloc[ans_start_charloc][1] # answer start word loc
@@ -213,7 +232,8 @@ def preprocess_and_write(dataset, tier, out_dir):
 
     print "Number of (context, question, answer) triples discarded due to char -> token mapping problems: ", num_mappingprob
     print "Number of (context, question, answer) triples discarded because character-based answer span is unaligned with tokenization: ", num_tokenprob
-    print "Processed %i examples of total %i\n" % (num_exs, num_exs + num_mappingprob + num_tokenprob)
+    print "Number of (context, question, answer) triples discarded due character span alignment problems (usually Unicode problems): ", num_spanalignprob
+    print "Processed %i examples of total %i\n" % (num_exs, num_exs + num_mappingprob + num_tokenprob + num_spanalignprob)
 
     # shuffle examples
     indices = range(len(examples))
