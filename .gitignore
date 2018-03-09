@@ -1,5 +1,7 @@
 out 
 download
 data
+experiments
 *.pyc
+*.png
 *.swa

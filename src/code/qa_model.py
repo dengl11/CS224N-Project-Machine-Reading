@@ -94,11 +94,13 @@ class QAModel(object):
         with vs.variable_scope("embeddings"):
 
             # Note: the embedding matrix is a tf.constant which means it's not a trainable parameter
-            embedding_matrix = tf.constant(emb_matrix, dtype=tf.float32, name="emb_matrix") # shape (400002, embedding_size)
+            # shape (400002, embedding_size)
+            embedding_matrix = tf.constant(emb_matrix, dtype=tf.float32, name="emb_matrix") 
 
             # Get the word embeddings for the context and question,
             # using the placeholders self.context_ids and self.qn_ids
-            self.context_embs = embedding_ops.embedding_lookup(embedding_matrix, self.context_ids) # shape (batch_size, context_len, embedding_size)
+            # shape (batch_size, context_len, embedding_size)
+            self.context_embs = embedding_ops.embedding_lookup(embedding_matrix, self.context_ids) 
             self.qn_embs = embedding_ops.embedding_lookup(embedding_matrix, self.qn_ids) # shape (batch_size, question_len, embedding_size)
 
 
@@ -464,18 +466,18 @@ class QAModel(object):
                 else:
                     exp_loss = 0.99 * exp_loss + 0.01 * loss
 
-                # Sometimes print info to screen
+                # periodically print info to screen
                 if global_step % self.FLAGS.print_every == 0:
                     logging.info(
                         'epoch %d, iter %d, loss %.5f, smoothed loss %.5f, grad norm %.5f, param norm %.5f, batch time %.3f' %
                         (epoch, global_step, loss, exp_loss, grad_norm, param_norm, iter_time))
 
-                # Sometimes save model
+                # periodically save model
                 if global_step % self.FLAGS.save_every == 0:
                     logging.info("Saving to %s..." % checkpoint_path)
                     self.saver.save(session, checkpoint_path, global_step=global_step)
 
-                # Sometimes evaluate model on dev loss, train F1/EM and dev F1/EM
+                # periodically evaluate model on dev loss, train F1/EM and dev F1/EM
                 if global_step % self.FLAGS.eval_every == 0:
 
                     # Get loss for entire dev set and log to tensorboard
