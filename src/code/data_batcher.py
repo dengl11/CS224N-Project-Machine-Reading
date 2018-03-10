@@ -169,8 +169,8 @@ def refill_batches(batches, word2id, context_file, qn_file, ans_file,
 
         # Note: each of these is a list length batch_size of lists of ints
         # (except on last iter when it might be less than batch_size)
-        context_ids_batch, context_tokens_batch,
-        qn_ids_batch, qn_tokens_batch,
+        context_ids_batch, context_tokens_batch, \
+        qn_ids_batch, qn_tokens_batch,\
         ans_span_batch, ans_tokens_batch = zip(*examples[batch_start:batch_start+batch_size])
 
         batches.append(

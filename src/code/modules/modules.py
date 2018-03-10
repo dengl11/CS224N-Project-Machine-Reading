@@ -30,29 +30,35 @@ class RNNEncoder(object):
         """
         self.hidden_size = hidden_size
         self.keep_prob = keep_prob
-        self.rnn_cell_fw = rnn_cell.GRUCell(self.hidden_size)
-        self.rnn_cell_fw = DropoutWrapper(self.rnn_cell_fw, input_keep_prob=self.keep_prob)
-        self.rnn_cell_bw = rnn_cell.GRUCell(self.hidden_size)
-        self.rnn_cell_bw = DropoutWrapper(self.rnn_cell_bw, input_keep_prob=self.keep_prob)
+        rnn_cell_fw = rnn_cell.GRUCell(self.hidden_size)
+        self.rnn_cell_fw = DropoutWrapper(rnn_cell_fw,
+                                          input_keep_prob=self.keep_prob)
+        rnn_cell_bw = rnn_cell.GRUCell(self.hidden_size)
+        self.rnn_cell_bw = DropoutWrapper(rnn_cell_bw,
+                                          input_keep_prob=self.keep_prob)
 
     def build_graph(self, inputs, masks):
         """
         Inputs:
-          inputs: Tensor shape (batch_size, seq_len, input_size)
-          masks: Tensor shape (batch_size, seq_len).
+          inputs: Tensor shape [batch_size, seq_len, input_size]
+          masks: Tensor shape [batch_size, seq_len]
             Has 1s where there is real input, 0s where there's padding.
-            This is used to make sure tf.nn.bidirectional_dynamic_rnn doesn't iterate through masked steps.
+            This is used to make sure
+            tf.nn.bidirectional_dynamic_rnn doesn't iterate through masked steps.
 
         Returns:
           out: Tensor shape (batch_size, seq_len, hidden_size*2).
             This is all hidden states (fw and bw hidden states are concatenated).
         """
         with vs.variable_scope("RNNEncoder"):
-            input_lens = tf.reduce_sum(masks, reduction_indices=1) # shape (batch_size)
+            # [batch_size]
+            input_lens = tf.reduce_sum(masks, reduction_indices=1) 
 
             # Note: fw_out and bw_out are the hidden states for every timestep.
             # Each is shape (batch_size, seq_len, hidden_size).
-            (fw_out, bw_out), _ = tf.nn.bidirectional_dynamic_rnn(self.rnn_cell_fw, self.rnn_cell_bw, inputs, input_lens, dtype=tf.float32)
+            (fw_out, bw_out), _ = tf.nn.bidirectional_dynamic_rnn(\
+                                    self.rnn_cell_fw, self.rnn_cell_bw,
+                                    inputs, input_lens, dtype=tf.float32)
 
             # Concatenate the forward and backward hidden states
             out = tf.concat([fw_out, bw_out], 2)
@@ -132,68 +138,39 @@ class BasicAttn(object):
         For each key, return an attention distribution and an attention output vector.
 
         Inputs:
-          values: Tensor shape (batch_size, num_values, value_vec_size).
-          values_mask: Tensor shape (batch_size, num_values).
+          values: Tensor shape [batch_size, num_values, value_vec_size].
+          values_mask: Tensor shape [batch_size, num_values]
             1s where there's real input, 0s where there's padding
-          keys: Tensor shape (batch_size, num_keys, value_vec_size)
+          keys: Tensor shape [batch_size, num_keys, value_vec_size]
 
         Outputs:
-          attn_dist: Tensor shape (batch_size, num_keys, num_values).
+          attn_dist: Tensor shape [batch_size, num_keys, num_values]
             For each key, the distribution should sum to 1,
             and should be 0 in the value locations that correspond to padding.
-          output: Tensor shape (batch_size, num_keys, hidden_size).
+          output: Tensor shape [batch_size, num_keys, hidden_size]
             This is the attention output; the weighted sum of the values
             (using the attention distribution as weights).
         """
-        with vs.variable_scope("BasicAttn"):
-
+        with vs.variable_scope("BasicAttn"): 
             # Calculate attention distribution
-            values_t = tf.transpose(values, perm=[0, 2, 1]) # (batch_size, value_vec_size, num_values)
-            attn_logits = tf.matmul(keys, values_t) # shape (batch_size, num_keys, num_values)
-            attn_logits_mask = tf.expand_dims(values_mask, 1) # shape (batch_size, 1, num_values)
-            _, attn_dist = masked_softmax(attn_logits, attn_logits_mask, 2) # shape (batch_size, num_keys, num_values). take softmax over values
+            # [batch_size, value_vec_size, num_values]
+            values_t = tf.transpose(values, perm=[0, 2, 1]) 
+            # [batch_size, num_keys, num_values]
+            attn_logits = tf.matmul(keys, values_t) 
+            # [batch_size, 1, num_values]
+            attn_logits_mask = tf.expand_dims(values_mask, 1) 
+            # [batch_size, num_keys, num_values]. take softmax over values
+            _, attn_dist = masked_softmax(attn_logits, attn_logits_mask, 2) 
 
             # Use attention distribution to take weighted sum of values
-            output = tf.matmul(attn_dist, values) # shape (batch_size, num_keys, value_vec_size)
+            # [batch_size, num_keys, value_vec_size]
+            output = tf.matmul(attn_dist, values) 
 
             # Apply dropout
             output = tf.nn.dropout(output, self.keep_prob)
 
             return attn_dist, output
 
-
-class BidirectionalAttn(BasicAttn):
-    def build_graph(self, questions, questions_mask, context):
-        with vs.variable_scope("BidirectionalAttn"):
-            # key_vec_size = 2h; sim_weight = 6h.
-            sim_weight = tf.get_variable(shape=[3 * self.key_vec_size, ], dtype=tf.float32,
-                                         initializer=tf.contrib.layers.xavier_initializer(),
-                                         name='sim_weight')
-            batch_size, question_length, question_state_size = questions.shape
-            batch_size, context_length, context_state_size = context.shape
-
-            original_context = context
-            original_questions = questions
-
-            # Calculate similarity matrix.
-            context = tf.tile(tf.expand_dims(context, 2), (1, 1, question_length, 1)) # batch_size * context_length * question_length * 2h
-            questions = tf.tile(tf.expand_dims(questions, 1), (1, context_length, 1, 1)) # batch_size * context_length * question_length * 2h
-            context_questions_element_product = tf.multiply(context, questions)
-            similarity_matrix = tf.reduce_sum(tf.multiply(sim_weight, tf.concat([context, questions, context_questions_element_product], 3)), 3)   # batch_size * context_length * question_length
-
-            # Perform Context-to-Question attention.
-            new_questions_mask = tf.tile(tf.expand_dims(questions_mask, 1), (1, context_length, 1))
-            _, c_to_q_attention_dist = masked_softmax(similarity_matrix, new_questions_mask, 2)   # batch_size * context_length * question_length
-            alpha = tf.squeeze(tf.matmul(tf.transpose(questions, (0, 1, 3, 2)), tf.expand_dims(c_to_q_attention_dist, 3)), 3)   # batch size * context_length * 2h
-
-            # Perform Question-to-Context attention.
-            beta = tf.nn.softmax(tf.reduce_max(similarity_matrix, 2))   # batch_size * context_length
-            c_prime = tf.squeeze(tf.matmul(tf.transpose(original_context, (0, 2, 1)), tf.expand_dims(beta, 2)), 2) # batch size * 2h
-
-            # Lastly.
-            third_term = tf.multiply(original_context, alpha)
-            fourth_term = tf.multiply(original_context, tf.tile(tf.expand_dims(c_prime, 1), (1, context_length, 1)))
-            return None, tf.concat([original_context, alpha, third_term, fourth_term], 2)
 
 
 def masked_softmax(logits, mask, dim):

@@ -54,7 +54,7 @@ tf.app.flags.DEFINE_integer("context_len", 600,
         "The maximum context length of your model")
 tf.app.flags.DEFINE_integer("question_len", 30,
         "The maximum question length of your model")
-tf.app.flags.DEFINE_integer("embedding_size", 300,
+tf.app.flags.DEFINE_integer("embedding_size", 50,
         "Size of the pretrained word vectors.\
         This needs to be one of the available GloVe dimensions: 50/100/200/300")
 
@@ -101,13 +101,13 @@ def initialize_model(session, model, train_dir, expect_exists):
       model: QAModel
       train_dir: path to directory where we'll look for checkpoint
       expect_exists: If True, throw an error if no checkpoint is found.
-        If False, initialize fresh model if no checkpoint is found.
+                     If False, initialize fresh model if no checkpoint is found.
     """
-    print "Looking for model at %s..." % train_dir
+    logger.info("Looking for model at %s..." % train_dir)
     ckpt = tf.train.get_checkpoint_state(train_dir)
     v2_path = ckpt.model_checkpoint_path + ".index" if ckpt else ""
     if ckpt and (tf.gfile.Exists(ckpt.model_checkpoint_path) or tf.gfile.Exists(v2_path)):
-        print "Reading model parameters from %s" % ckpt.model_checkpoint_path
+        logger.info("Reading model parameters from %s" % ckpt.model_checkpoint_path)
         model.saver.restore(session, ckpt.model_checkpoint_path)
     else:
         if expect_exists:
@@ -133,7 +133,9 @@ def main(unused_argv):
     # Define train_dir
     if not FLAGS.experiment_name and not FLAGS.train_dir and FLAGS.mode != "official_eval":
         raise Exception("You need to specify either --experiment_name or --train_dir")
-    FLAGS.train_dir = FLAGS.train_dir or os.path.join(EXPERIMENTS_DIR, FLAGS.experiment_name)
+    checkptr_name = FLAGS.experiment_name + "/glove{}".format(FLAGS.embedding_size)
+    FLAGS.train_dir = FLAGS.train_dir or\
+                        os.path.join(EXPERIMENTS_DIR, checkptr_name)
 
     # Initialize bestmodel directory
     bestmodel_dir = os.path.join(FLAGS.train_dir, "best_checkpoint")

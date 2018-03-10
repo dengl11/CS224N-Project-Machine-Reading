@@ -4,4 +4,4 @@ s:
 
 #baseline training
 bt:
-	python main.py --experiment_name=baseline --mode=train
+	python  -W ignore main.py --experiment_name=baseline --mode=train
