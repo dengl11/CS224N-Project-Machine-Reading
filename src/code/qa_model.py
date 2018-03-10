@@ -94,12 +94,12 @@ class QAModel(object):
         with vs.variable_scope("embeddings"):
 
             # Note: the embedding matrix is a tf.constant which means it's not a trainable parameter
-            # shape (400002, embedding_size)
+            # shape [400002, embedding_size]
             embedding_matrix = tf.constant(emb_matrix, dtype=tf.float32, name="emb_matrix") 
 
             # Get the word embeddings for the context and question,
             # using the placeholders self.context_ids and self.qn_ids
-            # shape (batch_size, context_len, embedding_size)
+            # shape [batch_size, context_len, embedding_size]
             self.context_embs = embedding_ops.embedding_lookup(embedding_matrix, self.context_ids) 
             self.qn_embs = embedding_ops.embedding_lookup(embedding_matrix, self.qn_ids) # shape (batch_size, question_len, embedding_size)
 
@@ -127,6 +127,7 @@ class QAModel(object):
             attn_layer = BasicAttn(self.keep_prob, self.FLAGS.hidden_size * 2, self.FLAGS.hidden_size * 2)
         if self.FLAGS.experiment_name == 'bidirectional_attention':
             attn_layer = BidirectionalAttn(self.keep_prob, self.FLAGS.hidden_size*2, self.FLAGS.hidden_size*2)
+
         _, attn_output = attn_layer.build_graph(question_hiddens, self.qn_mask, context_hiddens) # attn_output is shape (batch_size, context_len, hidden_size*2)
 
         # Concat attn_output to context_hiddens to get blended_reps
@@ -414,7 +415,8 @@ class QAModel(object):
         return f1_total, em_total
 
 
-    def train(self, session, train_context_path, train_qn_path, train_ans_path, dev_qn_path, dev_context_path, dev_ans_path):
+    def train(self, session, train_context_path, train_qn_path, train_ans_path,
+                    dev_qn_path, dev_context_path, dev_ans_path):
         """
         Main training loop.
 

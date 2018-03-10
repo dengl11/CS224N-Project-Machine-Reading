@@ -1,6 +1,9 @@
-"""This code is required for "official_eval" mode in main.py
-It provides functions to read a SQuAD json file, use the model to get predicted answers,
-and write those answers to another JSON file."""
+"""
+This code is required for "official_eval" mode in main.py
+It provides functions to read a SQuAD json file,
+use the model to get predicted answers,
+and write those answers to another JSON file.
+"""
 
 from __future__ import absolute_import
 from __future__ import division

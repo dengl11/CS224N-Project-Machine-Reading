@@ -6,12 +6,20 @@ from __future__ import division
 
 from tqdm import tqdm
 import numpy as np
+from os import path
+import gzip, shutil
+from lib.util.logger import ColoredLogger
+from lib.util.timer import Timer
 
 _PAD = b"<pad>"
 _UNK = b"<unk>"
 _START_VOCAB = [_PAD, _UNK]
 PAD_ID = 0
 UNK_ID = 1
+
+logger = ColoredLogger("glover")
+timer = Timer()
+
 
 
 def get_glove(glove_path, glove_dim):
@@ -49,6 +57,7 @@ def get_glove(glove_path, glove_dim):
         id2word[idx] = word
         idx += 1
 
+
     # go through glove vecs
     with open(glove_path, 'r') as fh:
         for line in tqdm(fh, total=vocab_size):
@@ -67,4 +76,4 @@ def get_glove(glove_path, glove_dim):
     assert len(id2word) == final_vocab_size
     assert idx == final_vocab_size
 
-    return emb_matrix, word2id, id2word
+    return emb_matrix, word2id, id2word 

@@ -1,18 +1,6 @@
-# Copyright 2018 Stanford University
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-"""Downloads SQuAD train and dev sets, preprocesses and writes tokenized versions to file"""
+"""
+Downloads SQuAD train and dev sets, preprocesses and writes tokenized versions to file
+"""
 
 import os
 import sys
@@ -50,7 +38,8 @@ def data_from_json(filename):
 
 
 def tokenize(sequence):
-    tokens = [token.replace("``", '"').replace("''", '"').lower() for token in nltk.word_tokenize(sequence)]
+    tokens = [token.replace("``", '"').replace("''", '"').lower()
+            for token in nltk.word_tokenize(sequence)]
     return tokens
 
 

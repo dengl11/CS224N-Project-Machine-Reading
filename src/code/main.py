@@ -15,43 +15,77 @@ from qa_model import QAModel
 from vocab import get_glove
 from official_eval_helper import get_json_data, generate_answers
 
+from lib.util.logger import ColoredLogger
+from lib.util.timer import Timer
+
 
 logging.basicConfig(level=logging.INFO)
 
-MAIN_DIR = os.path.relpath(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) # relative path of the main directory
-DEFAULT_DATA_DIR = os.path.join(MAIN_DIR, "data") # relative path of data dir
-EXPERIMENTS_DIR = os.path.join(MAIN_DIR, "experiments") # relative path of experiments dir
+# relative path of the main directory
+MAIN_DIR = os.path.relpath(
+           os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) 
+# relative path of data dir
+DEFAULT_DATA_DIR = os.path.join(MAIN_DIR, "data") 
+# relative path of experiments dir
+EXPERIMENTS_DIR = os.path.join(MAIN_DIR, "experiments") 
 
+logger = ColoredLogger("main")
+timer = Timer()
 
 # High-level options
 tf.app.flags.DEFINE_integer("gpu", 0, "Which GPU to use, if you have multiple.")
-tf.app.flags.DEFINE_string("mode", "train", "Available modes: train / show_examples / official_eval")
-tf.app.flags.DEFINE_string("experiment_name", "", "Unique name for your experiment. This will create a directory by this name in the experiments/ directory, which will hold all data related to this experiment")
-tf.app.flags.DEFINE_integer("num_epochs", 0, "Number of epochs to train. 0 means train indefinitely")
+tf.app.flags.DEFINE_string("mode", "train", 
+                      "Available modes: train / show_examples / official_eval")
+tf.app.flags.DEFINE_string("experiment_name", "",
+        "Unique name for your experiment.\
+         This will create a directory by this name in the experiments/ directory,\
+         which will hold all data related to this experiment")
+tf.app.flags.DEFINE_integer("num_epochs", 0,
+                        "Number of epochs to train. 0 means train indefinitely")
 
 # Hyperparameters
 tf.app.flags.DEFINE_float("learning_rate", 0.001, "Learning rate.")
 tf.app.flags.DEFINE_float("max_gradient_norm", 5.0, "Clip gradients to this norm.")
-tf.app.flags.DEFINE_float("dropout", 0.15, "Fraction of units randomly dropped on non-recurrent connections.")
+tf.app.flags.DEFINE_float("dropout", 0.15,
+        "Fraction of units randomly dropped on non-recurrent connections.")
 tf.app.flags.DEFINE_integer("batch_size", 100, "Batch size to use")
 tf.app.flags.DEFINE_integer("hidden_size", 200, "Size of the hidden states")
-tf.app.flags.DEFINE_integer("context_len", 600, "The maximum context length of your model")
-tf.app.flags.DEFINE_integer("question_len", 30, "The maximum question length of your model")
-tf.app.flags.DEFINE_integer("embedding_size", 100, "Size of the pretrained word vectors. This needs to be one of the available GloVe dimensions: 50/100/200/300")
+tf.app.flags.DEFINE_integer("context_len", 600,
+        "The maximum context length of your model")
+tf.app.flags.DEFINE_integer("question_len", 30,
+        "The maximum question length of your model")
+tf.app.flags.DEFINE_integer("embedding_size", 300,
+        "Size of the pretrained word vectors.\
+        This needs to be one of the available GloVe dimensions: 50/100/200/300")
 
 # How often to print, save, eval
-tf.app.flags.DEFINE_integer("print_every", 1, "How many iterations to do per print.")
-tf.app.flags.DEFINE_integer("save_every", 500, "How many iterations to do per save.")
-tf.app.flags.DEFINE_integer("eval_every", 500, "How many iterations to do per calculating loss/f1/em on dev set. Warning: this is fairly time-consuming so don't do it too often.")
-tf.app.flags.DEFINE_integer("keep", 1, "How many checkpoints to keep. 0 indicates keep all (you shouldn't need to do keep all though - it's very storage intensive).")
+tf.app.flags.DEFINE_integer("print_every", 1,
+        "How many iterations to do per print.")
+tf.app.flags.DEFINE_integer("save_every", 500,
+        "How many iterations to do per save.")
+tf.app.flags.DEFINE_integer("eval_every", 500,
+        "How many iterations to do per calculating loss/f1/em on dev set.\
+        Warning: this is fairly time-consuming so don't do it too often.")
+tf.app.flags.DEFINE_integer("keep", 1,
+        "How many checkpoints to keep. 0 indicates keep all \
+        (you shouldn't need to do keep all though - it's very storage intensive).")
 
 # Reading and saving data
-tf.app.flags.DEFINE_string("train_dir", "", "Training directory to save the model parameters and other info. Defaults to experiments/{experiment_name}")
-tf.app.flags.DEFINE_string("glove_path", "", "Path to glove .txt file. Defaults to data/glove.6B.{embedding_size}d.txt")
-tf.app.flags.DEFINE_string("data_dir", DEFAULT_DATA_DIR, "Where to find preprocessed SQuAD data for training. Defaults to data/")
-tf.app.flags.DEFINE_string("ckpt_load_dir", "", "For official_eval mode, which directory to load the checkpoint fron. You need to specify this for official_eval mode.")
-tf.app.flags.DEFINE_string("json_in_path", "", "For official_eval mode, path to JSON input file. You need to specify this for official_eval_mode.")
-tf.app.flags.DEFINE_string("json_out_path", "predictions.json", "Output path for official_eval mode. Defaults to predictions.json")
+tf.app.flags.DEFINE_string("train_dir", "",
+        "Training directory to save the model parameters and other info.\
+        Defaults to experiments/{experiment_name}")
+tf.app.flags.DEFINE_string("glove_path", "",
+        "Path to glove .txt file. Defaults to data/glove.6B.{embedding_size}d.txt")
+tf.app.flags.DEFINE_string("data_dir", DEFAULT_DATA_DIR, 
+        "Where to find preprocessed SQuAD data for training. Defaults to data/")
+tf.app.flags.DEFINE_string("ckpt_load_dir", "", 
+        "For official_eval mode, which directory to load the checkpoint fron.\
+        You need to specify this for official_eval mode.")
+tf.app.flags.DEFINE_string("json_in_path", "", 
+        "For official_eval mode, path to JSON input file. \
+        You need to specify this for official_eval_mode.")
+tf.app.flags.DEFINE_string("json_out_path", "predictions.json",
+        "Output path for official_eval mode. Defaults to predictions.json")
 
 
 FLAGS = tf.app.flags.FLAGS
@@ -105,10 +139,14 @@ def main(unused_argv):
     bestmodel_dir = os.path.join(FLAGS.train_dir, "best_checkpoint")
 
     # Define path for glove vecs
-    FLAGS.glove_path = FLAGS.glove_path or os.path.join(DEFAULT_DATA_DIR, "glove.6B.{}d.txt".format(FLAGS.embedding_size))
+    FLAGS.glove_path = FLAGS.glove_path or \
+                       os.path.join(DEFAULT_DATA_DIR, 
+                            "glove.6B.{}d.txt".format(FLAGS.embedding_size))
 
     # Load embedding matrix and vocab mappings
+    timer.start("glove_getter")
     emb_matrix, word2id, id2word = get_glove(FLAGS.glove_path, FLAGS.embedding_size)
+    logger.warn("Get glove embedding of size {} takes {:.2f} s".format(FLAGS.embedding_size, timer.stop("glove_getter")))
 
     # Get filepaths to train/dev datafiles for tokenized queries, contexts and answers
     train_context_path = os.path.join(FLAGS.data_dir, "train.context")
@@ -126,8 +164,7 @@ def main(unused_argv):
     config.gpu_options.allow_growth = True
 
     # Split by mode
-    if FLAGS.mode == "train":
-
+    if FLAGS.mode == "train": 
         # Setup train dir and logfile
         if not os.path.exists(FLAGS.train_dir):
             os.makedirs(FLAGS.train_dir)
@@ -142,13 +179,14 @@ def main(unused_argv):
         if not os.path.exists(bestmodel_dir):
             os.makedirs(bestmodel_dir)
 
-        with tf.Session(config=config) as sess:
-
+        with tf.Session(config=config) as sess: 
             # Load most recent model
             initialize_model(sess, qa_model, FLAGS.train_dir, expect_exists=False)
 
             # Train
-            qa_model.train(sess, train_context_path, train_qn_path, train_ans_path, dev_qn_path, dev_context_path, dev_ans_path)
+            qa_model.train(sess, train_context_path, train_qn_path,
+                           train_ans_path, dev_qn_path, dev_context_path,
+                           dev_ans_path)
 
 
     elif FLAGS.mode == "show_examples":
@@ -158,7 +196,10 @@ def main(unused_argv):
             initialize_model(sess, qa_model, bestmodel_dir, expect_exists=True)
 
             # Show examples with F1/EM scores
-            _, _ = qa_model.check_f1_em(sess, dev_context_path, dev_qn_path, dev_ans_path, "dev", num_samples=10, print_to_screen=True)
+            _, _ = qa_model.check_f1_em(sess, dev_context_path,
+                                        dev_qn_path, dev_ans_path,
+                                        "dev", num_samples=10,
+                                        print_to_screen=True)
 
 
     elif FLAGS.mode == "official_eval":
@@ -177,7 +218,8 @@ def main(unused_argv):
 
             # Get a predicted answer for each example in the data
             # Return a mapping answers_dict from uuid to answer
-            answers_dict = generate_answers(sess, qa_model, word2id, qn_uuid_data, context_token_data, qn_token_data)
+            answers_dict = generate_answers(sess, qa_model, word2id,
+                    qn_uuid_data, context_token_data, qn_token_data)
 
             # Write the uuid->answer mapping a to json file in root dir
             print "Writing predictions to %s..." % FLAGS.json_out_path
