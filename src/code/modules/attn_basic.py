@@ -1,5 +1,5 @@
 ###########################################################
-###############       Naive Attention     #################
+###############       Basic Attention     #################
 ###########################################################
 
 import tensorflow as tf
@@ -32,6 +32,33 @@ class BasicAttn(object):
         self.keep_prob = keep_prob
         self.key_vec_size = key_vec_size
         self.value_vec_size = value_vec_size
+        self.scope = "BasicAttn" 
+
+
+    def get_key2value_attn(self, values, values_mask, keys):
+        """
+        Return: (attn_dist, attn_output)
+        """
+        with vs.variable_scope(self.scope): 
+            # Calculate attention distribution
+            # [batch_size, value_vec_size, num_values]
+            values_t         = tf.transpose(values, perm=[0, 2, 1]) 
+            # [batch_size, num_keys, num_values]
+            attn_logits      = tf.matmul(keys, values_t) 
+            # [batch_size, 1, num_values]
+            attn_logits_mask = tf.expand_dims(values_mask, 1) 
+            # [batch_size, num_keys, num_values]. take softmax over values
+            _, attn_dist     = masked_softmax(attn_logits, attn_logits_mask, 2) 
+
+            # Use attention distribution to take weighted sum of values
+            # [batch_size, num_keys, value_vec_size]
+            output = tf.matmul(attn_dist, values) 
+
+            # Apply dropout
+            output = tf.nn.dropout(output, self.keep_prob)
+
+            return attn_dist, output
+
 
     def build_graph(self, values, values_mask, keys):
         """
@@ -52,23 +79,5 @@ class BasicAttn(object):
             This is the attention output; the weighted sum of the values
             (using the attention distribution as weights).
         """
-        with vs.variable_scope("BasicAttn"): 
-            # Calculate attention distribution
-            # [batch_size, value_vec_size, num_values]
-            values_t = tf.transpose(values, perm=[0, 2, 1]) 
-            # [batch_size, num_keys, num_values]
-            attn_logits = tf.matmul(keys, values_t) 
-            # [batch_size, 1, num_values]
-            attn_logits_mask = tf.expand_dims(values_mask, 1) 
-            # [batch_size, num_keys, num_values]. take softmax over values
-            _, attn_dist = masked_softmax(attn_logits, attn_logits_mask, 2) 
-
-            # Use attention distribution to take weighted sum of values
-            # [batch_size, num_keys, value_vec_size]
-            output = tf.matmul(attn_dist, values) 
-
-            # Apply dropout
-            output = tf.nn.dropout(output, self.keep_prob)
-
-            return attn_dist, output
+        return self.get_key2value_attn(values, values_mask, keys)
 

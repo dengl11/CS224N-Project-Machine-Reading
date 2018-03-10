@@ -16,7 +16,7 @@ from tensorflow.python.ops import embedding_ops
 from evaluate import exact_match_score, f1_score
 from data_batcher import get_batch_generator
 from pretty_print import print_example
-from modules import RNNEncoder, SimpleSoftmaxLayer, BasicAttn, BidirectionalAttn
+from modules import RNNEncoder, SimpleSoftmaxLayer, BasicAttn, BiAttn
 
 logging.basicConfig(level=logging.INFO)
 
@@ -144,7 +144,7 @@ class QAModel(object):
             attn_layer = BasicAttn(self.keep_prob,
                                    self.FLAGS.hidden_size * 2,
                                    self.FLAGS.hidden_size * 2)
-        elif self.FLAGS.experiment_name == 'bidirectional_attention':
+        elif self.FLAGS.experiment_name == 'bi_attn':
             attn_layer = BiAttn(self.keep_prob,
                                 self.FLAGS.hidden_size * 2,
                                 self.FLAGS.hidden_size * 2)
