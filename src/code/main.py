@@ -33,6 +33,8 @@ logger = ColoredLogger("main")
 timer = Timer()
 
 # High-level options
+tf.app.flags.DEFINE_float("encoder", "gru",
+                          "encoder after word embedding: gru or lstm")
 tf.app.flags.DEFINE_integer("gpu", 0, "Which GPU to use, if you have multiple.")
 tf.app.flags.DEFINE_string("mode", "train", 
                       "Available modes: train / show_examples / official_eval")

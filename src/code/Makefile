@@ -11,7 +11,13 @@ bi:
 	python  -W ignore main.py --experiment_name=bi_attn --mode=train
 
 #bidirectional evaluation
-bie:
+bie-100:
+	python  -W ignore main.py --experiment_name=bi_attn\
+		--embedding_size 100\
+		--mode=eval\
+		--json_in_path ../data/dev-v1.1.json \
+		--ckpt_load_dir ../experiments/bi_attn/glove100/best_checkpoint/
+bie-300:
 	python  -W ignore main.py --experiment_name=bi_attn\
 		--embedding_size 300\
 		--mode=eval\

@@ -1,10 +1,15 @@
 """This file contains some Encoder components"""
 
+import sys, os
 import tensorflow as tf
 from tensorflow.python.ops.rnn_cell import DropoutWrapper
 from tensorflow.python.ops import variable_scope as vs
 from tensorflow.python.ops import rnn_cell
 
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../"))
+from lib.util.logger import ColoredLogger 
+
+logger = ColoredLogger("Encoder")
 
 class RNNEncoder(object):
     """
@@ -47,6 +52,7 @@ class RNNEncoder(object):
                                           input_keep_prob=self.keep_prob)
         self.rnn_cell_bw = DropoutWrapper(rnn_cell_bw,
                                           input_keep_prob=self.keep_prob)
+        logger.info("Encoder created: {}".format(cell_type))
 
     def build_graph(self, inputs, masks):
         """
