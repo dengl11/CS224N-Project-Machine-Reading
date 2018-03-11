@@ -94,4 +94,7 @@ class BiAttn(BasicAttn):
             # [batch_sz, N, 4 * hidden_sz]
             v2k_attn = tf.concat(elems, 2)
 
+            # Apply dropout
+            output = tf.nn.dropout(output, self.keep_prob)
+
             return None, v2k_attn 

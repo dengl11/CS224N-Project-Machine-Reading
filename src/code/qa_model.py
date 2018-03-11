@@ -68,9 +68,11 @@ class QAModel(object):
                                            global_step=self.global_step)
 
         # Define savers (for checkpointing) and summaries (for tensorboard)
-        self.saver = tf.train.Saver(tf.global_variables(), max_to_keep=FLAGS.keep)
-        self.bestmodel_saver = tf.train.Saver(tf.global_variables(), max_to_keep=1)
-        self.summaries = tf.summary.merge_all()
+        self.saver           = tf.train.Saver(tf.global_variables(),
+                                              max_to_keep=FLAGS.keep)
+        self.bestmodel_saver = tf.train.Saver(tf.global_variables(), 
+                                              max_to_keep=1)
+        self.summaries       = tf.summary.merge_all()
 
 
     def add_placeholders(self):
@@ -584,7 +586,7 @@ class QAModel(object):
                                                           num_samples=1000)
                     logging.info("Epoch %d, Iter %d, Train F1 score: %f,\
                             Train EM score: %f" % (epoch, global_step, train_f1, train_em))
-                    logging.info("Epoch %d, Iter %d, Train F1 score: %f,\
+                    logger.info("Epoch %d, Iter %d, Train F1 score: %f,\
                             Train EM score: %f" % (epoch, global_step, train_f1, train_em))
                     write_summary(train_f1, "train/F1", summary_writer, global_step)
                     write_summary(train_em, "train/EM", summary_writer, global_step)

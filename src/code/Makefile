@@ -8,7 +8,10 @@ bt:
 
 #bidirectional training
 bi:
-	python  -W ignore main.py --experiment_name=bi_attn --mode=train
+	python  -W ignore main.py\
+			--experiment_name=bi_attn\
+			--mode=train\
+			--dropout 0.5
 
 #bidirectional evaluation
 bie-100:
