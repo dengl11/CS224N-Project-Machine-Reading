@@ -2,13 +2,17 @@
 ###############  BiDirectional Attention  #################
 ###########################################################
 
+import sys, os
 import tensorflow as tf
 from tensorflow.python.ops.rnn_cell import DropoutWrapper
 from tensorflow.python.ops import variable_scope as vs
 from tensorflow.python.ops import rnn_cell
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../"))
+from lib.util.logger import ColoredLogger 
 from attn_basic import BasicAttn
 from softmax import masked_softmax
 
+logger = ColoredLogger("BiAttn")
 
 class BiAttn(BasicAttn):
 
@@ -54,13 +58,17 @@ class BiAttn(BasicAttn):
             _kw3 = tf.matmul(tf.reshape(keys, [-1, hidden_sz]), tf.diag(w[2]))
             kw3  = tf.reshape(_kw3, [-1, N, hidden_sz])
 
+            # [batch_sz, N, M]
             S = tf.matmul(kw3, tf.transpose(values, [0, 2, 1]))
-            # [batch_sz, N, M]
+
+            # [N, batch_sz, M]
+            S = tf.transpose(S, [1, 0, 2])  
             S = S + tf.reduce_sum(values * w[1], 2) 
-            # [batch_sz, M, N]
-            S = tf.transpose(S, [0, 2, 1]) + tf.reduce_sum(keys * w[0], 2)
+            # [M, batch_sz, N]
+            S = tf.transpose(S, [2, 1, 0])  
+            S = S + tf.reduce_sum(keys * w[0], 2)
             # [batch_sz, N, M]
-            S = tf.transpose(S, [0, 2, 1])
+            S = tf.transpose(S, [1, 2, 0])
             
             # ----------  key-to-value attention (C2Q) ----------
             # [batch_sz, N, n_valules]
@@ -73,10 +81,13 @@ class BiAttn(BasicAttn):
             M = tf.reduce_max(S, 2)
             # [batch_sz, N]
             beta = tf.nn.softmax(M)
-            # [batch_sz, hidden_sz, N]
-            c_prime = tf.transpose(keys, [0, 2, 1]) * beta 
+
+            keys = tf.transpose(keys, [2, 0, 1]) # [hidden_sz, batch_sz, N]
+            c_prime = keys * beta  # [hidden_sz, batch_sz, N]
             # [batch_sz, hidden_sz]
-            c_prime = tf.reduce_sum(c_prime, 2)
+            c_prime = tf.transpose(tf.reduce_sum(c_prime, 2), [1, 0])
+            # [batch_sz, hidden_sz, N]
+            keys = tf.transpose(keys, [1, 2, 0]) # [batch_sz, N, hidden_sz]
 
             # ----------  final value-to-key attention (Q2C) ----------
             elems = [keys, k2v_attn, keys * k2v_attn, keys * tf.expand_dims(c_prime, 1)]

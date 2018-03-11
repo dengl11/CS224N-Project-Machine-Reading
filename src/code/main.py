@@ -54,7 +54,7 @@ tf.app.flags.DEFINE_integer("context_len", 600,
         "The maximum context length of your model")
 tf.app.flags.DEFINE_integer("question_len", 30,
         "The maximum question length of your model")
-tf.app.flags.DEFINE_integer("embedding_size", 50,
+tf.app.flags.DEFINE_integer("embedding_size", 100,
         "Size of the pretrained word vectors.\
         This needs to be one of the available GloVe dimensions: 50/100/200/300")
 
