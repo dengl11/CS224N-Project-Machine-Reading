@@ -202,21 +202,27 @@ def main(unused_argv):
                                         dev_qn_path, dev_ans_path,
                                         "dev", num_samples=10,
                                         print_to_screen=True)
-            logger.info("Dev: F1 = {}, EM = {}".format(f1, em))
+            logger.info("Dev: F1 = {0:.3}, EM = {0:.3}".format(f1, em))
 
 
-    elif FLAGS.mode == "dev":
+    elif FLAGS.mode == "eval":
         with tf.Session(config=config) as sess:
 
             # Load best model
             initialize_model(sess, qa_model, bestmodel_dir, expect_exists=True)
 
-            # Show examples with F1/EM scores
+            # train
+            f1, em = qa_model.check_f1_em(sess, train_context_path,
+                                        train_qn_path, train_ans_path,
+                                        "train", num_samples=100000000000,
+                                        print_to_screen=False)
+            logger.error("Train: F1 = {0:.3}, EM = {0:.3}".format(f1, em))
+            # dev
             f1, em = qa_model.check_f1_em(sess, dev_context_path,
                                         dev_qn_path, dev_ans_path,
-                                        "dev", num_samples=1000000,
+                                        "dev", num_samples=10000000000,
                                         print_to_screen=False)
-            logger.info("Dev: F1 = {}, EM = {}".format(f1, em))
+            logger.error("Dev:   F1 = {0:.3}, EM = {0:.3}".format(f1, em))
 
     elif FLAGS.mode == "official_eval":
         if FLAGS.json_in_path == "":
