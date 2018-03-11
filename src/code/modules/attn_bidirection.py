@@ -42,8 +42,6 @@ class BiAttn(BasicAttn):
         assert(values.shape[-1] == hidden_sz)
 
         with vs.variable_scope(self.scope): 
-            # [batch_sz, N, M]
-            values_mask_exp = tf.tile(tf.expand_dims(values_mask, 1), [1, N, 1])
             # 3 similarity vectors : w = [w1; w2; w3]
             w = []
             for i in range(3): 
@@ -63,6 +61,7 @@ class BiAttn(BasicAttn):
 
             # [N, batch_sz, M]
             S = tf.transpose(S, [1, 0, 2])  
+            # values * w[1]: [batch_sz, M, hidden_sz]
             S = S + tf.reduce_sum(values * w[1], 2) 
             # [M, batch_sz, N]
             S = tf.transpose(S, [2, 1, 0])  
@@ -71,8 +70,10 @@ class BiAttn(BasicAttn):
             S = tf.transpose(S, [1, 2, 0])
             
             # ----------  key-to-value attention (C2Q) ----------
+            # [N, batch_sz, M]
+            _, alpha = masked_softmax(tf.transpose(S, [1, 0, 2]), values_mask, 2)
             # [batch_sz, N, M]
-            _, alpha = masked_softmax(S, values_mask_exp, 2)
+            alpha = tf.transpose(alpha, [1, 0, 2])
             # [batch_sz, N, hidden_sz]
             k2v_attn = tf.matmul(alpha, values)
             
@@ -95,6 +96,6 @@ class BiAttn(BasicAttn):
             v2k_attn = tf.concat(elems, 2)
 
             # Apply dropout
-            output = tf.nn.dropout(output, self.keep_prob)
+            v2k_attn = tf.nn.dropout(v2k_attn, self.keep_prob)
 
             return None, v2k_attn 

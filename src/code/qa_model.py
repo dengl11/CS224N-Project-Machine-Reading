@@ -167,7 +167,7 @@ class QAModel(object):
                                                 self.context_mask) 
 
         # Concat attn_output to context_hiddens to get blended_reps
-        # [batch_size, context_len, hidden_size*4]
+        # [batch_size, context_len, hidden_size*n]
         blended_reps = tf.concat([context_hiddens, attn_output], axis=2) 
 
         # Apply fully connected layer to each blended representation
@@ -176,6 +176,9 @@ class QAModel(object):
         # blended_reps_final is shape [batch_size, context_len, hidden_size]
         blended_reps_final = tf.contrib.layers.fully_connected(blended_reps,
                                             num_outputs=self.FLAGS.hidden_size) 
+
+        #  TODO:  <11-03-18, yourname> # 
+        # add more layers for final representation 
 
         # Use softmax layer to compute probability distribution for start location
         # Note this produces self.logits_start and self.probdist_start, both of which have shape (batch_size, context_len)

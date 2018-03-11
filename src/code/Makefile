@@ -29,4 +29,7 @@ bie-300:
 
 #co-attentional training
 co:
-	python  -W ignore main.py --experiment_name=co_attn --mode=train
+	python  -W ignore main.py \
+			--embedding_size 50\
+			--experiment_name=co_attn\
+			--mode=train

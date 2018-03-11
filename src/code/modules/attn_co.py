@@ -43,12 +43,8 @@ class CoAttn(BasicAttn):
         N = keys.shape[1] 
         assert(values.shape[-1] == h)
 
+        logger.error("values: {}".format(values.shape))
         with vs.variable_scope(self.scope): 
-            # [batch_sz, N+1, M]
-            values_mask_exp = tf.tile(tf.expand_dims(values_mask, 1), [1, N+1, 1])
-            # [batch_sz, N+1, M+1]
-            values_mask_exp = tf.concat([values_mask_exp,
-                tf.zeros_like(tf.placeholder(tf.int32, shape=[None, N+1, 1]))], 2)
             # weight matrix: [h, h]
             W = tf.get_variable("W",
                                 [h, h],
@@ -60,52 +56,46 @@ class CoAttn(BasicAttn):
                                 tf.float32,
                                 tf.zeros_initializer())
             # sentinel vectors for keys and values
-            k0, v0 = [tf.get_variable(name, [h], tf.float32,
-                                tf.zeros_initializer()) for name in ("k0", "v0")]
+            # k0, v0 = [tf.get_variable(name, [h, 1], tf.float32,
+                                # tf.zeros_initializer()) for name in ("k0", "v0")]
+            # sen_mat = tf.matmul(v0, tf.transpose(k0, [1, 0]))
+            # logger.error("sen_mat: {}".format(sen_mat.shape))
             # [batch_sz * M, h]
             q_prime = tf.nn.tanh(tf.matmul(tf.reshape(values, [-1, h]), W) + b)
             # [batch_sz, M, h]
             q_prime = tf.reshape(q_prime, [-1, M, h])
 
-            # concatenate sentenel vectors to keys & values
-            keys = tf.transpose(keys, [0, 2, 1]) + k0 # [batch_sz, h, N+1]
-            # [batch_sz, N+1, h]
-            keys = tf.transpose(keys, [0, 2, 1])
-
-            # [batch_sz, M+1, h]
-            logger.error("values: {}".format(values.shape))
-            values = tf.transpose(values, [0, 2, 1]) + v0 # [batch_sz, h, M+1]
-            logger.error("values: {}".format(values.shape))
-
-            # affinity matrix: L = [batch_sz, N+1, M+1]
-            logger.error("values: {}".format(values.shape))
-            L = tf.matmul(keys, tf.transpose(values, [0, 2, 1]))
+            # affinity matrix: L = [batch_sz, N, M]
+            # logger.error("values: {}".format(values.shape))
+            # logger.error("tf.matmul(keys, tf.transpose(values, [0, 2, 1])): {}".format((tf.matmul(keys, tf.transpose(values, [0, 2, 1]))).shape))
+            L = tf.matmul(keys, tf.transpose(values, [0, 2, 1])) 
             logger.error("L: {}".format(L.shape))
 
             ############ C2Q ############
-            # softmax for L over values: [batch_sz, N+1, M+1]
-            _, alpha = masked_softmax(L, values_mask_exp, 2)
+            # softmax for L over values: [batch_sz, N, M]
+            _, alpha = masked_softmax(L, values_mask, 2)
             logger.error("alpha: {}".format(alpha.shape))
-            # [batch_sz, N+1, h]
+            # [batch_sz, N, h]
             k2v      = tf.matmul(alpha, values)
             logger.error("k2v: {}".format(k2v.shape))
 
             ############ Q2C ############
-            # softmax for L over keys: [batch_sz, N+1, M+1]
+            # softmax for L over keys: [batch_sz, N, M]
             beta = tf.nn.softmax(L)
             logger.error("beta: {}".format(beta.shape))
-            # [batch_sz, M+1, h]
+            # [batch_sz, M, h]
             v2k = tf.matmul(tf.transpose(beta, [0, 2, 1]), keys)
             logger.error("v2k: {}".format(v2k.shape))
 
             ############ Second Level Attn ############
-            # [batch_sz, N+1, h]
+            # [batch_sz, N, h]
             s = tf.matmul(alpha, v2k)
             logger.error("s: {}".format(s.shape))
 
-            # [batch_sz, N+1, 2 * h]
-            lstm_inputs = tf.stack([s, k2v], 2)
+            # [batch_sz, N, 2 * h]
+            lstm_inputs = tf.concat([s, k2v], 2)
             logger.error("lstm_inputs: {}".format(lstm_inputs.shape))
             attn = self.encoder.build_graph(lstm_inputs, keys_mask)
+            logger.error("attn: {}".format(attn.shape))
 
             return _, attn 
