@@ -54,7 +54,7 @@ tf.app.flags.DEFINE_integer("context_len", 600,
         "The maximum context length of your model")
 tf.app.flags.DEFINE_integer("question_len", 30,
         "The maximum question length of your model")
-tf.app.flags.DEFINE_integer("embedding_size", 50,
+tf.app.flags.DEFINE_integer("embedding_size", 100,
         "Size of the pretrained word vectors.\
         This needs to be one of the available GloVe dimensions: 50/100/200/300")
 
@@ -198,11 +198,25 @@ def main(unused_argv):
             initialize_model(sess, qa_model, bestmodel_dir, expect_exists=True)
 
             # Show examples with F1/EM scores
-            _, _ = qa_model.check_f1_em(sess, dev_context_path,
+            f1, em = qa_model.check_f1_em(sess, dev_context_path,
                                         dev_qn_path, dev_ans_path,
                                         "dev", num_samples=10,
                                         print_to_screen=True)
+            logger.info("Dev: F1 = {}, EM = {}".format(f1, em))
 
+
+    elif FLAGS.mode == "dev":
+        with tf.Session(config=config) as sess:
+
+            # Load best model
+            initialize_model(sess, qa_model, bestmodel_dir, expect_exists=True)
+
+            # Show examples with F1/EM scores
+            f1, em = qa_model.check_f1_em(sess, dev_context_path,
+                                        dev_qn_path, dev_ans_path,
+                                        "dev", num_samples=1000000,
+                                        print_to_screen=False)
+            logger.info("Dev: F1 = {}, EM = {}".format(f1, em))
 
     elif FLAGS.mode == "official_eval":
         if FLAGS.json_in_path == "":
