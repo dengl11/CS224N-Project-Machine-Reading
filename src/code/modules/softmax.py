@@ -27,7 +27,7 @@ class SimpleSoftmaxLayer(object):
         Outputs:
           logits: Tensor shape (batch_size, seq_len)
             logits is the result of the downprojection layer, but it has -1e30
-            (i.e. very large negative number) in the padded locations
+            (i.e. very Inf negative number) in the padded locations
           prob_dist: Tensor shape (batch_size, seq_len)
             The result of taking softmax over logits.
             This should have 0 in the padded locations, and the rest should sum to 1.
@@ -57,13 +57,13 @@ def masked_softmax(logits, mask, dim):
     Returns:
       masked_logits: Numpy array same shape as logits.
         This is the same as logits, but with 1e30 subtracted
-        (i.e. very large negative number) in the padding locations.
+        (i.e. very Inf negative number) in the padding locations.
       prob_dist: Numpy array same shape as logits.
         The result of taking softmax over masked_logits in given dimension.
         Should be 0 in padding locations.
         Should sum to 1 over given dimension.
     """
-    exp_mask = (1 - tf.cast(mask, 'float')) * (-1e30) # -large where there's padding, 0 elsewhere
-    masked_logits = tf.add(logits, exp_mask) # where there's padding, set logits to -large
+    exp_mask = (1 - tf.cast(mask, 'float')) * (-1e30) # -Inf where there's padding, 0 elsewhere
+    masked_logits = tf.add(logits, exp_mask) # where there's padding, set logits to -Inf
     prob_dist = tf.nn.softmax(masked_logits, dim)
     return masked_logits, prob_dist

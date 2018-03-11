@@ -9,3 +9,7 @@ bt:
 #bidirectional training
 bi:
 	python  -W ignore main.py --experiment_name=bi_attn --mode=train
+
+#co-attentional training
+co:
+	python  -W ignore main.py --experiment_name=co_attn --mode=train

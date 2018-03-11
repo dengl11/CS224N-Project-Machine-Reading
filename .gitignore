@@ -5,4 +5,5 @@ experiments
 *.pyc
 *.png
 *.swa
+*.swo
 *.swp

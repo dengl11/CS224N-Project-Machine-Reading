@@ -35,7 +35,7 @@ class BasicAttn(object):
         self.scope = "BasicAttn" 
 
 
-    def get_key2value_attn(self, values, values_mask, keys):
+    def get_key2value_attn(self, values, values_mask, keys, keys_mask):
         """
         Return: (attn_dist, attn_output)
         """

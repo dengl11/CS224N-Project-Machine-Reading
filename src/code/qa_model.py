@@ -16,9 +16,12 @@ from tensorflow.python.ops import embedding_ops
 from evaluate import exact_match_score, f1_score
 from data_batcher import get_batch_generator
 from pretty_print import print_example
-from modules import RNNEncoder, SimpleSoftmaxLayer, BasicAttn, BiAttn
+from modules import RNNEncoder, SimpleSoftmaxLayer, BasicAttn, BiAttn, CoAttn
+
+from lib.util.logger import ColoredLogger
 
 logging.basicConfig(level=logging.INFO)
+logger = ColoredLogger("main")
 
 
 class QAModel(object):
@@ -148,13 +151,18 @@ class QAModel(object):
             attn_layer = BiAttn(self.keep_prob,
                                 self.FLAGS.hidden_size * 2,
                                 self.FLAGS.hidden_size * 2)
+        elif self.FLAGS.experiment_name == 'co_attn':
+            attn_layer = CoAttn(self.keep_prob,
+                                self.FLAGS.hidden_size * 2,
+                                self.FLAGS.hidden_size * 2)
         else:
             assert(False, "no such experiment!")
 
         # attn_output is shape [batch_size, context_len, hidden_size*2]
         _, attn_output = attn_layer.build_graph(question_hiddens,
                                                 self.qn_mask,
-                                                context_hiddens) 
+                                                context_hiddens,
+                                                self.context_mask) 
 
         # Concat attn_output to context_hiddens to get blended_reps
         # [batch_size, context_len, hidden_size*4]
@@ -576,6 +584,8 @@ class QAModel(object):
                                                           num_samples=1000)
                     logging.info("Epoch %d, Iter %d, Train F1 score: %f,\
                             Train EM score: %f" % (epoch, global_step, train_f1, train_em))
+                    logging.info("Epoch %d, Iter %d, Train F1 score: %f,\
+                            Train EM score: %f" % (epoch, global_step, train_f1, train_em))
                     write_summary(train_f1, "train/F1", summary_writer, global_step)
                     write_summary(train_em, "train/EM", summary_writer, global_step)
 
@@ -589,6 +599,11 @@ class QAModel(object):
                                                       num_samples=0)
                     logging.info("Epoch %d, Iter %d, Dev F1 score: %f,\
                             Dev EM score: %f" % (epoch, global_step, dev_f1, dev_em))
+
+                    # show as red to highlight, not really error
+                    logger.error("Epoch %d, Iter %d, Dev F1 score: %f,\
+                            Dev EM score: %f" % (epoch, global_step, dev_f1, dev_em))
+
                     write_summary(dev_f1, "dev/F1", summary_writer, global_step)
                     write_summary(dev_em, "dev/EM", summary_writer, global_step)
 

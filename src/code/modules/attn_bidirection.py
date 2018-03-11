@@ -23,7 +23,7 @@ class BiAttn(BasicAttn):
         self.scope = "BiAttn" 
 
 
-    def build_graph(self, values, values_mask, keys):
+    def build_graph(self, values, values_mask, keys, keys_mask):
         """
         Args:
             values:       [batch_sz, M, hidden_sz]
@@ -71,7 +71,7 @@ class BiAttn(BasicAttn):
             S = tf.transpose(S, [1, 2, 0])
             
             # ----------  key-to-value attention (C2Q) ----------
-            # [batch_sz, N, n_valules]
+            # [batch_sz, N, M]
             _, alpha = masked_softmax(S, values_mask_exp, 2)
             # [batch_sz, N, hidden_sz]
             k2v_attn = tf.matmul(alpha, values)

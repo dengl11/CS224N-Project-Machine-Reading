@@ -22,37 +22,48 @@ class RNNEncoder(object):
     This code uses a bidirectional GRU, but you could experiment with other types of RNN.
     """
 
-    def __init__(self, hidden_size, keep_prob):
+    def __init__(self, hidden_size, keep_prob, cell_type = "gru"):
         """
         Inputs:
-          hidden_size: int. Hidden size of the RNN
-          keep_prob: Tensor containing a single scalar that is the keep probability (for dropout)
+          hidden_size:
+                int.
+                Hidden size of the RNN
+          keep_prob: 
+                Tensor
+                containing a single scalar that is the keep probability (for dropout)
         """
         self.hidden_size = hidden_size
-        self.keep_prob = keep_prob
-        rnn_cell_fw = rnn_cell.GRUCell(self.hidden_size)
+        self.keep_prob   = keep_prob
+        if cell_type == "gru":
+            rnn_cell_fw      = rnn_cell.GRUCell(self.hidden_size)
+            rnn_cell_bw      = rnn_cell.GRUCell(self.hidden_size)
+        elif cell_type == "lstm":
+            rnn_cell_fw      = rnn_cell.LSTMCell(self.hidden_size)
+            rnn_cell_bw      = rnn_cell.LSTMCell(self.hidden_size)
+        else:
+            assert(false, "No such cell type for RNN encoder!")
+
         self.rnn_cell_fw = DropoutWrapper(rnn_cell_fw,
                                           input_keep_prob=self.keep_prob)
-        rnn_cell_bw = rnn_cell.GRUCell(self.hidden_size)
         self.rnn_cell_bw = DropoutWrapper(rnn_cell_bw,
                                           input_keep_prob=self.keep_prob)
 
     def build_graph(self, inputs, masks):
         """
         Inputs:
-          inputs: Tensor shape [batch_size, seq_len, input_size]
-          masks: Tensor shape [batch_size, seq_len]
-            Has 1s where there is real input, 0s where there's padding.
-            This is used to make sure
-            tf.nn.bidirectional_dynamic_rnn doesn't iterate through masked steps.
+          inputs: Tensor [batch_size, seq_len, input_size]
+          masks:  Tensor [batch_size, seq_len]
+                  Has 1s where there is real input, 0s where there's padding.
+                  This is used to make sure
+                  tf.nn.bidirectional_dynamic_rnn doesn't iterate through masked steps.
 
         Returns:
           out: Tensor shape (batch_size, seq_len, hidden_size*2).
-            This is all hidden states (fw and bw hidden states are concatenated).
+               This is all hidden states (fw and bw hidden states are concatenated).
         """
         with vs.variable_scope("RNNEncoder"):
             # [batch_size]
-            input_lens = tf.reduce_sum(masks, reduction_indices=1) 
+            input_lens = tf.reduce_sum(masks, 1) 
 
             # Note: fw_out and bw_out are the hidden states for every timestep.
             # Each is shape (batch_size, seq_len, hidden_size).
