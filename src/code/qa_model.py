@@ -157,6 +157,10 @@ class QAModel(object):
             attn_layer = CoAttn(self.keep_prob,
                                 self.FLAGS.hidden_size * 2,
                                 self.FLAGS.hidden_size * 2)
+        elif self.FLAGS.experiment_name == 'self_attn':
+            attn_layer = SelfAttn(self.keep_prob,
+                                self.FLAGS.hidden_size * 2,
+                                self.FLAGS.hidden_size * 2)
         else:
             assert(False, "no such experiment!")
 
