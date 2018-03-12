@@ -38,6 +38,19 @@ bie-300:
 #co-attentional training
 co:
 	python  -W ignore main.py \
-			--embedding_size 50\
+			--embedding_size 100\
 			--experiment_name=co_attn\
+			--context_len=400\
+			--batch_size=180\
+			--context_len=300\
+			--dropout 0.25\
 			--mode=train
+#co-attentional training
+coe100:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--experiment_name=co_attn\
+			--mode=eval\
+			--json_in_path ../data/dev-v1.1.json \
+			--ckpt_load_dir ../experiments/co_attn/glove100/best_checkpoint/ 
+
