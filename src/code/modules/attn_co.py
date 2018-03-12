@@ -73,12 +73,12 @@ class CoAttn(BasicAttn):
 
             ############ C2Q ############
             # [batch_size, 1, M]
-            values_mask = tf.expand_dims(values_mask, 1)
+            values_mask_exp = tf.expand_dims(values_mask, 1)
             # [batch_size, 1, N]
-            keys_mask = tf.expand_dims(keys_mask, 1)
+            keys_mask_exp = tf.expand_dims(keys_mask, 2)
 
             # softmax for L over values: [batch_sz, N, M]
-            _, alpha = masked_softmax(L, values_mask, 2)
+            _, alpha = masked_softmax(L, values_mask_exp, 2)
 
             logger.error("alpha: {}".format(alpha.shape))
             # [batch_sz, N, h]
@@ -86,9 +86,10 @@ class CoAttn(BasicAttn):
             logger.error("k2v: {}".format(k2v.shape))
 
             ############ Q2C ############
-            _, beta = masked_softmax(tf.transpose(L, [0, 2, 1]), keys_mask, 2) # [batch_sz, M, N]
             # softmax for L over keys: [batch_sz, N, M]
-            beta = tf.transpose(beta, [0, 2, 1])
+            _, beta = masked_softmax(L, keys_mask_exp, 1) 
+            logger.error("beta: {}".format(beta.shape))
+            # beta = tf.transpose(beta, [1, 2, 0])
             logger.error("beta: {}".format(beta.shape))
             # [batch_sz, M, h]
             v2k = tf.matmul(tf.transpose(beta, [0, 2, 1]), keys)
@@ -102,8 +103,8 @@ class CoAttn(BasicAttn):
             # [batch_sz, N, 2 * h]
             lstm_inputs = tf.concat([s, k2v], 2)
             logger.error("lstm_inputs: {}".format(lstm_inputs.shape))
-            # logger.error("keys mask: {}".format((tf.squeeze(keys_mask)).shape))
-            attn = self.encoder.build_graph(lstm_inputs, tf.squeeze(keys_mask))
+            logger.error("keys mask: {}".format(keys_mask.shape))
+            attn = self.encoder.build_graph(lstm_inputs, keys_mask)
             logger.error("attn: {}".format(attn.shape))
 
             # Apply dropout
