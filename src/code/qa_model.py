@@ -135,6 +135,7 @@ class QAModel(object):
             These are the result of taking (masked) softmax of logits_start and logits_end.
         """
 
+        #-------------------- Encoder Layer ------------------------------
         # Use a RNN to get hidden states for the context and the question
         # Note: here the RNNEncoder is shared (i.e. the weights are the same)
         # between the context and the question.
@@ -144,60 +145,32 @@ class QAModel(object):
         # [batch_size, question_len, hidden_size*2]
         question_hiddens = encoder.build_graph(self.qn_embs, self.qn_mask) 
 
-        # Use context hidden states to attend to question hidden states
-        if self.FLAGS.experiment_name == 'baseline':
-            attn_layer = BasicAttn(self.keep_prob,
-                                   self.FLAGS.hidden_size * 2,
-                                   self.FLAGS.hidden_size * 2)
-        elif self.FLAGS.experiment_name == 'bi_attn':
-            attn_layer = BiAttn(self.keep_prob,
-                                self.FLAGS.hidden_size * 2,
-                                self.FLAGS.hidden_size * 2)
-        elif self.FLAGS.experiment_name == 'co_attn':
-            attn_layer = CoAttn(self.keep_prob,
-                                self.FLAGS.hidden_size * 2,
-                                self.FLAGS.hidden_size * 2)
-        elif self.FLAGS.experiment_name == 'self_attn':
-            attn_layer = SelfAttn(self.keep_prob,
-                                self.FLAGS.hidden_size * 2,
-                                self.FLAGS.hidden_size * 2)
-        else:
-            assert(False, "no such experiment!")
 
-        # attn_output is shape [batch_size, context_len, hidden_size*2]
+        #-------------------- Attention Layer ------------------------------
+        # Use context hidden states to attend to question hidden states
+        context_hidden_sz  = self.FLAGS.hidden_size * 2
+        question_hidden_sz = self.FLAGS.hidden_size * 2
+
+        attn_layer = get_attn_layer(self.FLAGS.attn_layer, self.keep_prob, 
+                                    context_hidden_sz, question_hidden_sz)
         _, attn_output = attn_layer.build_graph(question_hiddens,
                                                 self.qn_mask,
                                                 context_hiddens,
                                                 self.context_mask) 
 
+        #-------------------- Output Layer ------------------------------
+        # attn_output is shape [batch_size, context_len, hidden_size*2]
+
         # Concat attn_output to context_hiddens to get blended_reps
         # [batch_size, context_len, hidden_size*n]
         blended_reps = tf.concat([context_hiddens, attn_output], axis=2) 
+        output_layer = get_output_layer(self.FLAGS.output, self.FLAGS.output_size)
+        reps_final   = output_layer.build_graph(blended_reps)
 
-        if self.FLAGS.output == "basic":
-            output_layer = OutputRep("output_basic", self.FLAGS.hidden_size)
-        else:
-            assert(False, "no such output layer!")
-
-        blended_reps_final = output_layer.build_graph(blended_reps)
-
-        #  TODO:  <11-03-18, yourname> # 
-        # add more layers for final representation 
-
-        # Use softmax layer to compute probability distribution for start location
-        # Note this produces self.logits_start and self.probdist_start, both of which have shape (batch_size, context_len)
-        with vs.variable_scope("StartDist"):
-            softmax_layer_start = SimpleSoftmaxLayer()
-            self.logits_start, self.probdist_start = softmax_layer_start.\
-                            build_graph(blended_reps_final, self.context_mask)
-
-        # Use softmax layer to compute probability distribution for end location
-        # Note this produces self.logits_end and self.probdist_end, 
-        # both of which have shape [batch_size, context_len]
-        with vs.variable_scope("EndDist"):
-            softmax_layer_end = SimpleSoftmaxLayer()
-            self.logits_end, self.probdist_end = softmax_layer_end.build_graph(\
-                                        blended_reps_final, self.context_mask)
+        #-------------------- Prediction Layer ------------------------------
+        pred_layer = get_prediction_layer(self.FLAGS.pred_layer)
+        self.logits_start, self.probdist_start, self.logits_end, self.probdist_end\
+                = pred_layer.build_graph(reps_final, self.context_mask)
 
 
     def add_loss(self):

@@ -10,6 +10,7 @@ bt:
 bi:
 	python  -W ignore main.py\
 			--experiment_name=bi_attn\
+			--embedding_size 50\
 			--mode=train\
 			--dropout 0.5
 bi300:
