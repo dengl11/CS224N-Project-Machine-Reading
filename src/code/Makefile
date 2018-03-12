@@ -12,6 +12,13 @@ bi:
 			--experiment_name=bi_attn\
 			--mode=train\
 			--dropout 0.5
+bi300:
+	python  -W ignore main.py\
+			--experiment_name=bi_attn\
+			--context_len=300\
+			--embedding_size 300\
+			--mode=train\
+			--dropout 0.35
 
 #bidirectional evaluation
 bie-100:

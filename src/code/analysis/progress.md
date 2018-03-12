@@ -18,6 +18,19 @@ bi300:
 
 ---------------------------------
 ```
+bi300:
+			--experiment_name=bi_attn\
+			--context_len=300\
+			--embedding_size 300\
+			--mode=train\
+			--dropout 0.35
+```
+#### Train 0.58 Dev 0.42
+---------------------------------
+
+
+---------------------------------
+```
 co:
 			--embedding_size 100\
 			--experiment_name=co_attn\
@@ -25,3 +38,4 @@ co:
 ```
 #### Train 0.71 Dev 0.51
 ---------------------------------
+
