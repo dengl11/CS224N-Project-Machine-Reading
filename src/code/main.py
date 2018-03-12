@@ -35,8 +35,12 @@ timer = Timer()
 # High-level options
 tf.app.flags.DEFINE_string("encoder", "gru",
                           "encoder after word embedding: gru or lstm")
+tf.app.flags.DEFINE_string("attn_layer", "basic",
+                          "atten layer after encoder")
 tf.app.flags.DEFINE_string("output", "basic",
                           "output layer after attention before final softmax")
+tf.app.flags.DEFINE_string("pred_layer", "basic",
+                          "prediction layer after output layer for final prediction")
 
 tf.app.flags.DEFINE_integer("gpu", 0, "Which GPU to use, if you have multiple.")
 tf.app.flags.DEFINE_string("mode", "train", 
@@ -54,7 +58,10 @@ tf.app.flags.DEFINE_float("max_gradient_norm", 5.0, "Clip gradients to this norm
 tf.app.flags.DEFINE_float("dropout", 0.15,
         "Fraction of units randomly dropped on non-recurrent connections.")
 tf.app.flags.DEFINE_integer("batch_size", 100, "Batch size to use")
-tf.app.flags.DEFINE_integer("hidden_size", 200, "Size of the hidden states")
+tf.app.flags.DEFINE_integer("hidden_size", 200,
+                            "Size of the hidden states")
+tf.app.flags.DEFINE_integer("output_size", 100,
+                            "Size of the output")
 tf.app.flags.DEFINE_integer("context_len", 600,
         "The maximum context length of your model")
 tf.app.flags.DEFINE_integer("question_len", 30,
@@ -118,9 +125,10 @@ def initialize_model(session, model, train_dir, expect_exists):
         if expect_exists:
             raise Exception("There is no saved checkpoint at %s" % train_dir)
         else:
-            print "There is no saved checkpoint at %s. Creating model with fresh parameters." % train_dir
+            logger.warning("There is no saved checkpoint at %s. Creating model with fresh parameters." % train_dir)
             session.run(tf.global_variables_initializer())
-            print 'Num params: %d' % sum(v.get_shape().num_elements() for v in tf.trainable_variables())
+
+            logger.error('Num params: %d' % sum(v.get_shape().num_elements() for v in tf.trainable_variables()))
 
 
 def main(unused_argv):
