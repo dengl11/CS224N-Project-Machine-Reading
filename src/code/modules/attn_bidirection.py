@@ -26,42 +26,42 @@ class BiAttn(BasicAttn):
     def build_graph(self, values, values_mask, keys, keys_mask):
         """
         Args:
-            values:       [batch_sz, M, hidden_sz]
+            values:       [batch_sz, M, h]
             values_mask:  [batch_sz, M] 
-            keys:         [batch_sz, N, hidden_sz]
+            keys:         [batch_sz, N, h]
             
-            (N = n_keys, M = n_values)
+            (N = n_keys, M = n_values, h = hidden_size)
 
         Return: 
             attn_dist:    [batch_sz, N, num_values]
             output:       [batch_sz, N, output_sz]
         """
-        hidden_sz          = self.key_vec_size
-        batch_sz, M, _     = values.shape
-        N                  = keys.shape[1] 
-        assert(values.shape[-1] == hidden_sz)
+        h = self.key_vec_size
+        M = values.shape[1]
+        N = keys.shape[1] 
+        assert(values.shape[-1] == h)
 
         with vs.variable_scope(self.scope): 
             # 3 similarity vectors : w = [w1; w2; w3]
             w = []
             for i in range(3): 
                 v = tf.get_variable("sim_vec_{}".format(i+1),
-                                             [hidden_sz],
-                                             tf.float32,
-                                             tf.contrib.layers.xavier_initializer())
+                                     [h],
+                                     tf.float32,
+                                     tf.contrib.layers.xavier_initializer())
                 w.append(v)
 
             ###### similarity matrix: [batch_sz, N, M] ###### 
-            # keys x w3: [batch_sz, N, hidden_sz]
-            _kw3 = tf.matmul(tf.reshape(keys, [-1, hidden_sz]), tf.diag(w[2]))
-            kw3  = tf.reshape(_kw3, [-1, N, hidden_sz])
+            # kw2 = keys x w3: [batch_sz, N, h]
+            _kw3 = tf.matmul(tf.reshape(keys, [-1, h]), tf.diag(w[2])) # [batch_sz*N, h]
+            kw3  = tf.reshape(_kw3, [-1, N, h])
 
             # [batch_sz, N, M]
             S = tf.matmul(kw3, tf.transpose(values, [0, 2, 1]))
 
             # [N, batch_sz, M]
             S = tf.transpose(S, [1, 0, 2])  
-            # values * w[1]: [batch_sz, M, hidden_sz]
+            # values * w[1]: [batch_sz, M, h]
             S = S + tf.reduce_sum(values * w[1], 2) 
             # [M, batch_sz, N]
             S = tf.transpose(S, [2, 1, 0])  
@@ -74,7 +74,7 @@ class BiAttn(BasicAttn):
             _, alpha = masked_softmax(tf.transpose(S, [1, 0, 2]), values_mask, 2)
             # [batch_sz, N, M]
             alpha = tf.transpose(alpha, [1, 0, 2])
-            # [batch_sz, N, hidden_sz]
+            # [batch_sz, N, h]
             k2v_attn = tf.matmul(alpha, values)
             
             # ----------  intermediate value-to-key attention (Q2C) ----------
@@ -83,16 +83,13 @@ class BiAttn(BasicAttn):
             # [batch_sz, N]
             beta = tf.nn.softmax(M)
 
-            keys = tf.transpose(keys, [2, 0, 1]) # [hidden_sz, batch_sz, N]
-            c_prime = keys * beta  # [hidden_sz, batch_sz, N]
-            # [batch_sz, hidden_sz]
+            c_prime = tf.transpose(keys, [2, 0, 1]) * beta  # [h, batch_sz, N]
+            # [batch_sz, h]
             c_prime = tf.transpose(tf.reduce_sum(c_prime, 2), [1, 0])
-            # [batch_sz, hidden_sz, N]
-            keys = tf.transpose(keys, [1, 2, 0]) # [batch_sz, N, hidden_sz]
 
             # ----------  final value-to-key attention (Q2C) ----------
             elems = [keys, k2v_attn, keys * k2v_attn, keys * tf.expand_dims(c_prime, 1)]
-            # [batch_sz, N, 4 * hidden_sz]
+            # [batch_sz, N, 4 * h]
             v2k_attn = tf.concat(elems, 2)
 
             # Apply dropout
