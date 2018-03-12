@@ -16,7 +16,7 @@ from tensorflow.python.ops import embedding_ops
 from evaluate import exact_match_score, f1_score
 from data_batcher import get_batch_generator
 from pretty_print import print_example
-from modules import RNNEncoder, SimpleSoftmaxLayer, BasicAttn, BiAttn, CoAttn
+from modules import *
 
 from lib.util.logger import ColoredLogger
 
@@ -170,12 +170,12 @@ class QAModel(object):
         # [batch_size, context_len, hidden_size*n]
         blended_reps = tf.concat([context_hiddens, attn_output], axis=2) 
 
-        # Apply fully connected layer to each blended representation
-        # Note, blended_reps_final corresponds to b' in the handout
-        # Note, tf.contrib.layers.fully_connected applies a ReLU non-linarity here by default
-        # blended_reps_final is shape [batch_size, context_len, hidden_size]
-        blended_reps_final = tf.contrib.layers.fully_connected(blended_reps,
-                                            num_outputs=self.FLAGS.hidden_size) 
+        if self.FLAGS.output == "basic":
+            output_layer = OutputRep("output_basic", self.FLAGS.hidden_size)
+        else:
+            assert(False, "no such output layer!")
+
+        blended_reps_final = output_layer.build_graph(blended_reps)
 
         #  TODO:  <11-03-18, yourname> # 
         # add more layers for final representation 
