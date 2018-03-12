@@ -20,7 +20,7 @@ class CoAttn(BasicAttn):
 
     def __init__(self, keep_prob, key_vec_size, value_vec_size):
         BasicAttn.__init__(self, keep_prob, key_vec_size, value_vec_size)
-        self.scope = "CoAttn" 
+        self.scope   = "CoAttn" 
         self.encoder = RNNEncoder(key_vec_size, keep_prob, "lstm")
 
 
@@ -68,34 +68,45 @@ class CoAttn(BasicAttn):
             # affinity matrix: L = [batch_sz, N, M]
             # logger.error("values: {}".format(values.shape))
             # logger.error("tf.matmul(keys, tf.transpose(values, [0, 2, 1])): {}".format((tf.matmul(keys, tf.transpose(values, [0, 2, 1]))).shape))
-            L = tf.matmul(keys, tf.transpose(values, [0, 2, 1])) 
+            L = tf.matmul(keys, tf.transpose(q_prime, [0, 2, 1])) 
             logger.error("L: {}".format(L.shape))
 
             ############ C2Q ############
+            # [batch_size, 1, M]
+            values_mask = tf.expand_dims(values_mask, 1)
+            # [batch_size, 1, N]
+            keys_mask = tf.expand_dims(keys_mask, 1)
+
             # softmax for L over values: [batch_sz, N, M]
             _, alpha = masked_softmax(L, values_mask, 2)
+
             logger.error("alpha: {}".format(alpha.shape))
             # [batch_sz, N, h]
             k2v      = tf.matmul(alpha, values)
             logger.error("k2v: {}".format(k2v.shape))
 
             ############ Q2C ############
+            _, beta = masked_softmax(tf.transpose(L, [0, 2, 1]), keys_mask, 2) # [batch_sz, M, N]
             # softmax for L over keys: [batch_sz, N, M]
-            beta = tf.nn.softmax(L)
+            beta = tf.transpose(beta, [0, 2, 1])
             logger.error("beta: {}".format(beta.shape))
             # [batch_sz, M, h]
             v2k = tf.matmul(tf.transpose(beta, [0, 2, 1]), keys)
             logger.error("v2k: {}".format(v2k.shape))
 
             ############ Second Level Attn ############
-            # [batch_sz, N, h]
+            # [batch_sz, N, h]: alpha = [batch_sz, N, M], v2k = [batch_sz, M, h]
             s = tf.matmul(alpha, v2k)
             logger.error("s: {}".format(s.shape))
 
             # [batch_sz, N, 2 * h]
             lstm_inputs = tf.concat([s, k2v], 2)
             logger.error("lstm_inputs: {}".format(lstm_inputs.shape))
-            attn = self.encoder.build_graph(lstm_inputs, keys_mask)
+            # logger.error("keys mask: {}".format((tf.squeeze(keys_mask)).shape))
+            attn = self.encoder.build_graph(lstm_inputs, tf.squeeze(keys_mask))
             logger.error("attn: {}".format(attn.shape))
+
+            # Apply dropout
+            attn = tf.nn.dropout(attn, self.keep_prob)
 
             return _, attn 
