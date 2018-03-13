@@ -393,13 +393,19 @@ def curve_plot(xs, ys, **kwargs):
 
     Return: 
     """
-    plt.figure()
+    sns.set_style("darkgrid")
+    if kwargs.get('new', True):
+        plt.figure()
+
     plt.plot(xs, ys)
     save_path = kwargs.get('save_path', None)
     ax = plt.gca() 
     ax_set_title(ax, kwargs.get('title', ''))
     ax.set_xlabel(kwargs.get('xlabel', ''), fontsize=12)
     ax.set_ylabel(kwargs.get('ylabel', ''), fontsize=12)
+    legend = kwargs.get('legend', [])
+    if legend:
+        plt.legend(legend)
     if kwargs.get('show', True): plt.show()
     if save_path: ax.get_figure().savefig(save_path)
     return ax 
