@@ -13,6 +13,7 @@ def get_attn_layer(name, keep_prob, context_size, question_size):
 
     Return: 
     """
+    print 'Running attan layer: %s' % name
     if name == 'basic':
         attn_layer = BasicAttn(keep_prob,
                                context_size,
@@ -29,6 +30,7 @@ def get_attn_layer(name, keep_prob, context_size, question_size):
         attn_layer = SelfAttn(keep_prob,
                               context_size,
                               question_size)
+
     else:
         sys.exit("no such Attention Layer: {}!".format(name))
 
