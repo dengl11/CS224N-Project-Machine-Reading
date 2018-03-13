@@ -60,7 +60,7 @@ class BasicAttn(object):
             return attn_dist, output
 
 
-    def build_graph(self, values, values_mask, keys):
+    def build_graph(self, values, values_mask, keys, keys_mask=None):
         """
         Keys attend to values.
         For each key, return an attention distribution and an attention output vector.
@@ -79,5 +79,5 @@ class BasicAttn(object):
             This is the attention output; the weighted sum of the values
             (using the attention distribution as weights).
         """
-        return self.get_key2value_attn(values, values_mask, keys)
+        return self.get_key2value_attn(values, values_mask, keys, keys_mask)
 

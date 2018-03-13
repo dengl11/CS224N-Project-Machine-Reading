@@ -34,12 +34,16 @@ class SelfAttn(BasicAttn):
             context_mask:    [batch_sz, N]
 
         Return:
-            attn_dist:    [batch_sz, N, num_values]
-            output:       [batch_sz, N, output_sz]
+            attn_dist:    [batch_sz, N, 2h]
+            output:       _
         """
         h = self.key_vec_size
         M = questions_mask.shape[1]
         N = context_mask.shape[1]
+
+        # v: [batch_size, context_len, h]
+        _, v = super(SelfAttn, self).build_graph(questions_hidden, questions_mask, context_hidden, context_mask)
+
         with vs.variable_scope(self.scope):
             w_1 = tf.get_variable('W_1',
                                   [self.v_size, h],
@@ -49,7 +53,7 @@ class SelfAttn(BasicAttn):
                                   [self.v_size, h],
                                   tf.float32,
                                   tf.contrib.layers.xavier_initializer())
-            v = tf.get_variable('v',
+            v_weight = tf.get_variable('v',
                                 [self.v_size, ],
                                 tf.float32,
                                 tf.contrib.layers.xavier_initializer())
@@ -57,12 +61,12 @@ class SelfAttn(BasicAttn):
             ###### W_1 * v_j & W_2 * v_i & their sum ######
             # batch_size * self.v_size * context_length
             w1_vj_product = tf.matmul(tf.tile(tf.expand_dims(w_1, 0),
-                                              [tf.shape(context_hidden)[0], 1, 1]),
-                                      tf.transpose(context_hidden, [0, 2, 1]))
+                                              [tf.shape(v)[0], 1, 1]),
+                                      tf.transpose(v, [0, 2, 1]))
             # batch_size * self.v_size * context_length
             w2_vi_product = tf.matmul(tf.tile(tf.expand_dims(w_2, 0),
-                                              [tf.shape(context_hidden)[0], 1, 1]),
-                                      tf.transpose(context_hidden, [0, 2, 1]))
+                                              [tf.shape(v)[0], 1, 1]),
+                                      tf.transpose(v, [0, 2, 1]))
 
             # batch_size * context_length * self.v_size
             w1_vj_product = tf.transpose(w1_vj_product, [0, 2, 1])
@@ -79,7 +83,7 @@ class SelfAttn(BasicAttn):
 
             ###### e_ji ######
             # batch_size * context_length (j)* context_length (i)
-            e_ji = tf.reduce_sum(tf.multiply(tf.tanh(w1vj_w2vi_sum), v), 3)
+            e_ji = tf.reduce_sum(tf.multiply(tf.tanh(w1vj_w2vi_sum), v_weight), 3)
 
 
 
@@ -92,8 +96,7 @@ class SelfAttn(BasicAttn):
 
 
             #### construct new h1, h2, h3, h4.... hN ####
-            # Unfinished yet.
-            attn = None
+            bidirectional_gru_input = tf.concat([v, alpha_i], 2)
+            attn = self.encoder.build_graph(bidirectional_gru_input, context_mask)
 
-
-            return _, attn
+            return None, attn
