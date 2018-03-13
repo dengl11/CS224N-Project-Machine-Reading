@@ -60,7 +60,7 @@ class BasicAttn(object):
             return attn_dist, output
 
 
-    def build_graph(self, values, values_mask, keys, keys_mask):
+    def build_graph(self, values, values_mask, keys, keys_mask=None):
         """
         Keys attend to values.
         For each key, return an attention distribution and an attention output vector.
