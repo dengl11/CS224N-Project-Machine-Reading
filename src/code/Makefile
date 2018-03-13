@@ -1,6 +1,4 @@
-#start: activate virture env
-s:
-	source activate squad
+################# Baseline ################# 
 
 #baseline training
 bt:
@@ -21,6 +19,8 @@ bi300:
 			--mode=train\
 			--dropout 0.35
 
+################# Bi-Directional ################# 
+
 #bidirectional evaluation
 bie-100:
 	python  -W ignore main.py --experiment_name=bi_attn\
@@ -35,16 +35,34 @@ bie-300:
 		--json_in_path ../data/dev-v1.1.json \
 		--ckpt_load_dir ../experiments/bi_attn/glove300/best_checkpoint/
 
+
+################# Co-Attention ################# 
+
+
 #co-attentional training
-co:
+co100:
 	python  -W ignore main.py \
 			--embedding_size 100\
 			--experiment_name=co_attn\
-			--context_len=400\
-			--batch_size=180\
-			--context_len=300\
+			--batch_size=200\
+			--context_len=360\
+			--hidden_size=150\
+			--output_size=100\
 			--dropout 0.25\
 			--mode=train
+
+co200:
+	python  -W ignore main.py \
+			--embedding_size 200\
+			--experiment_name=co_attn\
+			--batch_size=200\
+			--context_len=360\
+			--hidden_size=150\
+			--output_size=100\
+			--dropout 0.25\
+			--mode=train
+
+
 #co-attentional training
 coe100:
 	python  -W ignore main.py \
