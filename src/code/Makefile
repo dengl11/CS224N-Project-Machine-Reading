@@ -121,8 +121,8 @@ self:
 			--embedding_size 100\
 			--attn_layer=self_attn\
 			--batch_size=100\
-			--context_len=350\
-			--hidden_size=80\
+			--context_len=300\
+			--hidden_size=50\
 			--output_size=100\
 			--output lstm\
 			--dropout 0.15\
