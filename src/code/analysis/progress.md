@@ -62,3 +62,18 @@ co:
 ```
 #### Train 0.52 Dev 0.38 (11k)
 ---------------------------------
+
+
+---------------------------------
+```
+co100:
+			--embedding_size 100\
+			--experiment_name=co_attn\
+			--batch_size=200\
+			--context_len=360\
+			--hidden_size=150\
+			--output_size=100\
+			--dropout 0.25\
+```
+#### Train 0.57 Dev 0.39 
+---------------------------------
