@@ -11,6 +11,16 @@ bi:
 			--embedding_size 50\
 			--mode=train\
 			--dropout 0.5
+bi100:
+	python  -W ignore main.py\
+            --experiment_name=bi_attn\
+            --context_len=400\
+            --embedding_size 100\
+            --batch_size 280\
+            --output_size 200\
+            --hidden_size 100\
+            --mode=train\
+            --dropout 0.3
 bi300:
 	python  -W ignore main.py\
 			--experiment_name=bi_attn\
