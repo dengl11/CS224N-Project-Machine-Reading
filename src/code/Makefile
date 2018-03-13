@@ -4,13 +4,27 @@
 bt:
 	python  -W ignore main.py --experiment_name=baseline --mode=train
 
-#bidirectional training
+################# Bi-Directional ################# 
+
 bi:
 	python  -W ignore main.py\
 			--experiment_name=bi_attn\
 			--embedding_size 50\
 			--mode=train\
 			--dropout 0.5
+bi100:
+	python  -W ignore main.py\
+            --experiment_name=bi_attn\
+            --embedding_size 50\
+            --context_len=500\
+            --batch_size 100\
+            --output_size 200\
+            --output lstm\
+            --hidden_size 160\
+            --pred_hidden_sz 100\
+            --mode=train\
+            --dropout 0.25
+
 bi300:
 	python  -W ignore main.py\
 			--experiment_name=bi_attn\
@@ -19,7 +33,6 @@ bi300:
 			--mode=train\
 			--dropout 0.35
 
-################# Bi-Directional ################# 
 
 #bidirectional evaluation
 bie-100:
@@ -56,10 +69,10 @@ co200:
 			--embedding_size 200\
 			--experiment_name=co_attn\
 			--batch_size=200\
-			--context_len=460\
+			--context_len=360\
 			--hidden_size=150\
-			--output_size=200\
-			--dropout 0.3\
+			--output_size=100\
+			--dropout 0.25\
 			--mode=train
 
 
@@ -70,5 +83,20 @@ coe100:
 			--experiment_name=co_attn\
 			--mode=eval\
 			--json_in_path ../data/dev-v1.1.json \
-			--ckpt_load_dir ../experiments/co_attn/glove100/best_checkpoint/ 
+			--ckpt_load_dir ../experiments/co_attn/glove100/best_checkpoint/
+
+
+
+
+################# Self-Attention #################
+self:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--experiment_name=self_attn\
+			--batch_size=100\
+			--context_len=300\
+			--hidden_size=60\
+			--output_size=100\
+			--dropout 0.15\
+			--mode=train
 
