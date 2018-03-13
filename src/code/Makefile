@@ -95,9 +95,10 @@ self:
 			--experiment_name=self_attn\
 		    --attn_layer=self_attn\
 			--batch_size=100\
-			--context_len=300\
-			--hidden_size=60\
+			--context_len=350\
+			--hidden_size=80\
 			--output_size=100\
+			--output lstm\
 			--dropout 0.15\
 			--mode=train
 
