@@ -97,3 +97,15 @@ self:
 			--dropout 0.15\
 			--mode=train
 
+self_big:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--experiment_name=self_attn\
+			--batch_size=100\
+			--context_len=500\
+			--hidden_size=160\
+			--output_size=200\
+			--output lstm\
+			--dropout 0.15\
+			--mode=train
+
