@@ -93,6 +93,7 @@ self:
 	python  -W ignore main.py \
 			--embedding_size 100\
 			--experiment_name=self_attn\
+		    --attn_layer=self_attn\
 			--batch_size=100\
 			--context_len=300\
 			--hidden_size=60\
@@ -104,6 +105,7 @@ self_big:
 	python  -W ignore main.py \
 			--embedding_size 100\
 			--experiment_name=self_attn\
+			--attn_layer=self_attn\
 			--batch_size=100\
 			--context_len=500\
 			--hidden_size=160\
