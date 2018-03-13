@@ -42,6 +42,8 @@ def analyze_run(dir_path):
     Return: 
     """
     file_path = os.path.join(dir_path, PARAM_FILE)
+    if not os.path.isfile(file_path):
+        return 
     logger.info("Analyzing runs in {} ...".format(dir_path))
     # [iters, train_f1, train_em, dev_f1, dev_em]
     data = parse(file_path)
