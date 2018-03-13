@@ -1,0 +1,39 @@
+                F1    EM
+Bi-50   Train  
+        Dev    0.47  0.35
+
+Bi-300  Train  0.75  0.75  
+        Dev    0.46  0.46
+
+---------------------------------
+```
+bi300:
+			--embedding_size 300\
+			--experiment_name=bi_attn\
+			--context_len=400\
+			--dropout 0.24
+```
+#### Train 0.7 Dev 0.46
+---------------------------------
+
+---------------------------------
+```
+co:
+			--embedding_size 100\
+			--experiment_name=co_attn\
+			--mode=train
+```
+#### Train 0.71 Dev 0.51
+---------------------------------
+
+---------------------------------
+```
+co300:
+	python  -W ignore main.py \
+			--embedding_size 300\
+			--context_len=400\
+			--experiment_name=co_attn\
+			--dropout 0.28
+```
+#### Train 0.71 Dev 0.51
+---------------------------------

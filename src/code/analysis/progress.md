@@ -100,10 +100,10 @@ co200:
 			--embedding_size 200\
 			--experiment_name=co_attn\
 			--batch_size=200\
-			--context_len=360\
+			--context_len=460\
 			--hidden_size=150\
-			--output_size=100\
-			--dropout 0.25\
+			--output_size=200\
+			--dropout 0.3\
 ```
 #### Train 0.58 Dev 0.38 
 ---------------------------------
