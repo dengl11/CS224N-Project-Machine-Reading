@@ -58,8 +58,34 @@ co100:
 			--embedding_size 200\
 			--experiment_name=co_attn\
 			--batch_size=200\
+			--context_len=500\
+            --output_size 200\
+            --output lstm\
+			--hidden_size=300\
+			--output_size=200\
+			--dropout 0.20\
+			--mode=train
+
+co100cond:
+	python  -W ignore main.py \
+			--embedding_size 50\
+			--experiment_name=co_attn\
+			--batch_size=200\
+			--context_len=500\
+			--hidden_size=300\
+			--pred_layer condition\
+			--output_size=200\
+			--dropout 0.20\
+			--mode=train
+
+co100ds:
+	python  -W ignore main.py \
+			--embedding_size 200\
+			--experiment_name=co_attn\
+			--batch_size=200\
 			--context_len=480\
 			--hidden_size=200\
+			--pred_layer dense+softmax\
 			--output_size=200\
 			--dropout 0.20\
 			--mode=train
