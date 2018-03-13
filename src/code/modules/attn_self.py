@@ -23,7 +23,7 @@ class SelfAttn(BasicAttn):
         BasicAttn.__init__(self, keep_prob, key_vec_size, value_vec_size)
         self.scope = "SelfAttn"
         self.encoder = RNNEncoder(key_vec_size, keep_prob, "gru")
-        self.v_size = 200
+        self.v_size = 20
 
     def build_graph(self, questions_hidden, questions_mask, context_hidden, context_mask):
         """
@@ -89,7 +89,8 @@ class SelfAttn(BasicAttn):
 
             #### alpha_i ####
             # batch_size * context_length * context_length
-            _, alpha_i = masked_softmax(e_ji, context_mask, 2)
+            new_context_mask = tf.tile(tf.expand_dims(context_mask, 1), [1, N, 1])
+            _, alpha_i = masked_softmax(e_ji, new_context_mask, 2)
             # batch size * context_length * h
             alpha_i = tf.matmul(alpha_i, context_hidden)
 

@@ -70,5 +70,20 @@ coe100:
 			--experiment_name=co_attn\
 			--mode=eval\
 			--json_in_path ../data/dev-v1.1.json \
-			--ckpt_load_dir ../experiments/co_attn/glove100/best_checkpoint/ 
+			--ckpt_load_dir ../experiments/co_attn/glove100/best_checkpoint/
+
+
+
+
+################# Self-Attention #################
+self:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--experiment_name=self_attn\
+			--batch_size=100\
+			--context_len=300\
+			--hidden_size=60\
+			--output_size=100\
+			--dropout 0.15\
+			--mode=train
 
