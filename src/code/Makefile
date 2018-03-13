@@ -4,7 +4,8 @@
 bt:
 	python  -W ignore main.py --experiment_name=baseline --mode=train
 
-#bidirectional training
+################# Bi-Directional ################# 
+
 bi:
 	python  -W ignore main.py\
 			--experiment_name=bi_attn\
@@ -14,13 +15,16 @@ bi:
 bi100:
 	python  -W ignore main.py\
             --experiment_name=bi_attn\
-            --context_len=400\
-            --embedding_size 100\
-            --batch_size 280\
+            --embedding_size 50\
+            --context_len=500\
+            --batch_size 100\
             --output_size 200\
-            --hidden_size 100\
+            --output lstm\
+            --hidden_size 160\
+            --pred_hidden_sz 100\
             --mode=train\
-            --dropout 0.3
+            --dropout 0.25
+
 bi300:
 	python  -W ignore main.py\
 			--experiment_name=bi_attn\
@@ -29,7 +33,6 @@ bi300:
 			--mode=train\
 			--dropout 0.35
 
-################# Bi-Directional ################# 
 
 #bidirectional evaluation
 bie-100:
@@ -52,13 +55,13 @@ bie-300:
 #co-attentional training
 co100:
 	python  -W ignore main.py \
-			--embedding_size 100\
+			--embedding_size 200\
 			--experiment_name=co_attn\
 			--batch_size=200\
-			--context_len=360\
-			--hidden_size=150\
-			--output_size=100\
-			--dropout 0.25\
+			--context_len=480\
+			--hidden_size=200\
+			--output_size=200\
+			--dropout 0.20\
 			--mode=train
 
 co200:

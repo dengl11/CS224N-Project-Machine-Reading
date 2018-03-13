@@ -23,7 +23,7 @@ class SelfAttn(BasicAttn):
         BasicAttn.__init__(self, keep_prob, key_vec_size, value_vec_size)
         self.scope = "SelfAttn"
         self.encoder = RNNEncoder(key_vec_size, keep_prob, "gru")
-        self.v_size = 20
+        self.v_size = 40
 
     def build_graph(self, questions_hidden, questions_mask, context_hidden, context_mask):
         """

@@ -51,6 +51,9 @@ tf.app.flags.DEFINE_string("experiment_name", "",
          which will hold all data related to this experiment")
 tf.app.flags.DEFINE_integer("num_epochs", 0,
                         "Number of epochs to train. 0 means train indefinitely")
+tf.app.flags.DEFINE_integer("pred_hidden_sz", 100,
+                            "hidden size for for prediction_dense_softmax")
+
 
 # Hyperparameters
 tf.app.flags.DEFINE_float("learning_rate", 0.001, "Learning rate.")
@@ -71,11 +74,11 @@ tf.app.flags.DEFINE_integer("embedding_size", 100,
         This needs to be one of the available GloVe dimensions: 50/100/200/300")
 
 # How often to print, save, eval
-tf.app.flags.DEFINE_integer("print_every", 1,
+tf.app.flags.DEFINE_integer("print_every", 10,
         "How many iterations to do per print.")
 tf.app.flags.DEFINE_integer("save_every", 500,
         "How many iterations to do per save.")
-tf.app.flags.DEFINE_integer("eval_every", 1000,
+tf.app.flags.DEFINE_integer("eval_every", 500,
         "How many iterations to do per calculating loss/f1/em on dev set.\
         Warning: this is fairly time-consuming so don't do it too often.")
 tf.app.flags.DEFINE_integer("keep", 1,

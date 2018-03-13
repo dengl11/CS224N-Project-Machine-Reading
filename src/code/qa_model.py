@@ -164,11 +164,13 @@ class QAModel(object):
         # Concat attn_output to context_hiddens to get blended_reps
         # [batch_size, context_len, hidden_size*n]
         blended_reps = tf.concat([context_hiddens, attn_output], axis=2) 
-        output_layer = get_output_layer(self.FLAGS.output, self.FLAGS.output_size)
-        reps_final   = output_layer.build_graph(blended_reps)
+        output_layer = get_output_layer(self.FLAGS.output,
+                                        self.FLAGS.output_size,
+                                        self.keep_prob)
+        reps_final   = output_layer.build_graph(blended_reps, self.context_mask)
 
         #-------------------- Prediction Layer ------------------------------
-        pred_layer = get_prediction_layer(self.FLAGS.pred_layer)
+        pred_layer = get_prediction_layer(self.FLAGS.pred_layer, self.FLAGS.pred_hidden_sz)
         self.logits_start, self.probdist_start, self.logits_end, self.probdist_end\
                 = pred_layer.build_graph(reps_final, self.context_mask)
 
@@ -322,7 +324,7 @@ class QAModel(object):
 
         # Take argmax to get start_pos and end_post, both shape (batch_size)
         start_pos = np.argmax(start_dist, axis=1)
-        end_pos  = np.argmax(end_dist, axis=1)
+        end_pos   = np.argmax(end_dist, axis=1)
 
         return start_pos, end_pos
 
