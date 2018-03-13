@@ -122,8 +122,9 @@ self:
 			--attn_layer=self_attn\
 			--batch_size=100\
 			--context_len=300\
-			--hidden_size=60\
+			--hidden_size=50\
 			--output_size=100\
+			--output lstm\
 			--dropout 0.15\
 			--mode=train
 

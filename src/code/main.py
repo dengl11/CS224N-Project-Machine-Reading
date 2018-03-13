@@ -150,9 +150,9 @@ def main(unused_argv):
         raise Exception("You need to specify either --attn_layer or --train_dir")
 
     # Define train_dir
-    if not if not FLAGS.experiment_name:
+    if not FLAGS.experiment_name:
         FLAGS.experiment_name = "A_{}_E_{}_D_{}".format(FLAGS.attn_layer,
-                                                        FLAGS.embedding_size.
+                                                        FLAGS.embedding_size,
                                                         FLAGS.dropout)
 
     checkptr_name = FLAGS.experiment_name + "/glove{}".format(FLAGS.embedding_size)
