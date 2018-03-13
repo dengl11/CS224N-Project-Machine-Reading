@@ -8,7 +8,7 @@ from tensorflow.python.ops import variable_scope as vs
 from tensorflow.python.ops import rnn_cell
 from softmax import masked_softmax
 
-class OutputRep(object):
+class OutputBasic(object):
 
     """base class for output representation"""
 

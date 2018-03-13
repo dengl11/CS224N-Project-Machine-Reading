@@ -55,13 +55,13 @@ bie-300:
 #co-attentional training
 co100:
 	python  -W ignore main.py \
-			--embedding_size 100\
+			--embedding_size 200\
 			--experiment_name=co_attn\
 			--batch_size=200\
-			--context_len=360\
-			--hidden_size=150\
-			--output_size=100\
-			--dropout 0.25\
+			--context_len=480\
+			--hidden_size=200\
+			--output_size=200\
+			--dropout 0.20\
 			--mode=train
 
 co200:

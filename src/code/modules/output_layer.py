@@ -1,7 +1,7 @@
 """ output layer """
 
 import sys 
-from output_basic import *
+from output_basic import OutputBasic
 from output_lstm import *
 
 def get_output_layer(name, output_sz, keep_prob):
