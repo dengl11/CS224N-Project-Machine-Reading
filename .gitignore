@@ -2,6 +2,7 @@ out
 download
 paper
 data
+model
 raw_output
 runs/**/*.png
 experiments
