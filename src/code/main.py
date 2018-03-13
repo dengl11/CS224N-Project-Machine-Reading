@@ -35,7 +35,7 @@ timer = Timer()
 # High-level options
 tf.app.flags.DEFINE_string("encoder", "gru",
                           "encoder after word embedding: gru or lstm")
-tf.app.flags.DEFINE_string("attn_layer", "basic",
+tf.app.flags.DEFINE_string("attn_layer", "",
                           "atten layer after encoder")
 tf.app.flags.DEFINE_string("output", "basic",
                           "output layer after attention before final softmax")
@@ -146,9 +146,15 @@ def main(unused_argv):
     # Print out Tensorflow version
     print "This code was developed and tested on TensorFlow 1.4.1. Your TensorFlow version: %s" % tf.__version__
 
+    if not FLAGS.attn_layer and not FLAGS.train_dir and FLAGS.mode != "official_eval":
+        raise Exception("You need to specify either --attn_layer or --train_dir")
+
     # Define train_dir
-    if not FLAGS.experiment_name and not FLAGS.train_dir and FLAGS.mode != "official_eval":
-        raise Exception("You need to specify either --experiment_name or --train_dir")
+    if not if not FLAGS.experiment_name:
+        FLAGS.experiment_name = "A_{}_E_{}_D_{}".format(FLAGS.attn_layer,
+                                                        FLAGS.embedding_size.
+                                                        FLAGS.dropout)
+
     checkptr_name = FLAGS.experiment_name + "/glove{}".format(FLAGS.embedding_size)
     FLAGS.train_dir = FLAGS.train_dir or\
                         os.path.join(EXPERIMENTS_DIR, checkptr_name)
