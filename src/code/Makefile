@@ -2,19 +2,19 @@
 
 #baseline training
 bt:
-	python  -W ignore main.py --experiment_name=baseline --mode=train
+	python  -W ignore main.py --attn_layer=baseline --mode=train
 
 ################# Bi-Directional ################# 
 
 bi:
 	python  -W ignore main.py\
-			--experiment_name=bi_attn\
+			--attn_layer=bi_attn\
 			--embedding_size 50\
 			--mode=train\
 			--dropout 0.5
 bi100:
 	python  -W ignore main.py\
-            --experiment_name=bi_attn\
+			--attn_layer=bi_attn\
             --embedding_size 50\
             --context_len=500\
             --batch_size 100\
@@ -27,7 +27,7 @@ bi100:
 
 bi300:
 	python  -W ignore main.py\
-			--experiment_name=bi_attn\
+			--attn_layer=bi_attn\
 			--context_len=300\
 			--embedding_size 300\
 			--mode=train\
@@ -36,17 +36,18 @@ bi300:
 
 #bidirectional evaluation
 bie-100:
-	python  -W ignore main.py --experiment_name=bi_attn\
-		--embedding_size 100\
-		--mode=eval\
-		--json_in_path ../data/dev-v1.1.json \
-		--ckpt_load_dir ../experiments/bi_attn/glove100/best_checkpoint/
+	python  -W ignore main.py\
+			--attn_layer=bi_attn\
+			--embedding_size 100\
+			--mode=eval\
+			--json_in_path ../data/dev-v1.1.json \
+			--ckpt_load_dir ../experiments/bi_attn/glove100/best_checkpoint/
 bie-300:
-	python  -W ignore main.py --experiment_name=bi_attn\
-		--embedding_size 300\
-		--mode=eval\
-		--json_in_path ../data/dev-v1.1.json \
-		--ckpt_load_dir ../experiments/bi_attn/glove300/best_checkpoint/
+	python  -W ignore main.py --attn_layer=bi_attn\
+			--embedding_size 300\
+			--mode=eval\
+			--json_in_path ../data/dev-v1.1.json \
+			--ckpt_load_dir ../experiments/bi_attn/glove300/best_checkpoint/
 
 
 ################# Co-Attention ################# 
@@ -56,7 +57,7 @@ bie-300:
 co100:
 	python  -W ignore main.py \
 			--embedding_size 200\
-			--experiment_name=co_attn\
+			--attn_layer=co_attn\
 			--batch_size=200\
 			--context_len=500\
             --output_size 200\
@@ -69,7 +70,7 @@ co100:
 co100cond:
 	python  -W ignore main.py \
 			--embedding_size 50\
-			--experiment_name=co_attn\
+			--attn_layer=co_attn\
 			--batch_size=200\
 			--context_len=500\
 			--hidden_size=300\
@@ -81,7 +82,7 @@ co100cond:
 co100ds:
 	python  -W ignore main.py \
 			--embedding_size 200\
-			--experiment_name=co_attn\
+			--attn_layer=co_attn\
 			--batch_size=200\
 			--context_len=480\
 			--hidden_size=200\
@@ -93,7 +94,7 @@ co100ds:
 co200:
 	python  -W ignore main.py \
 			--embedding_size 200\
-			--experiment_name=co_attn\
+			--attn_layer=co_attn\
 			--batch_size=200\
 			--context_len=360\
 			--hidden_size=150\
@@ -106,7 +107,7 @@ co200:
 coe100:
 	python  -W ignore main.py \
 			--embedding_size 100\
-			--experiment_name=co_attn\
+			--attn_layer=co_attn\
 			--mode=eval\
 			--json_in_path ../data/dev-v1.1.json \
 			--ckpt_load_dir ../experiments/co_attn/glove100/best_checkpoint/
@@ -118,8 +119,7 @@ coe100:
 self:
 	python  -W ignore main.py \
 			--embedding_size 100\
-			--experiment_name=self_attn\
-		    --attn_layer=self_attn\
+			--attn_layer=self_attn\
 			--batch_size=100\
 			--context_len=300\
 			--hidden_size=60\
@@ -130,7 +130,6 @@ self:
 self_big:
 	python  -W ignore main.py \
 			--embedding_size 100\
-			--experiment_name=self_attn\
 			--attn_layer=self_attn\
 			--batch_size=100\
 			--context_len=500\
