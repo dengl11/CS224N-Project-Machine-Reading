@@ -19,8 +19,8 @@ bi100:
             --context_len=400\
             --batch_size 70\
             --output_size 200\
-			--learning_rate 5e-4\
-            --output lstm\
+			--learning_rate 8e-4\
+            --output double_lstm\
             --hidden_size 200\
             --pred_hidden_sz 100\
             --mode=train\

@@ -46,7 +46,7 @@ class RNNEncoder(object):
             rnn_cell_fw      = rnn_cell.LSTMCell(self.hidden_size)
             rnn_cell_bw      = rnn_cell.LSTMCell(self.hidden_size)
         else:
-            assert(false, "No such cell type for RNN encoder!")
+            assert(False, "No such cell type for RNN encoder!")
 
         self.rnn_cell_fw = DropoutWrapper(rnn_cell_fw,
                                           input_keep_prob=self.keep_prob)
