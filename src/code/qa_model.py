@@ -48,6 +48,7 @@ class QAModel(object):
                       variance_scaling_initializer(factor=1.0, uniform=True)
         with tf.variable_scope("QAModel", initializer=initializer):
             self.add_placeholders()
+            # self.add_char_embedding_layer() 
             self.add_embedding_layer(emb_matrix)
             self.build_graph()
             self.add_loss()
@@ -87,10 +88,30 @@ class QAModel(object):
         self.qn_ids = tf.placeholder(tf.int32, shape=[None, self.FLAGS.question_len])
         self.qn_mask = tf.placeholder(tf.int32, shape=[None, self.FLAGS.question_len])
         self.ans_span = tf.placeholder(tf.int32, shape=[None, 2])
+        self.qn_features = tf.placeholder(tf.float32, shape=[None, self.FLAGS.question_len, 2])
+        self.cx_features = tf.placeholder(tf.float32, shape=[None, self.FLAGS.context_len, 2])
 
         # Add a placeholder to feed in the keep probability (for dropout).
         # This is necessary so that we can instruct the model to use dropout when training, but not when testing
         self.keep_prob = tf.placeholder_with_default(1.0, shape=())
+
+    def add_char_embedding_layer(self):
+        """
+        Return: 
+        """
+        if self.FLAGS.char_encoding_sz == 0: 
+            return 
+        self.char_embeddings =\
+                tf.Variable(tf.constant(0.0, shape=[self.FLAGS.char_vocab_sz, self.FLAGS.char_encoding_sz]),\
+                            trainable=True,
+                            name="char_embeddings")
+
+        # [batch_size, question_len, embedding_size]
+        self.context_char_embs = embedding_ops.embedding_lookup(self.char_embeddings,
+                                                           self.context_char_ids) 
+        # [batch_size, question_len, embedding_size]
+        self.qn_char_embs = embedding_ops.embedding_lookup(self.char_embeddings,
+                                                      self.qn_char_ids) 
 
 
     def add_embedding_layer(self, emb_matrix):
@@ -134,6 +155,9 @@ class QAModel(object):
             Both shape [batch_size, context_len]. Each row sums to 1.
             These are the result of taking (masked) softmax of logits_start and logits_end.
         """
+        #-------------------- Embedding Layer ------------------------------
+        self.qn_embs = tf.concat([self.qn_embs, self.qn_features], 2)
+        self.context_embs = tf.concat([self.context_embs, self.cx_features], 2)
 
         #-------------------- Encoder Layer ------------------------------
         # Use a RNN to get hidden states for the context and the question
@@ -148,7 +172,7 @@ class QAModel(object):
 
         #-------------------- Attention Layer ------------------------------
         # Use context hidden states to attend to question hidden states
-        context_hidden_sz  = self.FLAGS.hidden_size * 2
+        context_hidden_sz  = self.FLAGS.hidden_size * 2 
         question_hidden_sz = self.FLAGS.hidden_size * 2
 
         attn_layer = get_attn_layer(self.FLAGS.attn_layer,
@@ -242,6 +266,8 @@ class QAModel(object):
         input_feed[self.qn_ids]       = batch.qn_ids
         input_feed[self.qn_mask]      = batch.qn_mask
         input_feed[self.ans_span]     = batch.ans_span
+        input_feed[self.qn_features]  = batch.qn_features
+        input_feed[self.cx_features]  = batch.cx_features
         # apply dropout
         input_feed[self.keep_prob]    = 1.0 - self.FLAGS.dropout 
 

@@ -13,13 +13,14 @@ import re
 import numpy as np
 from six.moves import xrange
 from vocab import PAD_ID, UNK_ID
+from feature_extractor import * 
 
 
 class Batch(object):
     """A class to hold the information needed for a training batch"""
 
     def __init__(self, context_ids, context_mask, context_tokens, qn_ids,
-                       qn_mask, qn_tokens, ans_span, ans_tokens, uuids=None):
+                       qn_mask, qn_tokens, ans_span, ans_tokens, qn_features, cx_features, uuids=None):
         """
         Inputs:
           {context/qn}_ids: Numpy arrays.
@@ -35,10 +36,12 @@ class Batch(object):
         self.context_ids = context_ids
         self.context_mask = context_mask
         self.context_tokens = context_tokens
+        self.cx_features = cx_features
 
         self.qn_ids = qn_ids
         self.qn_mask = qn_mask
         self.qn_tokens = qn_tokens
+        self.qn_features = qn_features
 
         self.ans_span = ans_span
         self.ans_tokens = ans_tokens
@@ -236,9 +239,12 @@ def get_batch_generator(word2id, context_path, qn_path, ans_path, batch_size,
         # Make ans_span into a np array
         ans_span = np.array(ans_span) # shape (batch_size, 2)
 
+        qn_features = get_question_features(word2id, context_ids, qn_ids, qn_mask)
+        cx_features = get_context_features(word2id, context_ids, qn_ids, context_mask)
+
         # Make into a Batch object
         batch = Batch(context_ids, context_mask, context_tokens, qn_ids, qn_mask,
-                      qn_tokens, ans_span, ans_tokens)
+                      qn_tokens, ans_span, ans_tokens, qn_features, cx_features)
 
         yield batch 
     return

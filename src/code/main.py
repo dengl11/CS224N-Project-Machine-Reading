@@ -43,6 +43,11 @@ tf.app.flags.DEFINE_string("pred_layer", "basic",
                           "prediction layer after output layer for final prediction")
 
 tf.app.flags.DEFINE_integer("gpu", 0, "Which GPU to use, if you have multiple.")
+
+tf.app.flags.DEFINE_integer("char_vocab_sz", 95,
+                            "vocabulary size of chars")
+tf.app.flags.DEFINE_integer("char_encoding_sz", 10,
+                            "0 if not use character encoding else some positive number")
 tf.app.flags.DEFINE_string("mode", "train", 
                       "Available modes: train / show_examples / official_eval")
 tf.app.flags.DEFINE_string("experiment_name", "",
