@@ -1,4 +1,4 @@
-################# Baseline ################# 
+################ Baseline ################# 
 
 #baseline training
 bt:
@@ -140,8 +140,23 @@ self_small_learning:
 			--output_size=100\
 			--output lstm\
 			--dropout 0.15\
-			--mode=train
-			--learning_rate 3e-4\
+			--mode=train\
+			--learning_rate 3e-4
+
+
+self_small_learning_double_lstm:
+	python -W ignore main.py \
+		--embedding_size 100\
+		--attn_layer=self_attn\
+		--batch_size=100\
+		--context_len=300\
+		--hidden_size=85\
+		--output_size=100\
+		--output double_lstm\
+		--dropout 0.15\
+		--mode=train\
+		--learning_rate 3e-4
+
 
 self_big:
 	python  -W ignore main.py \
