@@ -83,7 +83,7 @@ tf.app.flags.DEFINE_integer("print_every", 200,
         "How many iterations to do per print.")
 tf.app.flags.DEFINE_integer("save_every", 500,
         "How many iterations to do per save.")
-tf.app.flags.DEFINE_integer("eval_every", 500,
+tf.app.flags.DEFINE_integer("eval_every", 1,
         "How many iterations to do per calculating loss/f1/em on dev set.\
         Warning: this is fairly time-consuming so don't do it too often.")
 tf.app.flags.DEFINE_integer("keep", 1,
@@ -271,10 +271,10 @@ def main(unused_argv):
                     qn_uuid_data, context_token_data, qn_token_data)
 
             # Write the uuid->answer mapping a to json file in root dir
-            logger.info("Writing predictions to %s..." % FLAGS.json_out_path)
+            print "Writing predictions to %s..." % FLAGS.json_out_path
             with io.open(FLAGS.json_out_path, 'w', encoding='utf-8') as f:
                 f.write(unicode(json.dumps(answers_dict, ensure_ascii=False)))
-                logger.info("Wrote predictions to %s" % FLAGS.json_out_path)
+                print "Wrote predictions to %s" % FLAGS.json_out_path
 
 
     else:

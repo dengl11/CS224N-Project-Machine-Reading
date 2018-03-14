@@ -9,7 +9,10 @@ bt:
 bi:
 	python  -W ignore main.py\
 			--attn_layer=bi_attn\
+			--print_every 1\
+            --batch_size 2\
 			--embedding_size 50\
+			--pred_layer condition\
 			--mode=train\
 			--dropout 0.5
 bi100:
