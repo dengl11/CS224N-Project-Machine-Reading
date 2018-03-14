@@ -74,7 +74,7 @@ class CoAttn(BasicAttn):
             ############ C2Q ############
             # [batch_size, 1, M]
             values_mask_exp = tf.expand_dims(values_mask, 1)
-            # [batch_size, 1, N]
+            # [batch_size, N, 1]
             keys_mask_exp = tf.expand_dims(keys_mask, 2)
 
             # softmax for L over values: [batch_sz, N, M]
