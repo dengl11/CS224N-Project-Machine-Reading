@@ -184,7 +184,7 @@ class QAModel(object):
                                                 context_hiddens,
                                                 self.context_mask) 
 
-        #-------------------- Output Layer ------------------------------
+        #-------------------- Modelling Layer ------------------------------
         # attn_output is shape [batch_size, context_len, hidden_size*n]
 
         # Concat attn_output to context_hiddens to get blended_reps
