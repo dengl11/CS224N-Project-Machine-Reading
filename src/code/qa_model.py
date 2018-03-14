@@ -579,7 +579,7 @@ class QAModel(object):
 
                 # periodically save model
                 if global_step % self.FLAGS.save_every == 0:
-                    logging.info("Saving to %s..." % checkpoint_path)
+                    # logging.info("Saving to %s..." % checkpoint_path)
                     self.saver.save(session, checkpoint_path, global_step=global_step)
 
                 # periodically evaluate model on dev loss, train F1/EM and dev F1/EM

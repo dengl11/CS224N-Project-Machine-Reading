@@ -149,7 +149,7 @@ def main(unused_argv):
         raise Exception("ERROR: You must use Python 2 but you are running Python %i" % sys.version_info[0])
 
     # Print out Tensorflow version
-    print "This code was developed and tested on TensorFlow 1.4.1. Your TensorFlow version: %s" % tf.__version__
+    # print "This code was developed and tested on TensorFlow 1.4.1. Your TensorFlow version: %s" % tf.__version__
 
     if not FLAGS.attn_layer and not FLAGS.train_dir and FLAGS.mode != "official_eval":
         raise Exception("You need to specify either --attn_layer or --train_dir")
@@ -271,10 +271,10 @@ def main(unused_argv):
                     qn_uuid_data, context_token_data, qn_token_data)
 
             # Write the uuid->answer mapping a to json file in root dir
-            print "Writing predictions to %s..." % FLAGS.json_out_path
+            logger.info("Writing predictions to %s..." % FLAGS.json_out_path)
             with io.open(FLAGS.json_out_path, 'w', encoding='utf-8') as f:
                 f.write(unicode(json.dumps(answers_dict, ensure_ascii=False)))
-                print "Wrote predictions to %s" % FLAGS.json_out_path
+                logger.info("Wrote predictions to %s" % FLAGS.json_out_path)
 
 
     else:
