@@ -15,12 +15,12 @@ bi:
 bi100:
 	python  -W ignore main.py\
 			--attn_layer=bi_attn\
-            --embedding_size 50\
+            --embedding_size 100\
             --context_len=500\
-            --batch_size 100\
+            --batch_size 70\
             --output_size 200\
             --output lstm\
-            --hidden_size 160\
+            --hidden_size 200\
             --pred_hidden_sz 100\
             --mode=train\
             --dropout 0.25

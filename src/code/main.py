@@ -74,7 +74,7 @@ tf.app.flags.DEFINE_integer("embedding_size", 100,
         This needs to be one of the available GloVe dimensions: 50/100/200/300")
 
 # How often to print, save, eval
-tf.app.flags.DEFINE_integer("print_every", 10,
+tf.app.flags.DEFINE_integer("print_every", 500,
         "How many iterations to do per print.")
 tf.app.flags.DEFINE_integer("save_every", 500,
         "How many iterations to do per save.")
