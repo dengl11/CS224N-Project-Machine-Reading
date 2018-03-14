@@ -105,7 +105,7 @@ def refill_batches(batches, word2id, context_file, qn_file, ans_file,
                            context_len or question_len.
                   If False, truncate those exmaples instead.
     """
-    print "Refilling batches..."
+    # print "Refilling batches..."
     tic = time.time()
     # list of (qn_ids, context_ids, ans_span, ans_tokens) triples
     examples = [] 
@@ -181,7 +181,7 @@ def refill_batches(batches, word2id, context_file, qn_file, ans_file,
     random.shuffle(batches)
 
     toc = time.time()
-    print "Refilling batches took %.2f seconds" % (toc-tic)
+    # print "Refilling batches took %.2f seconds" % (toc-tic)
     return
 
 

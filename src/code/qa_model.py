@@ -151,15 +151,17 @@ class QAModel(object):
         context_hidden_sz  = self.FLAGS.hidden_size * 2
         question_hidden_sz = self.FLAGS.hidden_size * 2
 
-        attn_layer = get_attn_layer(self.FLAGS.attn_layer, self.keep_prob, 
-                                    context_hidden_sz, question_hidden_sz)
+        attn_layer = get_attn_layer(self.FLAGS.attn_layer,
+                                    self.keep_prob, 
+                                    context_hidden_sz,
+                                    question_hidden_sz)
         _, attn_output = attn_layer.build_graph(question_hiddens,
                                                 self.qn_mask,
                                                 context_hiddens,
                                                 self.context_mask) 
 
         #-------------------- Output Layer ------------------------------
-        # attn_output is shape [batch_size, context_len, hidden_size*2]
+        # attn_output is shape [batch_size, context_len, hidden_size*n]
 
         # Concat attn_output to context_hiddens to get blended_reps
         # [batch_size, context_len, hidden_size*n]
