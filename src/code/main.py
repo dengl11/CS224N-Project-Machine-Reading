@@ -83,7 +83,7 @@ tf.app.flags.DEFINE_integer("print_every", 200,
         "How many iterations to do per print.")
 tf.app.flags.DEFINE_integer("save_every", 500,
         "How many iterations to do per save.")
-tf.app.flags.DEFINE_integer("eval_every", 1,
+tf.app.flags.DEFINE_integer("eval_every", 500,
         "How many iterations to do per calculating loss/f1/em on dev set.\
         Warning: this is fairly time-consuming so don't do it too often.")
 tf.app.flags.DEFINE_integer("keep", 1,
