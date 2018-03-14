@@ -373,7 +373,7 @@ class QAModel(object):
         Outputs:
           dev_loss: float. Average loss across the dev set.
         """
-        logging.info("Calculating dev loss...")
+        # logging.info("Calculating dev loss...")
         tic = time.time()
         loss_per_batch, batch_lengths = [], []
 
@@ -441,7 +441,7 @@ class QAModel(object):
         Returns:
           F1 and EM: Scalars. The average across the sampled examples.
         """
-        logging.info("Calculating F1/EM for %s examples in %s set..." % (str(num_samples) if num_samples != 0 else "all", dataset))
+        # logging.info("Calculating F1/EM for %s examples in %s set..." % (str(num_samples) if num_samples != 0 else "all", dataset))
 
         f1_total = 0.
         em_total = 0.
@@ -505,8 +505,8 @@ class QAModel(object):
         em_total /= example_num
 
         toc = time.time()
-        logging.info("Calculating F1/EM for %i examples in %s set took %.2f seconds"\
-                % (example_num, dataset, toc-tic))
+        # logging.info("Calculating F1/EM for %i examples in %s set took %.2f seconds"\
+                # % (example_num, dataset, toc-tic))
 
         return f1_total, em_total
 
