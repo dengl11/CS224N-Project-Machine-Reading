@@ -118,9 +118,9 @@ coe100:
 ################# Self-Attention #################
 self:
 	python  -W ignore main.py \
-			--embedding_size 100\
+			--embedding_size 50\
 			--attn_layer=self_attn\
-			--batch_size=100\
+			--batch_size=10\
 			--context_len=300\
 			--hidden_size=50\
 			--output_size=100\
