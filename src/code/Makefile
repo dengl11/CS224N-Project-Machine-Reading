@@ -15,14 +15,15 @@ bi:
 bi100:
 	python  -W ignore main.py\
 			--attn_layer=bi_attn\
-            --embedding_size 100\
+            --embedding_size 300\
             --context_len=400\
             --batch_size 70\
             --output_size 200\
 			--learning_rate 8e-4\
             --output double_lstm\
             --hidden_size 200\
-            --pred_hidden_sz 100\
+			--pred_layer condition\
+            --pred_hidden_sz 200\
             --mode=train\
             --dropout 0.25
 
@@ -117,17 +118,31 @@ coe100:
 
 
 ################# Self-Attention #################
+#Don't change. If want to change, just create a new one.
 self:
 	python  -W ignore main.py \
-			--embedding_size 50\
+			--embedding_size 100\
 			--attn_layer=self_attn\
-			--batch_size=10\
+			--batch_size=100\
 			--context_len=300\
 			--hidden_size=50\
 			--output_size=100\
 			--output lstm\
 			--dropout 0.15\
 			--mode=train
+
+self_small_learning:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--attn_layer=self_attn\
+			--batch_size=100\
+			--context_len=300\
+			--hidden_size=70\
+			--output_size=100\
+			--output lstm\
+			--dropout 0.15\
+			--mode=train
+			--learning_rate 3e-4\
 
 self_big:
 	python  -W ignore main.py \
