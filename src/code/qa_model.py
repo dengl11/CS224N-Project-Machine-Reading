@@ -303,6 +303,8 @@ class QAModel(object):
         input_feed[self.qn_ids]       = batch.qn_ids
         input_feed[self.qn_mask]      = batch.qn_mask
         input_feed[self.ans_span]     = batch.ans_span
+        input_feed[self.qn_features]  = batch.qn_features
+        input_feed[self.cx_features]  = batch.cx_features
         # note you don't supply keep_prob here, so it will default to 1 i.e. no dropout
 
         output_feed = [self.loss]
@@ -328,6 +330,8 @@ class QAModel(object):
         input_feed[self.context_mask] = batch.context_mask
         input_feed[self.qn_ids]       = batch.qn_ids
         input_feed[self.qn_mask]      = batch.qn_mask
+        input_feed[self.qn_features]  = batch.qn_features
+        input_feed[self.cx_features]  = batch.cx_features
         # note you don't supply keep_prob here, so it will default to 1 i.e. no dropout
 
         output_feed = [self.probdist_start, self.probdist_end]
