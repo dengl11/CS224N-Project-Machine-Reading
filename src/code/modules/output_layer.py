@@ -18,7 +18,7 @@ def get_output_layer(name, output_sz, keep_prob):
     elif name == "lstm":
         return OutputLSTM(output_sz, keep_prob)
     elif name == "double_lstm":
-        return OutputDoubleLSTMDense(output_sz, keep_prob)
+        return OutputDoubleLSTM(output_sz, keep_prob)
     elif name == "double_lstm_dense":
         return OutputDoubleLSTMDense(output_sz, keep_prob)
     else:

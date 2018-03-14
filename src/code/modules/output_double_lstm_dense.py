@@ -20,8 +20,8 @@ class OutputDoubleLSTMDense(object):
         self.output_sz = output_sz
         self.scope = "double_lstm_dense"
         self.keep_prob = keep_prob 
-        self.lstm_encoder1 = RNNEncoder(output_sz, keep_prob, "double_lstm_1")
-        self.lstm_encoder2 = RNNEncoder(output_sz, keep_prob, "double_lstm_2")
+        self.lstm_encoder1 = RNNEncoder(output_sz, keep_prob, "lstm", "encoder1")
+        self.lstm_encoder2 = RNNEncoder(output_sz, keep_prob, "gru", "encoder2")
 
     def build_graph(self, reps, context_mask):
         """

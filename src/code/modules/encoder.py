@@ -27,7 +27,7 @@ class RNNEncoder(object):
     This code uses a bidirectional GRU, but you could experiment with other types of RNN.
     """
 
-    def __init__(self, hidden_size, keep_prob, cell_type = "gru"):
+    def __init__(self, hidden_size, keep_prob, cell_type = "gru", scope = "encoder"):
         """
         Inputs:
           hidden_size:
@@ -52,6 +52,7 @@ class RNNEncoder(object):
                                           input_keep_prob=self.keep_prob)
         self.rnn_cell_bw = DropoutWrapper(rnn_cell_bw,
                                           input_keep_prob=self.keep_prob)
+        self.scope = scope
         logger.info("Encoder created: {}".format(cell_type))
 
     def build_graph(self, inputs, masks):
@@ -67,7 +68,7 @@ class RNNEncoder(object):
           out: Tensor shape (batch_size, seq_len, hidden_size*2).
                This is all hidden states (fw and bw hidden states are concatenated).
         """
-        with vs.variable_scope("RNNEncoder"):
+        with vs.variable_scope(self.scope):
             # [batch_size]
             input_lens = tf.reduce_sum(masks, 1) 
 
