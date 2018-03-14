@@ -1,9 +1,9 @@
 import sys
 import numpy as np
 
-# KEY_WORDS = set(["how", "when", "where", "who", "what"])
+# KEY_WORDS = set(["how", "when", "where", "who", "what", "why"])
 
-KEY_WORD_IDS = set([199, 63, 113, 40, 104])
+KEY_WORD_IDS = set([199, 63, 113, 40, 104, 740])
 feature_sz = 2
 
 def get_question_features(word2id, cx_ids, qn_ids, qn_mask):
