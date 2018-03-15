@@ -27,7 +27,7 @@ logger = ColoredLogger("main")
 class QAModel(object):
     """Top-level Question Answering module"""
 
-    def __init__(self, FLAGS, id2word, word2id, emb_matrix):
+    def __init__(self, FLAGS, id2word, word2id, emb_matrix, id2idf):
         """
         Initializes the QA model.
 
@@ -41,6 +41,7 @@ class QAModel(object):
         print "Initializing the QAModel..."
         self.FLAGS = FLAGS
         self.id2word = id2word
+        self.id2idf = id2idf
         self.word2id = word2id
 
         # Add all parts of the graph
@@ -88,8 +89,8 @@ class QAModel(object):
         self.qn_ids = tf.placeholder(tf.int32, shape=[None, self.FLAGS.question_len])
         self.qn_mask = tf.placeholder(tf.int32, shape=[None, self.FLAGS.question_len])
         self.ans_span = tf.placeholder(tf.int32, shape=[None, 2])
-        self.qn_features = tf.placeholder(tf.float32, shape=[None, self.FLAGS.question_len, 2])
-        self.cx_features = tf.placeholder(tf.float32, shape=[None, self.FLAGS.context_len, 2])
+        self.qn_features = tf.placeholder(tf.float32, shape=[None, self.FLAGS.question_len, 3])
+        self.cx_features = tf.placeholder(tf.float32, shape=[None, self.FLAGS.context_len, 3])
 
         # Add a placeholder to feed in the keep probability (for dropout).
         # This is necessary so that we can instruct the model to use dropout when training, but not when testing
@@ -382,7 +383,7 @@ class QAModel(object):
         # which are longer than our context_len or question_len.
         # We need to do this because if, for example, the true answer is cut
         # off the context, then the loss function is undefined.
-        for batch in get_batch_generator(self.word2id, dev_context_path,
+        for batch in get_batch_generator(self.word2id, self.id2idf, dev_context_path,
                                          dev_qn_path, dev_ans_path,
                                          self.FLAGS.batch_size,
                                          context_len=self.FLAGS.context_len,
@@ -551,6 +552,7 @@ class QAModel(object):
 
             # Loop over batches
             for batch in get_batch_generator(self.word2id,
+                                             self.id2idf,
                                              train_context_path,
                                              train_qn_path,
                                              train_ans_path,

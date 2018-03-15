@@ -6,6 +6,7 @@ bt:
 
 ################# Bi-Directional ################# 
 
+# for debug locally 
 bi:
 	python  -W ignore main.py\
 			--attn_layer=bi_attn\

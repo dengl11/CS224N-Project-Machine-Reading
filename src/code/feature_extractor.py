@@ -4,9 +4,10 @@ import numpy as np
 # KEY_WORDS = set(["how", "when", "where", "who", "what", "why"])
 
 KEY_WORD_IDS = set([199, 63, 113, 40, 104, 740])
-feature_sz = 2
+# [is_key_word, in_cx/qn, idf]
+feature_sz = 3
 
-def get_question_features(word2id, cx_ids, qn_ids, qn_mask):
+def get_question_features(word2id, id2idf, cx_ids, qn_ids, qn_mask):
     """
     Args:
         qn_ids: [batch_sz, qn_length]
@@ -30,9 +31,11 @@ def get_question_features(word2id, cx_ids, qn_ids, qn_mask):
             # feature2: appear in question 
             if w in cx_set:
                 features[bi, wi][1] = 1
+            # feature3: idf 
+            features[bi, wi][2] = id2idf.get(w, -100)
     return features 
 
-def get_context_features(word2id, cx_ids, qn_ids, cx_mask):
+def get_context_features(word2id, id2idf, cx_ids, qn_ids, cx_mask):
     """
     Args:
         qn_ids: [batch_sz, qn_length]
@@ -54,5 +57,7 @@ def get_context_features(word2id, cx_ids, qn_ids, cx_mask):
             # feature2: appear in questions  
             if w in qn_set:
                 features[bi][wi][1] = 1
+            # feature3: idf 
+            features[bi, wi][2] = id2idf.get(w, -100)
     return features 
 

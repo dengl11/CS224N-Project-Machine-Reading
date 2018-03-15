@@ -21,6 +21,19 @@ logger = ColoredLogger("glover")
 timer = Timer()
 
 
+def get_idf(idf_path, word2id):
+    """return {id: idf}
+    Args:
+        word2id: 
+
+    Return: 
+    """
+    id2idf = dict()
+    with open(idf_path, "r") as f:
+        [w, idf] = f.readline().split()
+        if w in word2id: 
+            id2idf[word2id[w]] = float(idf)
+    return id2idf 
 
 def get_glove(glove_path, glove_dim):
     """Reads from original GloVe .txt file and returns embedding matrix and

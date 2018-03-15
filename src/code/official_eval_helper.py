@@ -84,7 +84,7 @@ def refill_batches(batches, word2id, qn_uuid_data, context_token_data, qn_token_
 
 
 
-def get_batch_generator(word2id, qn_uuid_data, context_token_data, qn_token_data, batch_size, context_len, question_len):
+def get_batch_generator(word2id, id2idf, qn_uuid_data, context_token_data, qn_token_data, batch_size, context_len, question_len):
     """
     This is similar to get_batch_generator in data_batcher.py, but with some
     differences (see explanation in refill_batches).
@@ -122,8 +122,8 @@ def get_batch_generator(word2id, qn_uuid_data, context_token_data, qn_token_data
         context_ids = np.array(context_ids)
         context_mask = (context_ids != PAD_ID).astype(np.int32)
 
-        qn_features = get_question_features(word2id, context_ids, qn_ids, qn_mask)
-        cx_features = get_context_features(word2id, context_ids, qn_ids, context_mask)
+        qn_features = get_question_features(word2id, id2idf, context_ids, qn_ids, qn_mask)
+        cx_features = get_context_features(word2id, id2idf, context_ids, qn_ids, context_mask)
 
         # Make into a Batch object
         batch = Batch(context_ids, context_mask, context_tokens, qn_ids, qn_mask, qn_tokens=None, ans_span=None, ans_tokens=None, qn_features=qn_features, cx_features=cx_features, uuids=uuids)

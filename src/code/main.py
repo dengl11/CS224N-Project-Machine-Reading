@@ -12,7 +12,7 @@ import logging
 import tensorflow as tf
 
 from qa_model import QAModel
-from vocab import get_glove
+from vocab import get_glove, get_idf
 from official_eval_helper import get_json_data, generate_answers
 
 from lib.util.logger import ColoredLogger
@@ -40,6 +40,8 @@ tf.app.flags.DEFINE_string("attn_layer", "",
 tf.app.flags.DEFINE_string("output", "basic",
                           "output layer after attention before final softmax")
 tf.app.flags.DEFINE_string("pred_layer", "basic",
+                          "prediction layer after output layer for final prediction")
+tf.app.flags.DEFINE_string("idf_path", "../data/context_idf.txt",
                           "prediction layer after output layer for final prediction")
 
 tf.app.flags.DEFINE_integer("gpu", 0, "Which GPU to use, if you have multiple.")
@@ -175,6 +177,7 @@ def main(unused_argv):
     # Load embedding matrix and vocab mappings
     timer.start("glove_getter")
     emb_matrix, word2id, id2word = get_glove(FLAGS.glove_path, FLAGS.embedding_size)
+    id2idf = get_idf(FLAGS.idf_path, word2id)
     logger.warn("Get glove embedding of size {} takes {:.2f} s".format(FLAGS.embedding_size, timer.stop("glove_getter")))
 
     # Get filepaths to train/dev datafiles for tokenized queries, contexts and answers
@@ -186,7 +189,7 @@ def main(unused_argv):
     dev_ans_path = os.path.join(FLAGS.data_dir, "dev.span")
 
     # Initialize model
-    qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix)
+    qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf)
 
     # Some GPU settings
     config=tf.ConfigProto()

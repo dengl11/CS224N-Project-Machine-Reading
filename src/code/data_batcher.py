@@ -188,7 +188,7 @@ def refill_batches(batches, word2id, context_file, qn_file, ans_file,
     return
 
 
-def get_batch_generator(word2id, context_path, qn_path, ans_path, batch_size,
+def get_batch_generator(word2id, id2idf, context_path, qn_path, ans_path, batch_size,
                         context_len, question_len, discard_long):
     """
     This function returns a generator object that yields batches.
@@ -239,8 +239,8 @@ def get_batch_generator(word2id, context_path, qn_path, ans_path, batch_size,
         # Make ans_span into a np array
         ans_span = np.array(ans_span) # shape (batch_size, 2)
 
-        qn_features = get_question_features(word2id, context_ids, qn_ids, qn_mask)
-        cx_features = get_context_features(word2id, context_ids, qn_ids, context_mask)
+        qn_features = get_question_features(word2id, id2idf, context_ids, qn_ids, qn_mask)
+        cx_features = get_context_features(word2id, id2idf, context_ids, qn_ids, context_mask)
 
         # Make into a Batch object
         batch = Batch(context_ids, context_mask, context_tokens, qn_ids, qn_mask,
