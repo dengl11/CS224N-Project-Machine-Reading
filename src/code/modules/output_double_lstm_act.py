@@ -2,6 +2,7 @@
 ###############  Double LSTM with Activation     ##########
 ###########################################################
 
+import os, sys 
 import tensorflow as tf
 from tensorflow.python.ops.rnn_cell import DropoutWrapper
 from tensorflow.python.ops import variable_scope as vs
@@ -41,7 +42,7 @@ class OutputDoubleLSTMAct(object):
             lstm_1_out = self.lstm_encoder1.build_graph(reps, context_mask)
             lstm_2_out = self.lstm_encoder2.build_graph(lstm_1_out, context_mask)
             if self.activation == "tanh":
-                return tf.nn.tanh(lstm_2_out, num_outputs=self.output_sz) 
+                return tf.nn.tanh(lstm_2_out) 
             elif self.activation == "relu":
-                return tf.nn.relu(lstm_2_out, num_outputs=self.output_sz) 
+                return tf.nn.relu(lstm_2_out) 
             sys.exit(0, "No such activation: {}!".format(self.activation))
