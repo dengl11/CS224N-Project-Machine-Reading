@@ -18,18 +18,18 @@ bi:
 			--dropout 0.5
 bi100:
 	python  -W ignore main.py \
-            --attn_layer=bi_attn\
-            --embedding_size 100\
+            --mode=train\
             --context_len=300\
+            --embedding_size 100\
+            --attn_layer=bi_attn\
             --batch_size 60\
+			--output double_lstm\
             --output_size 200\
-            --learning_rate 2e-4\
-			--output double_lstm_dense\
 			--pred_layer condition\
             --hidden_size 300\
-            --pred_hidden_sz 100\
-            --mode=train\
-            --dropout 0.25
+            --pred_hidden_sz 200\
+            --learning_rate 2e-4\
+            --dropout 0.28
 
 bi300:
 	python  -W ignore main.py\
