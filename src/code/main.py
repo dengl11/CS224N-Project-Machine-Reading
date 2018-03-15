@@ -272,7 +272,7 @@ def main(unused_argv):
 
             # Get a predicted answer for each example in the data
             # Return a mapping answers_dict from uuid to answer
-            answers_dict = generate_answers(sess, qa_model, word2id,
+            answers_dict = generate_answers(sess, qa_model, word2id, id2idf, 
                     qn_uuid_data, context_token_data, qn_token_data)
 
             # Write the uuid->answer mapping a to json file in root dir
