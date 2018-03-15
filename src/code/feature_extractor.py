@@ -32,7 +32,7 @@ def get_question_features(word2id, id2idf, cx_ids, qn_ids, qn_mask):
             if w in cx_set:
                 features[bi, wi][1] = 1
             # feature3: idf 
-            features[bi, wi][2] = id2idf.get(w, -100)
+            features[bi, wi][2] = id2idf.get(w, 100)
     return features 
 
 def get_context_features(word2id, id2idf, cx_ids, qn_ids, cx_mask):
@@ -58,6 +58,6 @@ def get_context_features(word2id, id2idf, cx_ids, qn_ids, cx_mask):
             if w in qn_set:
                 features[bi][wi][1] = 1
             # feature3: idf 
-            features[bi, wi][2] = id2idf.get(w, -100)
+            features[bi, wi][2] = id2idf.get(w, 100)
     return features 
 

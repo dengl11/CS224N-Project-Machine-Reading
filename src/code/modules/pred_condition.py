@@ -35,11 +35,11 @@ class PredictionCondition(PredictionBasic):
             logits_start, probdist_start = self._pred_start(reps, context_mask)
             end_reps = tf.concat([reps, tf.expand_dims(probdist_start, 2)], 2)
             # [batch_sz]: index of starting word
-            # start_idx = tf.argmax(probdist_start, 1)
-            # # [batch_sz, context_length]: 1 if valid for end word else 0
-            # start_mask = 1 - tf.sequence_mask(start_idx, cx_len, dtype=tf.int32)
+            start_idx = tf.argmax(probdist_start, 1)
+            # # [batch_sz, context_length]: 1 if valid for end word else 0.1
+            start_mask = 1 - tf.sequence_mask(start_idx, cx_len, dtype=tf.int32) * 0.9
             # a position is valid for end work if both context mask and start mask are both 1
-            # context_mask = context_mask * start_mask 
+            context_mask = context_mask * start_mask 
 
             logits_end,   probdist_end   = self._pred_end(end_reps, context_mask)
             return (logits_start, probdist_start, logits_end, probdist_end)
