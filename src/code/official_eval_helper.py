@@ -16,8 +16,8 @@ from nltk.tokenize.moses import MosesDetokenizer
 
 from preprocessing.squad_preprocess import data_from_json, tokenize
 from vocab import UNK_ID, PAD_ID
-from data_batcher import padded, Batch
-
+from data_batcher import padded, Batch 
+from feature_extractor import * 
 
 
 def readnext(x):
@@ -122,8 +122,11 @@ def get_batch_generator(word2id, qn_uuid_data, context_token_data, qn_token_data
         context_ids = np.array(context_ids)
         context_mask = (context_ids != PAD_ID).astype(np.int32)
 
+        qn_features = get_question_features(word2id, context_ids, qn_ids, qn_mask)
+        cx_features = get_context_features(word2id, context_ids, qn_ids, context_mask)
+
         # Make into a Batch object
-        batch = Batch(context_ids, context_mask, context_tokens, qn_ids, qn_mask, qn_tokens=None, ans_span=None, ans_tokens=None, uuids=uuids)
+        batch = Batch(context_ids, context_mask, context_tokens, qn_ids, qn_mask, qn_tokens=None, ans_span=None, ans_tokens=None, qn_features=qn_features, cx_features=cx_features, uuids=uuids)
 
         yield batch
 

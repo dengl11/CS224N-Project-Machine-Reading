@@ -26,7 +26,7 @@ bi100:
             --output double_lstm_dense\
 			--pred_layer condition\
             --hidden_size 300\
-            --pred_hidden_sz 200\
+            --pred_hidden_sz 100\
             --mode=train\
             --dropout 0.25
 
@@ -40,13 +40,23 @@ bi300:
 
 
 #bidirectional evaluation
-bie-100:
-	python  -W ignore main.py\
-			--attn_layer=bi_attn\
-			--embedding_size 100\
-			--mode=eval\
-			--json_in_path ../data/dev-v1.1.json \
-			--ckpt_load_dir ../experiments/bi_attn/glove100/best_checkpoint/
+bie100:
+	python main.py  \
+		--mode=eval\
+		--context_len=400\
+		--attn_layer bi_attn\
+		--hidden_size 200\
+		--output double_lstm_dense\
+		--output_size 200\
+		--pred_hidden_sz 100\
+		--dropout 0.25\
+		--glove_path=../data/glove.6B.100d.txt\
+		--json_in_path=../data/dev-v1.1.json\
+		--ckpt_load_dir=../experiments/A_bi_attn_E_100_D_0.25/glove100/best_checkpoint 
+							
+				   
+                                         
+                                                                   
 bie-300:
 	python  -W ignore main.py --attn_layer=bi_attn\
 			--embedding_size 300\
@@ -174,3 +184,14 @@ self_big:
 			--dropout 0.15\
 			--mode=train
 
+
+cli:
+	pip install codalabworker
+	 pip install codalab
+
+cld:
+	cl work main::cs224n-DDD
+
+clr:
+	cl run --name gen-answers --request-cpus 1 --request-memory 4g --request-disk 1g --request-time 1d --request-docker-image abisee/cs224n-dfp:v4 :code :best_checkpoint glove.txt:0x97c870/glove.6B.100d.txt data.json:0x8f29fe 'python code/main.py --mode=official_eval --context_len=400 --attn_layer bi_attn --hidden_size 200 --output double_lstm_dense --output_size 200 --pred_hidden_sz 100 --dropout 0.25 --glove_path=glove.txt --json_in_path=data.json --ckpt_load_dir=best_checkpoint'
+							
