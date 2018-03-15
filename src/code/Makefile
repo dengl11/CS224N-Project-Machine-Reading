@@ -24,6 +24,7 @@ bi100:
             --output_size 200\
             --learning_rate 2e-4\
             --output double_lstm_dense\
+			--pred_layer condition\
             --hidden_size 300\
             --pred_hidden_sz 200\
             --mode=train\
