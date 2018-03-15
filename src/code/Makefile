@@ -189,7 +189,7 @@ self_small_learning_double_lstm_dense:
 		--learning_rate 7e-4\
 		--decay_rate 0.75
 
-self_bigger_hidden_size_bigger_dropout:
+self_bigger_learning_rate_smaller_decay_rate:
 	python -W ignore main.py \
 		--embedding_size 100\
 		--attn_layer=self_attn\
@@ -202,8 +202,8 @@ self_bigger_hidden_size_bigger_dropout:
 		--pred_hidden_sz 200\
 		--dropout 0.25\
 		--mode=train\
-		--learning_rate 8e-4\
-		--decay_rate 0.7
+		--learning_rate 1e-3\
+		--decay_rate 0.6
 
 self_big:
 	python  -W ignore main.py \
