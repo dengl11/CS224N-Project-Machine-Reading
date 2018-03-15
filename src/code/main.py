@@ -248,13 +248,13 @@ def main(unused_argv):
                                         train_qn_path, train_ans_path,
                                         "train", num_samples=100000000000,
                                         print_to_screen=False)
-            logger.error("Train: F1 = {0:.3}, EM = {0:.3}".format(f1, em))
+            logger.error("Train: F1 = {:.3}, EM = {:.3}".format(f1, em))
             # dev
             f1, em = qa_model.check_f1_em(sess, dev_context_path,
                                         dev_qn_path, dev_ans_path,
                                         "dev", num_samples=10000000000,
                                         print_to_screen=False)
-            logger.error("Dev:   F1 = {0:.3}, EM = {0:.3}".format(f1, em))
+            logger.error("Dev:   F1 = {:.3}, EM = {:.3}".format(f1, em))
 
     elif FLAGS.mode == "official_eval":
         if FLAGS.json_in_path == "":
