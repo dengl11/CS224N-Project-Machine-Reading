@@ -66,6 +66,7 @@ tf.app.flags.DEFINE_integer("pred_hidden_sz", 100,
 
 # Hyperparameters
 tf.app.flags.DEFINE_float("learning_rate", 0.001, "Learning rate.")
+tf.app.flags.DEFINE_float("decay_rate", 0.8, "Decay rate of learning rate.")
 tf.app.flags.DEFINE_float("max_gradient_norm", 5.0, "Clip gradients to this norm.")
 tf.app.flags.DEFINE_float("dropout", 0.15,
         "Fraction of units randomly dropped on non-recurrent connections.")

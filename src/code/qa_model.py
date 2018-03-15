@@ -65,7 +65,8 @@ class QAModel(object):
         # (updates is what you need to fetch in session.run to do a gradient update)
         self.global_step = tf.Variable(0, name="global_step", trainable=False)
         # you can try other optimizers
-        opt = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate) 
+        opt = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate,
+                                     beta1=FLAGS.decay_rate)
         self.updates = opt.apply_gradients(zip(clipped_gradients, params),
                                            global_step=self.global_step)
 
