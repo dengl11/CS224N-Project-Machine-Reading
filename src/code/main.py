@@ -39,6 +39,8 @@ tf.app.flags.DEFINE_string("attn_layer", "",
                           "atten layer after encoder")
 tf.app.flags.DEFINE_string("output", "basic",
                           "output layer after attention before final softmax")
+tf.app.flags.DEFINE_string("output_activation", "tanh",
+                          "for output=lstm_act only, activation function after output")
 tf.app.flags.DEFINE_string("pred_layer", "basic",
                           "prediction layer after output layer for final prediction")
 tf.app.flags.DEFINE_string("idf_path", "../data/context_idf.txt",

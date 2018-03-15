@@ -193,6 +193,7 @@ class QAModel(object):
         blended_reps = tf.concat([context_hiddens, attn_output], axis=2) 
         output_layer = get_output_layer(self.FLAGS.output,
                                         self.FLAGS.output_size,
+                                        self.FLAGS.output_activation,
                                         self.keep_prob)
         reps_final   = output_layer.build_graph(blended_reps, self.context_mask)
 
