@@ -218,6 +218,24 @@ self_big:
 			--mode=train
 
 
+################# Combined-Attention #################
+combined_small_quick_learning:
+	python  -W ignore main.py \
+		--embedding_size 100\
+		--attn_layer=combined_attn\
+		--batch_size=100\
+		--context_len=300\
+		--hidden_size=70\
+		--output_size=200\
+		--output double_lstm_dense\
+		--pred_layer condition\
+		--pred_hidden_sz 200\
+		--dropout 0.25\
+		--mode=train\
+		--learning_rate 1e-3\
+		--decay_rate 0.6
+
+
 cli:
 	pip install codalabworker
 	 pip install codalab
