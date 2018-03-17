@@ -239,16 +239,16 @@ combined_big_learning_big_decay_rate:
 	python -W ignore main.py \
 	        --embedding_size 100\
                 --attn_layer=combined_attn\
-                --batch_size=100\
+                --batch_size=50\
                 --context_len=300\
-                --hidden_size=100\
+                --hidden_size=150\
                 --output_size=200\
                 --output double_lstm_dense\
                 --pred_layer condition\
                 --pred_hidden_sz 200\
-                --dropout 0.25\
+                --dropout 0.1\
                 --mode=train\
-                --learning_rate 5e-2\
+                --learning_rate 5e-3\
                 --decay_rate 0.999
 
 
