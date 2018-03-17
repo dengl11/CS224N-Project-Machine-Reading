@@ -235,7 +235,7 @@ combined_small_quick_learning:
 		--learning_rate 1e-3\
 		--decay_rate 0.6
 
-combined_big_learning_big_decay_rate:
+combined_small_learning_double_lstm_dense:
 	python -W ignore main.py \
 	        --embedding_size 100\
                 --attn_layer=combined_attn\
@@ -246,10 +246,9 @@ combined_big_learning_big_decay_rate:
                 --output double_lstm_dense\
                 --pred_layer condition\
                 --pred_hidden_sz 200\
-                --dropout 0.1\
+                --dropout 0.15\
                 --mode=train\
-                --learning_rate 5e-3\
-                --decay_rate 0.999\
+                --learning_rate 7e-4\
 		--encoder lstm
 
 cli:
