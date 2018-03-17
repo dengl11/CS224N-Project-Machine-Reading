@@ -249,8 +249,8 @@ combined_big_learning_big_decay_rate:
                 --dropout 0.1\
                 --mode=train\
                 --learning_rate 5e-3\
-                --decay_rate 0.999
-
+                --decay_rate 0.999\
+		--encoder lstm
 
 cli:
 	pip install codalabworker
