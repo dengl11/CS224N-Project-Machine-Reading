@@ -266,7 +266,22 @@ combined_small_learning_with_dense_softmax_pred:
                 --mode=train\
                 --learning_rate 7e-4\
                 --encoder lstm
- 
+
+ combined_dense_softmax_pred_low_dropout:
+	python -W ignore main.py \
+                --embedding_size 100\
+                --attn_layer=combined_attn\
+                --batch_size=100\
+                --context_len=300\
+                --hidden_size=150\
+                --output_size=200\
+                --output double_lstm_dense\
+                --pred_layer dense+softmax\
+                --pred_hidden_sz 200\
+                --dropout 0.09\
+                --mode=train\
+                --learning_rate 7e-4\
+                --encoder lstm
 
 cli:
 	pip install codalabworker
