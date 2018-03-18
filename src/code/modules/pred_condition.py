@@ -29,9 +29,9 @@ class PredictionCondition(PredictionBasic):
             each of shape [batch_sz, context_length]
         """
         cx_len = context_mask.shape[1]
-        with vs.variable_scope(self.scope): 
+        with vs.variable_scope(self.scope):
             reps = tf.contrib.layers.fully_connected(reps,
-                                                     num_outputs=self.hidden_sz) 
+                                                     num_outputs=self.hidden_sz)
             logits_start, probdist_start = self._pred_start(reps, context_mask)
             end_reps = tf.concat([reps, tf.expand_dims(probdist_start, 2)], 2)
             # [batch_sz]: index of starting word
