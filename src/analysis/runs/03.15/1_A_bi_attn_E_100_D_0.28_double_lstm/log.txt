@@ -1,0 +1,523 @@
+Number of params: 6892803 (retrieval took 3.447245 secs)
+Beginning training loop...
+epoch 1, iter 200, loss 9.47785, smoothed loss 9.52221, grad norm 10.87883, param norm 80.79051, batch time 2.000
+epoch 1, iter 400, loss 8.44207, smoothed loss 8.74144, grad norm 74.76230, param norm 81.17599, batch time 2.053
+Epoch 1, Iter 500, dev loss: 8.445412
+Epoch 1, Iter 500, Train F1 score: 0.109162,                            Train EM score: 0.016000
+Epoch 1, Iter 500, Dev F1 score: 0.112984,                            Dev EM score: 0.022810
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 1, iter 600, loss 7.35615, smoothed loss 8.20255, grad norm 42.65305, param norm 81.35546, batch time 1.968
+epoch 1, iter 800, loss 7.89132, smoothed loss 7.84689, grad norm 113.88844, param norm 81.52944, batch time 1.949
+epoch 1, iter 1000, loss 7.10160, smoothed loss 7.65724, grad norm 41.64604, param norm 81.72318, batch time 1.991
+Epoch 1, Iter 1000, dev loss: 7.545763
+Epoch 1, Iter 1000, Train F1 score: 0.191158,                            Train EM score: 0.086000
+Epoch 1, Iter 1000, Dev F1 score: 0.176901,                            Dev EM score: 0.077382
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 1, iter 1200, loss 7.40528, smoothed loss 7.44685, grad norm 27.69278, param norm 81.93995, batch time 1.935
+epoch 1, iter 1400, loss 7.06308, smoothed loss 7.28145, grad norm 61.69870, param norm 82.19382, batch time 1.944
+End of epoch 1. Time for epoch: 3537.802937
+Epoch 2, Iter 1500, dev loss: 6.887877
+Epoch 2, Iter 1500, Train F1 score: 0.255988,                            Train EM score: 0.152000
+Epoch 2, Iter 1500, Dev F1 score: 0.251521,                            Dev EM score: 0.144466
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 2, iter 1600, loss 7.16465, smoothed loss 7.16300, grad norm 24.72065, param norm 82.44693, batch time 1.903
+epoch 2, iter 1800, loss 6.67166, smoothed loss 7.03673, grad norm 113.67744, param norm 82.73003, batch time 1.900
+epoch 2, iter 2000, loss 6.60439, smoothed loss 6.89800, grad norm 22.56193, param norm 83.03185, batch time 2.076
+Epoch 2, Iter 2000, dev loss: 6.604388
+Epoch 2, Iter 2000, Train F1 score: 0.302615,                            Train EM score: 0.184000
+Epoch 2, Iter 2000, Dev F1 score: 0.282552,                            Dev EM score: 0.170741
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 2, iter 2200, loss 6.89908, smoothed loss 6.75883, grad norm 28.48314, param norm 83.32227, batch time 2.007
+epoch 2, iter 2400, loss 7.48006, smoothed loss 6.73763, grad norm 35.88005, param norm 83.64732, batch time 2.257
+Epoch 2, Iter 2500, dev loss: 6.225669
+Epoch 2, Iter 2500, Train F1 score: 0.321571,                            Train EM score: 0.213000
+Epoch 2, Iter 2500, Dev F1 score: 0.314125,                            Dev EM score: 0.193648
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 2, iter 2600, loss 6.18577, smoothed loss 6.62380, grad norm 20.22802, param norm 83.95055, batch time 1.938
+epoch 2, iter 2800, loss 6.09378, smoothed loss 6.53894, grad norm 26.62180, param norm 84.30190, batch time 1.985
+End of epoch 2. Time for epoch: 3752.988559
+epoch 3, iter 3000, loss 6.88213, smoothed loss 6.48005, grad norm 32.22444, param norm 84.67989, batch time 1.977
+Epoch 3, Iter 3000, dev loss: 5.954557
+Epoch 3, Iter 3000, Train F1 score: 0.354042,                            Train EM score: 0.231000
+Epoch 3, Iter 3000, Dev F1 score: 0.342279,                            Dev EM score: 0.216362
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 3, iter 3200, loss 6.32959, smoothed loss 6.41616, grad norm 53.03984, param norm 85.06100, batch time 1.918
+epoch 3, iter 3400, loss 5.89990, smoothed loss 6.32778, grad norm 20.85045, param norm 85.41402, batch time 1.914
+Epoch 3, Iter 3500, dev loss: 5.808948
+Epoch 3, Iter 3500, Train F1 score: 0.366089,                            Train EM score: 0.239000
+Epoch 3, Iter 3500, Dev F1 score: 0.366413,                            Dev EM score: 0.235611
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 3, iter 3600, loss 6.14173, smoothed loss 6.14349, grad norm 37.84545, param norm 85.79578, batch time 1.981
+epoch 3, iter 3800, loss 5.73322, smoothed loss 6.09812, grad norm 44.75039, param norm 86.18304, batch time 1.919
+epoch 3, iter 4000, loss 6.07255, smoothed loss 6.05405, grad norm 38.87056, param norm 86.56203, batch time 1.933
+Epoch 3, Iter 4000, dev loss: 5.582943
+Epoch 3, Iter 4000, Train F1 score: 0.405377,                            Train EM score: 0.286000
+Epoch 3, Iter 4000, Dev F1 score: 0.377144,                            Dev EM score: 0.245332
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 3, iter 4200, loss 5.16890, smoothed loss 5.97474, grad norm 29.72449, param norm 86.95210, batch time 1.907
+End of epoch 3. Time for epoch: 3755.675686
+epoch 4, iter 4400, loss 5.63904, smoothed loss 5.92311, grad norm 42.11379, param norm 87.33958, batch time 2.154
+Epoch 4, Iter 4500, dev loss: 5.489042
+Epoch 4, Iter 4500, Train F1 score: 0.400844,                            Train EM score: 0.256000
+Epoch 4, Iter 4500, Dev F1 score: 0.392038,                            Dev EM score: 0.261405
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 4, iter 4600, loss 6.11789, smoothed loss 5.84913, grad norm 43.32119, param norm 87.76723, batch time 1.908
+epoch 4, iter 4800, loss 5.57796, smoothed loss 5.80296, grad norm 32.44157, param norm 88.21439, batch time 1.951
+epoch 4, iter 5000, loss 5.47410, smoothed loss 5.62991, grad norm 52.84092, param norm 88.64442, batch time 1.945
+Epoch 4, Iter 5000, dev loss: 5.368257
+Epoch 4, Iter 5000, Train F1 score: 0.426010,                            Train EM score: 0.301000
+Epoch 4, Iter 5000, Dev F1 score: 0.404849,                            Dev EM score: 0.270934
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 4, iter 5200, loss 5.15704, smoothed loss 5.54097, grad norm 45.45476, param norm 89.13057, batch time 1.929
+epoch 4, iter 5400, loss 5.17321, smoothed loss 5.45937, grad norm 28.61378, param norm 89.58467, batch time 1.905
+Epoch 4, Iter 5500, dev loss: 4.979029
+Epoch 4, Iter 5500, Train F1 score: 0.473883,                            Train EM score: 0.327000
+Epoch 4, Iter 5500, Dev F1 score: 0.447877,                            Dev EM score: 0.303657
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 4, iter 5600, loss 5.70692, smoothed loss 5.40514, grad norm 43.74216, param norm 90.06207, batch time 2.043
+End of epoch 4. Time for epoch: 3755.117799
+epoch 5, iter 5800, loss 4.76414, smoothed loss 5.27937, grad norm 30.94096, param norm 90.55300, batch time 2.219
+epoch 5, iter 6000, loss 5.19082, smoothed loss 5.22769, grad norm 29.57188, param norm 91.02006, batch time 1.886
+Epoch 5, Iter 6000, dev loss: 4.795545
+Epoch 5, Iter 6000, Train F1 score: 0.459421,                            Train EM score: 0.306000
+Epoch 5, Iter 6000, Dev F1 score: 0.466407,                            Dev EM score: 0.319634
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 5, iter 6200, loss 5.53358, smoothed loss 5.20722, grad norm 28.51350, param norm 91.48713, batch time 1.951
+epoch 5, iter 6400, loss 5.18353, smoothed loss 5.06379, grad norm 43.34657, param norm 91.90816, batch time 1.941
+Epoch 5, Iter 6500, dev loss: 4.561181
+Epoch 5, Iter 6500, Train F1 score: 0.497549,                            Train EM score: 0.363000
+Epoch 5, Iter 6500, Dev F1 score: 0.484680,                            Dev EM score: 0.337729
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 5, iter 6600, loss 5.03114, smoothed loss 5.02285, grad norm 50.14577, param norm 92.36249, batch time 1.931
+epoch 5, iter 6800, loss 5.51571, smoothed loss 5.07520, grad norm 33.18193, param norm 92.83550, batch time 1.953
+epoch 5, iter 7000, loss 4.68683, smoothed loss 4.94481, grad norm 30.49400, param norm 93.31802, batch time 1.956
+Epoch 5, Iter 7000, dev loss: 4.551086
+Epoch 5, Iter 7000, Train F1 score: 0.531702,                            Train EM score: 0.380000
+Epoch 5, Iter 7000, Dev F1 score: 0.498978,                            Dev EM score: 0.345428
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+End of epoch 5. Time for epoch: 3758.483681
+epoch 6, iter 7200, loss 5.82885, smoothed loss 4.89144, grad norm 33.75094, param norm 93.79584, batch time 2.022
+epoch 6, iter 7400, loss 5.36280, smoothed loss 4.85679, grad norm 46.47850, param norm 94.26206, batch time 1.952
+Epoch 6, Iter 7500, dev loss: 4.402953
+Epoch 6, Iter 7500, Train F1 score: 0.536032,                            Train EM score: 0.411000
+Epoch 6, Iter 7500, Dev F1 score: 0.510075,                            Dev EM score: 0.359577
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 6, iter 7600, loss 5.01622, smoothed loss 4.74364, grad norm 29.64116, param norm 94.71735, batch time 1.917
+epoch 6, iter 7800, loss 4.53073, smoothed loss 4.75493, grad norm 48.11078, param norm 95.18425, batch time 1.937
+epoch 6, iter 8000, loss 5.42611, smoothed loss 4.67549, grad norm 37.39670, param norm 95.63719, batch time 1.942
+Epoch 6, Iter 8000, dev loss: 4.264645
+Epoch 6, Iter 8000, Train F1 score: 0.549027,                            Train EM score: 0.401000
+Epoch 6, Iter 8000, Dev F1 score: 0.529638,                            Dev EM score: 0.370260
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 6, iter 8200, loss 5.51082, smoothed loss 4.69547, grad norm 48.10273, param norm 96.10424, batch time 1.903
+epoch 6, iter 8400, loss 4.42872, smoothed loss 4.61167, grad norm 38.57561, param norm 96.54662, batch time 2.157
+End of epoch 6. Time for epoch: 3469.223318
+Epoch 7, Iter 8500, dev loss: 4.211727
+Epoch 7, Iter 8500, Train F1 score: 0.550571,                            Train EM score: 0.406000
+Epoch 7, Iter 8500, Dev F1 score: 0.532142,                            Dev EM score: 0.378056
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 7, iter 8600, loss 4.71633, smoothed loss 4.55477, grad norm 38.49145, param norm 97.00356, batch time 2.063
+epoch 7, iter 8800, loss 5.14794, smoothed loss 4.55902, grad norm 82.52805, param norm 97.45199, batch time 1.958
+epoch 7, iter 9000, loss 4.89822, smoothed loss 4.57202, grad norm 65.70023, param norm 97.90887, batch time 2.048
+Epoch 7, Iter 9000, dev loss: 4.154869
+Epoch 7, Iter 9000, Train F1 score: 0.545057,                            Train EM score: 0.393000
+Epoch 7, Iter 9000, Dev F1 score: 0.544169,                            Dev EM score: 0.382002
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 7, iter 9200, loss 4.98367, smoothed loss 4.46838, grad norm 33.04920, param norm 98.35690, batch time 2.007
+epoch 7, iter 9400, loss 4.36645, smoothed loss 4.40388, grad norm 29.53354, param norm 98.78751, batch time 1.945
+Epoch 7, Iter 9500, dev loss: 4.171419
+Epoch 7, Iter 9500, Train F1 score: 0.563146,                            Train EM score: 0.424000
+Epoch 7, Iter 9500, Dev F1 score: 0.539883,                            Dev EM score: 0.385756
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 7, iter 9600, loss 4.83173, smoothed loss 4.47702, grad norm 61.53896, param norm 99.24348, batch time 1.930
+epoch 7, iter 9800, loss 4.84875, smoothed loss 4.42974, grad norm 78.47542, param norm 99.69915, batch time 1.978
+End of epoch 7. Time for epoch: 3754.809921
+epoch 8, iter 10000, loss 4.61555, smoothed loss 4.39299, grad norm 45.81239, param norm 100.11656, batch time 2.020
+Epoch 8, Iter 10000, dev loss: 4.053437
+Epoch 8, Iter 10000, Train F1 score: 0.586568,                            Train EM score: 0.432000
+Epoch 8, Iter 10000, Dev F1 score: 0.556513,                            Dev EM score: 0.396343
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 8, iter 10200, loss 4.23142, smoothed loss 4.35920, grad norm 39.45304, param norm 100.57668, batch time 2.065
+epoch 8, iter 10400, loss 5.63611, smoothed loss 4.39377, grad norm 61.05598, param norm 101.03395, batch time 1.958
+Epoch 8, Iter 10500, dev loss: 4.049114
+Epoch 8, Iter 10500, Train F1 score: 0.618067,                            Train EM score: 0.467000
+Epoch 8, Iter 10500, Dev F1 score: 0.549271,                            Dev EM score: 0.395091
+epoch 8, iter 10600, loss 4.26417, smoothed loss 4.26733, grad norm 36.02153, param norm 101.48522, batch time 1.946
+epoch 8, iter 10800, loss 3.80123, smoothed loss 4.22866, grad norm 39.98729, param norm 101.93949, batch time 1.909
+epoch 8, iter 11000, loss 5.33327, smoothed loss 4.27266, grad norm 65.57510, param norm 102.38218, batch time 2.064
+Epoch 8, Iter 11000, dev loss: 3.903287
+Epoch 8, Iter 11000, Train F1 score: 0.595794,                            Train EM score: 0.450000
+Epoch 8, Iter 11000, Dev F1 score: 0.571986,                            Dev EM score: 0.415303
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 8, iter 11200, loss 4.63560, smoothed loss 4.22074, grad norm 37.55486, param norm 102.82038, batch time 1.962
+End of epoch 8. Time for epoch: 3756.031436
+epoch 9, iter 11400, loss 4.90993, smoothed loss 4.15860, grad norm 41.47664, param norm 103.26703, batch time 2.070
+Epoch 9, Iter 11500, dev loss: 3.896541
+Epoch 9, Iter 11500, Train F1 score: 0.581052,                            Train EM score: 0.432000
+Epoch 9, Iter 11500, Dev F1 score: 0.568532,                            Dev EM score: 0.413571
+epoch 9, iter 11600, loss 4.73818, smoothed loss 4.19031, grad norm 30.28615, param norm 103.68667, batch time 1.969
+epoch 9, iter 11800, loss 4.83462, smoothed loss 4.21115, grad norm 56.14575, param norm 104.14646, batch time 2.234
+epoch 9, iter 12000, loss 4.66496, smoothed loss 4.16124, grad norm 46.03930, param norm 104.59459, batch time 1.894
+Epoch 9, Iter 12000, dev loss: 3.814222
+Epoch 9, Iter 12000, Train F1 score: 0.601736,                            Train EM score: 0.453000
+Epoch 9, Iter 12000, Dev F1 score: 0.578451,                            Dev EM score: 0.422618
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 9, iter 12200, loss 3.89028, smoothed loss 4.10343, grad norm 40.36130, param norm 105.02568, batch time 1.897
+epoch 9, iter 12400, loss 4.12929, smoothed loss 4.14452, grad norm 37.52553, param norm 105.46412, batch time 1.894
+Epoch 9, Iter 12500, dev loss: 3.723390
+Epoch 9, Iter 12500, Train F1 score: 0.603146,                            Train EM score: 0.454000
+Epoch 9, Iter 12500, Dev F1 score: 0.587728,                            Dev EM score: 0.430125
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 9, iter 12600, loss 3.89769, smoothed loss 4.11043, grad norm 32.51223, param norm 105.87733, batch time 1.931
+End of epoch 9. Time for epoch: 3754.749987
+epoch 10, iter 12800, loss 3.73147, smoothed loss 4.04292, grad norm 38.66647, param norm 106.30296, batch time 2.208
+epoch 10, iter 13000, loss 4.35203, smoothed loss 4.03864, grad norm 34.13135, param norm 106.72427, batch time 2.016
+Epoch 10, Iter 13000, dev loss: 3.656447
+Epoch 10, Iter 13000, Train F1 score: 0.624362,                            Train EM score: 0.473000
+Epoch 10, Iter 13000, Dev F1 score: 0.595003,                            Dev EM score: 0.436862
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 10, iter 13200, loss 4.17339, smoothed loss 4.08514, grad norm 34.30556, param norm 107.14282, batch time 2.004
+epoch 10, iter 13400, loss 3.86506, smoothed loss 3.99216, grad norm 33.20343, param norm 107.55958, batch time 2.075
+Epoch 10, Iter 13500, dev loss: 3.649497
+Epoch 10, Iter 13500, Train F1 score: 0.611801,                            Train EM score: 0.467000
+Epoch 10, Iter 13500, Dev F1 score: 0.593078,                            Dev EM score: 0.439269
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 10, iter 13600, loss 3.63379, smoothed loss 3.94557, grad norm 45.19838, param norm 107.95829, batch time 2.025
+epoch 10, iter 13800, loss 3.78954, smoothed loss 3.99074, grad norm 49.28880, param norm 108.39666, batch time 1.989
+epoch 10, iter 14000, loss 3.07749, smoothed loss 3.92062, grad norm 30.92087, param norm 108.82157, batch time 1.908
+Epoch 10, Iter 14000, dev loss: 3.642974
+Epoch 10, Iter 14000, Train F1 score: 0.639902,                            Train EM score: 0.499000
+Epoch 10, Iter 14000, Dev F1 score: 0.593240,                            Dev EM score: 0.438691
+End of epoch 10. Time for epoch: 3754.592444
+epoch 11, iter 14200, loss 3.38604, smoothed loss 3.93235, grad norm 55.64017, param norm 109.21340, batch time 1.920
+epoch 11, iter 14400, loss 4.44237, smoothed loss 3.91977, grad norm 40.78583, param norm 109.61151, batch time 1.937
+Epoch 11, Iter 14500, dev loss: 3.599287
+Epoch 11, Iter 14500, Train F1 score: 0.640582,                            Train EM score: 0.490000
+Epoch 11, Iter 14500, Dev F1 score: 0.601519,                            Dev EM score: 0.441290
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 11, iter 14600, loss 4.15462, smoothed loss 3.95691, grad norm 38.49707, param norm 110.01019, batch time 1.983
+epoch 11, iter 14800, loss 4.15262, smoothed loss 3.87234, grad norm 35.45233, param norm 110.41834, batch time 1.913
+epoch 11, iter 15000, loss 3.94596, smoothed loss 3.85363, grad norm 63.42766, param norm 110.81044, batch time 1.920
+Epoch 11, Iter 15000, dev loss: 3.606341
+Epoch 11, Iter 15000, Train F1 score: 0.608387,                            Train EM score: 0.457000
+Epoch 11, Iter 15000, Dev F1 score: 0.599526,                            Dev EM score: 0.440327
+epoch 11, iter 15200, loss 4.55324, smoothed loss 3.83486, grad norm 41.61913, param norm 111.22350, batch time 2.347
+epoch 11, iter 15400, loss 3.66435, smoothed loss 3.81472, grad norm 33.70084, param norm 111.62643, batch time 1.889
+Epoch 11, Iter 15500, dev loss: 3.565179
+Epoch 11, Iter 15500, Train F1 score: 0.623131,                            Train EM score: 0.484000
+Epoch 11, Iter 15500, Dev F1 score: 0.605617,                            Dev EM score: 0.451781
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+End of epoch 11. Time for epoch: 3755.622797
+epoch 12, iter 15600, loss 3.31243, smoothed loss 3.79650, grad norm 35.52592, param norm 112.04371, batch time 2.064
+epoch 12, iter 15800, loss 4.62762, smoothed loss 3.83262, grad norm 60.65993, param norm 112.43121, batch time 2.101
+epoch 12, iter 16000, loss 4.23638, smoothed loss 3.83124, grad norm 52.16101, param norm 112.83247, batch time 2.065
+Epoch 12, Iter 16000, dev loss: 3.498630
+Epoch 12, Iter 16000, Train F1 score: 0.654667,                            Train EM score: 0.506000
+Epoch 12, Iter 16000, Dev F1 score: 0.611231,                            Dev EM score: 0.455534
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 12, iter 16200, loss 3.56013, smoothed loss 3.80483, grad norm 40.83534, param norm 113.23524, batch time 1.873
+epoch 12, iter 16400, loss 3.72793, smoothed loss 3.72808, grad norm 47.09266, param norm 113.63787, batch time 1.963
+Epoch 12, Iter 16500, dev loss: 3.498460
+Epoch 12, Iter 16500, Train F1 score: 0.646132,                            Train EM score: 0.502000
+Epoch 12, Iter 16500, Dev F1 score: 0.610719,                            Dev EM score: 0.460346
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 12, iter 16600, loss 3.95451, smoothed loss 3.78374, grad norm 65.10954, param norm 114.04662, batch time 1.952
+epoch 12, iter 16800, loss 3.96430, smoothed loss 3.71827, grad norm 30.05753, param norm 114.44868, batch time 2.037
+End of epoch 12. Time for epoch: 3471.747017
+epoch 13, iter 17000, loss 3.81821, smoothed loss 3.73268, grad norm 46.09608, param norm 114.82675, batch time 1.908
+Epoch 13, Iter 17000, dev loss: 3.452988
+Epoch 13, Iter 17000, Train F1 score: 0.648391,                            Train EM score: 0.501000
+Epoch 13, Iter 17000, Dev F1 score: 0.616639,                            Dev EM score: 0.462560
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 13, iter 17200, loss 3.68293, smoothed loss 3.71340, grad norm 67.23831, param norm 115.22095, batch time 2.270
+epoch 13, iter 17400, loss 3.17060, smoothed loss 3.72867, grad norm 37.40434, param norm 115.60728, batch time 2.055
+Epoch 13, Iter 17500, dev loss: 3.606727
+Epoch 13, Iter 17500, Train F1 score: 0.637484,                            Train EM score: 0.494000
+Epoch 13, Iter 17500, Dev F1 score: 0.602910,                            Dev EM score: 0.454572
+epoch 13, iter 17600, loss 3.32739, smoothed loss 3.67596, grad norm 51.26443, param norm 115.99198, batch time 1.942
+epoch 13, iter 17800, loss 3.87347, smoothed loss 3.64855, grad norm 32.46258, param norm 116.36539, batch time 1.955
+epoch 13, iter 18000, loss 3.53080, smoothed loss 3.64346, grad norm 42.73107, param norm 116.73213, batch time 1.976
+Epoch 13, Iter 18000, dev loss: 3.508389
+Epoch 13, Iter 18000, Train F1 score: 0.644785,                            Train EM score: 0.504000
+Epoch 13, Iter 18000, Dev F1 score: 0.607497,                            Dev EM score: 0.454572
+epoch 13, iter 18200, loss 4.38642, smoothed loss 3.65640, grad norm 52.09060, param norm 117.11451, batch time 1.926
+End of epoch 13. Time for epoch: 3754.413574
+epoch 14, iter 18400, loss 3.64028, smoothed loss 3.68327, grad norm 39.42038, param norm 117.49342, batch time 1.936
+Epoch 14, Iter 18500, dev loss: 3.376862
+Epoch 14, Iter 18500, Train F1 score: 0.629721,                            Train EM score: 0.481000
+Epoch 14, Iter 18500, Dev F1 score: 0.627132,                            Dev EM score: 0.471800
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 14, iter 18600, loss 3.73153, smoothed loss 3.59605, grad norm 41.40188, param norm 117.87677, batch time 2.122
+epoch 14, iter 18800, loss 3.20336, smoothed loss 3.65711, grad norm 38.33347, param norm 118.24465, batch time 2.081
+epoch 14, iter 19000, loss 3.54532, smoothed loss 3.57006, grad norm 46.32375, param norm 118.60780, batch time 1.898
+Epoch 14, Iter 19000, dev loss: 3.355347
+Epoch 14, Iter 19000, Train F1 score: 0.683085,                            Train EM score: 0.525000
+Epoch 14, Iter 19000, Dev F1 score: 0.626400,                            Dev EM score: 0.472281
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 14, iter 19200, loss 3.84870, smoothed loss 3.59358, grad norm 33.67379, param norm 118.97381, batch time 1.912
+epoch 14, iter 19400, loss 3.11699, smoothed loss 3.56650, grad norm 35.14791, param norm 119.33708, batch time 1.927
+Epoch 14, Iter 19500, dev loss: 3.350714
+Epoch 14, Iter 19500, Train F1 score: 0.655814,                            Train EM score: 0.514000
+Epoch 14, Iter 19500, Dev F1 score: 0.626671,                            Dev EM score: 0.474783
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 14, iter 19600, loss 3.43787, smoothed loss 3.54825, grad norm 98.15856, param norm 119.69929, batch time 1.900
+End of epoch 14. Time for epoch: 3753.644041
+epoch 15, iter 19800, loss 3.79841, smoothed loss 3.58934, grad norm 39.92823, param norm 120.05882, batch time 1.925
+epoch 15, iter 20000, loss 3.20824, smoothed loss 3.52704, grad norm 39.20766, param norm 120.42915, batch time 1.942
+Epoch 15, Iter 20000, dev loss: 3.315723
+Epoch 15, Iter 20000, Train F1 score: 0.673274,                            Train EM score: 0.522000
+Epoch 15, Iter 20000, Dev F1 score: 0.636944,                            Dev EM score: 0.480366
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 15, iter 20200, loss 3.46437, smoothed loss 3.58863, grad norm 39.22950, param norm 120.77814, batch time 1.948
+epoch 15, iter 20400, loss 4.50984, smoothed loss 3.55526, grad norm 42.55757, param norm 121.14436, batch time 1.914
+Epoch 15, Iter 20500, dev loss: 3.448439
+Epoch 15, Iter 20500, Train F1 score: 0.643825,                            Train EM score: 0.512000
+Epoch 15, Iter 20500, Dev F1 score: 0.614889,                            Dev EM score: 0.466987
+epoch 15, iter 20600, loss 2.54237, smoothed loss 3.48504, grad norm 26.72846, param norm 121.47569, batch time 2.160
+epoch 15, iter 20800, loss 3.05512, smoothed loss 3.48883, grad norm 29.52087, param norm 121.83447, batch time 1.908
+epoch 15, iter 21000, loss 4.53916, smoothed loss 3.48859, grad norm 46.44185, param norm 122.19489, batch time 1.893
+Epoch 15, Iter 21000, dev loss: 3.311942
+Epoch 15, Iter 21000, Train F1 score: 0.672879,                            Train EM score: 0.520000
+Epoch 15, Iter 21000, Dev F1 score: 0.630464,                            Dev EM score: 0.477093
+epoch 15, iter 21200, loss 3.84255, smoothed loss 3.51176, grad norm 106.97125, param norm 122.53754, batch time 1.922
+End of epoch 15. Time for epoch: 3758.889854
+epoch 16, iter 21400, loss 3.28442, smoothed loss 3.45243, grad norm 34.90588, param norm 122.89053, batch time 2.028
+Epoch 16, Iter 21500, dev loss: 3.331791
+Epoch 16, Iter 21500, Train F1 score: 0.674880,                            Train EM score: 0.521000
+Epoch 16, Iter 21500, Dev F1 score: 0.634326,                            Dev EM score: 0.482868
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 16, iter 21600, loss 3.54248, smoothed loss 3.44343, grad norm 85.44726, param norm 123.24120, batch time 2.191
+epoch 16, iter 21800, loss 3.68711, smoothed loss 3.46278, grad norm 33.68784, param norm 123.59088, batch time 2.083
+epoch 16, iter 22000, loss 3.58631, smoothed loss 3.42479, grad norm 30.92740, param norm 123.94104, batch time 2.098
+Epoch 16, Iter 22000, dev loss: 3.287839
+Epoch 16, Iter 22000, Train F1 score: 0.665780,                            Train EM score: 0.535000
+Epoch 16, Iter 22000, Dev F1 score: 0.634859,                            Dev EM score: 0.483253
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 16, iter 22200, loss 3.66760, smoothed loss 3.41469, grad norm 35.53062, param norm 124.28780, batch time 1.937
+epoch 16, iter 22400, loss 4.00680, smoothed loss 3.46476, grad norm 100.52268, param norm 124.62445, batch time 1.941
+Epoch 16, Iter 22500, dev loss: 3.262700
+Epoch 16, Iter 22500, Train F1 score: 0.674639,                            Train EM score: 0.529000
+Epoch 16, Iter 22500, Dev F1 score: 0.639993,                            Dev EM score: 0.485274
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 16, iter 22600, loss 3.93607, smoothed loss 3.43767, grad norm 61.73457, param norm 124.95838, batch time 1.982
+End of epoch 16. Time for epoch: 3755.538500
+epoch 17, iter 22800, loss 3.92160, smoothed loss 3.42155, grad norm 77.45277, param norm 125.29914, batch time 1.896
+epoch 17, iter 23000, loss 3.87964, smoothed loss 3.45059, grad norm 38.63731, param norm 125.64954, batch time 1.904
+Epoch 17, Iter 23000, dev loss: 3.318361
+Epoch 17, Iter 23000, Train F1 score: 0.669872,                            Train EM score: 0.533000
+Epoch 17, Iter 23000, Dev F1 score: 0.635147,                            Dev EM score: 0.486237
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 17, iter 23200, loss 3.24748, smoothed loss 3.43839, grad norm 91.51893, param norm 125.99922, batch time 1.942
+epoch 17, iter 23400, loss 3.48750, smoothed loss 3.34303, grad norm 37.88391, param norm 126.33316, batch time 2.116
+Epoch 17, Iter 23500, dev loss: 3.278757
+Epoch 17, Iter 23500, Train F1 score: 0.711348,                            Train EM score: 0.558000
+Epoch 17, Iter 23500, Dev F1 score: 0.639712,                            Dev EM score: 0.485852
+epoch 17, iter 23600, loss 2.29381, smoothed loss 3.34411, grad norm 33.98588, param norm 126.66400, batch time 2.031
+epoch 17, iter 23800, loss 3.01785, smoothed loss 3.37345, grad norm 36.45039, param norm 126.99921, batch time 2.083
+epoch 17, iter 24000, loss 2.82144, smoothed loss 3.37706, grad norm 40.10135, param norm 127.33023, batch time 1.939
+Epoch 17, Iter 24000, dev loss: 3.287341
+Epoch 17, Iter 24000, Train F1 score: 0.676794,                            Train EM score: 0.543000
+Epoch 17, Iter 24000, Dev F1 score: 0.638831,                            Dev EM score: 0.489894
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+End of epoch 17. Time for epoch: 3756.144107
+epoch 18, iter 24200, loss 3.28990, smoothed loss 3.36367, grad norm 50.61506, param norm 127.66031, batch time 2.084
+epoch 18, iter 24400, loss 3.18616, smoothed loss 3.38785, grad norm 33.13049, param norm 127.99635, batch time 2.090
+Epoch 18, Iter 24500, dev loss: 3.267509
+Epoch 18, Iter 24500, Train F1 score: 0.698867,                            Train EM score: 0.550000
+Epoch 18, Iter 24500, Dev F1 score: 0.639694,                            Dev EM score: 0.483253
+epoch 18, iter 24600, loss 3.22729, smoothed loss 3.37146, grad norm 60.13770, param norm 128.32997, batch time 1.984
+epoch 18, iter 24800, loss 3.11664, smoothed loss 3.31129, grad norm 44.52375, param norm 128.65773, batch time 1.908
+epoch 18, iter 25000, loss 2.96388, smoothed loss 3.28251, grad norm 41.64203, param norm 128.98262, batch time 1.983
+Epoch 18, Iter 25000, dev loss: 3.229960
+Epoch 18, Iter 25000, Train F1 score: 0.697592,                            Train EM score: 0.568000
+Epoch 18, Iter 25000, Dev F1 score: 0.645354,                            Dev EM score: 0.493840
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 18, iter 25200, loss 3.65553, smoothed loss 3.35979, grad norm 45.38731, param norm 129.30473, batch time 2.012
+epoch 18, iter 25400, loss 3.15373, smoothed loss 3.30018, grad norm 36.54369, param norm 129.63766, batch time 1.904
+End of epoch 18. Time for epoch: 3468.644712
+Epoch 19, Iter 25500, dev loss: 3.213947
+Epoch 19, Iter 25500, Train F1 score: 0.693561,                            Train EM score: 0.554000
+Epoch 19, Iter 25500, Dev F1 score: 0.649203,                            Dev EM score: 0.499134
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 19, iter 25600, loss 3.83924, smoothed loss 3.31877, grad norm 33.87158, param norm 129.96632, batch time 1.945
+epoch 19, iter 25800, loss 4.23720, smoothed loss 3.33975, grad norm 56.82451, param norm 130.29385, batch time 1.937
+epoch 19, iter 26000, loss 3.48774, smoothed loss 3.30454, grad norm 40.45375, param norm 130.61082, batch time 1.934
+Epoch 19, Iter 26000, dev loss: 3.227060
+Epoch 19, Iter 26000, Train F1 score: 0.687608,                            Train EM score: 0.535000
+Epoch 19, Iter 26000, Dev F1 score: 0.648203,                            Dev EM score: 0.493648
+epoch 19, iter 26200, loss 3.25876, smoothed loss 3.30688, grad norm 42.64343, param norm 130.92221, batch time 1.892
+epoch 19, iter 26400, loss 3.30726, smoothed loss 3.25247, grad norm 43.35386, param norm 131.23361, batch time 1.906
+Epoch 19, Iter 26500, dev loss: 3.200074
+Epoch 19, Iter 26500, Train F1 score: 0.695376,                            Train EM score: 0.549000
+Epoch 19, Iter 26500, Dev F1 score: 0.648030,                            Dev EM score: 0.495380
+epoch 19, iter 26600, loss 3.60459, smoothed loss 3.28036, grad norm 40.35453, param norm 131.54848, batch time 1.852
+epoch 19, iter 26800, loss 3.85308, smoothed loss 3.27929, grad norm 59.35601, param norm 131.87386, batch time 1.950
+End of epoch 19. Time for epoch: 3755.955331
+epoch 20, iter 27000, loss 3.41171, smoothed loss 3.25027, grad norm 34.23029, param norm 132.19733, batch time 1.999
+Epoch 20, Iter 27000, dev loss: 3.149131
+Epoch 20, Iter 27000, Train F1 score: 0.727539,                            Train EM score: 0.577000
+Epoch 20, Iter 27000, Dev F1 score: 0.657763,                            Dev EM score: 0.498749
+epoch 20, iter 27200, loss 3.17943, smoothed loss 3.24857, grad norm 49.82510, param norm 132.51089, batch time 1.932
+epoch 20, iter 27400, loss 3.22455, smoothed loss 3.24900, grad norm 36.65976, param norm 132.83267, batch time 2.157
+Epoch 20, Iter 27500, dev loss: 3.285221
+Epoch 20, Iter 27500, Train F1 score: 0.679805,                            Train EM score: 0.542000
+Epoch 20, Iter 27500, Dev F1 score: 0.646495,                            Dev EM score: 0.493936
+epoch 20, iter 27600, loss 2.79437, smoothed loss 3.22040, grad norm 36.25097, param norm 133.14993, batch time 2.126
+epoch 20, iter 27800, loss 3.25908, smoothed loss 3.18810, grad norm 40.60438, param norm 133.47343, batch time 2.036
+epoch 20, iter 28000, loss 4.27758, smoothed loss 3.24986, grad norm 78.88081, param norm 133.79486, batch time 1.980
+Epoch 20, Iter 28000, dev loss: 3.190416
+Epoch 20, Iter 28000, Train F1 score: 0.709557,                            Train EM score: 0.573000
+Epoch 20, Iter 28000, Dev F1 score: 0.653363,                            Dev EM score: 0.504716
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 20, iter 28200, loss 3.58520, smoothed loss 3.21380, grad norm 44.69327, param norm 134.12181, batch time 2.242
+End of epoch 20. Time for epoch: 3757.158559
+epoch 21, iter 28400, loss 3.64826, smoothed loss 3.21080, grad norm 37.97529, param norm 134.44278, batch time 2.217
+Epoch 21, Iter 28500, dev loss: 3.193764
+Epoch 21, Iter 28500, Train F1 score: 0.703584,                            Train EM score: 0.556000
+Epoch 21, Iter 28500, Dev F1 score: 0.655276,                            Dev EM score: 0.503657
+epoch 21, iter 28600, loss 3.33857, smoothed loss 3.24450, grad norm 38.64993, param norm 134.76364, batch time 2.079
+epoch 21, iter 28800, loss 4.22598, smoothed loss 3.25329, grad norm 41.05558, param norm 135.06944, batch time 1.879
+epoch 21, iter 29000, loss 2.60145, smoothed loss 3.15982, grad norm 34.97329, param norm 135.38023, batch time 2.078
+Epoch 21, Iter 29000, dev loss: 3.127533
+Epoch 21, Iter 29000, Train F1 score: 0.703325,                            Train EM score: 0.556000
+Epoch 21, Iter 29000, Dev F1 score: 0.657813,                            Dev EM score: 0.505294
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 21, iter 29200, loss 2.37505, smoothed loss 3.12836, grad norm 31.70491, param norm 135.68663, batch time 2.040
+epoch 21, iter 29400, loss 2.76932, smoothed loss 3.22579, grad norm 30.93533, param norm 135.99471, batch time 1.940
+Epoch 21, Iter 29500, dev loss: 3.130314
+Epoch 21, Iter 29500, Train F1 score: 0.687839,                            Train EM score: 0.557000
+Epoch 21, Iter 29500, Dev F1 score: 0.658046,                            Dev EM score: 0.506160
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 21, iter 29600, loss 3.29139, smoothed loss 3.16572, grad norm 40.27987, param norm 136.29732, batch time 2.106
+End of epoch 21. Time for epoch: 3754.287209
+epoch 22, iter 29800, loss 3.06732, smoothed loss 3.12613, grad norm 36.33877, param norm 136.59314, batch time 1.962
+epoch 22, iter 30000, loss 2.73158, smoothed loss 3.16397, grad norm 37.13654, param norm 136.91693, batch time 1.957
+Epoch 22, Iter 30000, dev loss: 3.164813
+Epoch 22, Iter 30000, Train F1 score: 0.729778,                            Train EM score: 0.587000
+Epoch 22, Iter 30000, Dev F1 score: 0.661006,                            Dev EM score: 0.509143
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 22, iter 30200, loss 3.57351, smoothed loss 3.20948, grad norm 63.52364, param norm 137.21664, batch time 1.942
+epoch 22, iter 30400, loss 2.80723, smoothed loss 3.15159, grad norm 35.82800, param norm 137.52232, batch time 1.949
+Epoch 22, Iter 30500, dev loss: 3.165794
+Epoch 22, Iter 30500, Train F1 score: 0.687503,                            Train EM score: 0.549000
+Epoch 22, Iter 30500, Dev F1 score: 0.656000,                            Dev EM score: 0.503080
+epoch 22, iter 30600, loss 2.58785, smoothed loss 3.09637, grad norm 37.81266, param norm 137.82448, batch time 2.012
+epoch 22, iter 30800, loss 3.70032, smoothed loss 3.16370, grad norm 40.26215, param norm 138.12538, batch time 2.086
+epoch 22, iter 31000, loss 4.18359, smoothed loss 3.13844, grad norm 46.39905, param norm 138.42682, batch time 1.940
+Epoch 22, Iter 31000, dev loss: 3.114567
+Epoch 22, Iter 31000, Train F1 score: 0.694319,                            Train EM score: 0.557000
+Epoch 22, Iter 31000, Dev F1 score: 0.659944,                            Dev EM score: 0.508566
+End of epoch 22. Time for epoch: 3753.700544
+epoch 23, iter 31200, loss 2.64034, smoothed loss 3.12907, grad norm 36.59494, param norm 138.72308, batch time 2.198
+epoch 23, iter 31400, loss 2.71147, smoothed loss 3.09123, grad norm 41.58757, param norm 139.01314, batch time 1.985
+Epoch 23, Iter 31500, dev loss: 3.114023
+Epoch 23, Iter 31500, Train F1 score: 0.723378,                            Train EM score: 0.584000
+Epoch 23, Iter 31500, Dev F1 score: 0.661363,                            Dev EM score: 0.511261
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 23, iter 31600, loss 3.27583, smoothed loss 3.16233, grad norm 73.20055, param norm 139.30969, batch time 2.015
+epoch 23, iter 31800, loss 3.17914, smoothed loss 3.07572, grad norm 49.31401, param norm 139.59808, batch time 1.941
+epoch 23, iter 32000, loss 3.30899, smoothed loss 3.04500, grad norm 39.32563, param norm 139.90048, batch time 2.010
+Epoch 23, Iter 32000, dev loss: 3.084287
+Epoch 23, Iter 32000, Train F1 score: 0.730757,                            Train EM score: 0.609000
+Epoch 23, Iter 32000, Dev F1 score: 0.663401,                            Dev EM score: 0.512320
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 23, iter 32200, loss 2.94672, smoothed loss 3.09678, grad norm 90.48464, param norm 140.20331, batch time 1.975
+epoch 23, iter 32400, loss 3.62464, smoothed loss 3.05870, grad norm 46.37766, param norm 140.48683, batch time 1.930
+Epoch 23, Iter 32500, dev loss: 3.164257
+Epoch 23, Iter 32500, Train F1 score: 0.721719,                            Train EM score: 0.580000
+Epoch 23, Iter 32500, Dev F1 score: 0.657358,                            Dev EM score: 0.513571
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+End of epoch 23. Time for epoch: 3754.532363
+epoch 24, iter 32600, loss 2.48881, smoothed loss 3.04320, grad norm 29.84686, param norm 140.79424, batch time 1.932
+epoch 24, iter 32800, loss 2.73535, smoothed loss 3.06114, grad norm 35.58723, param norm 141.08659, batch time 1.926
+epoch 24, iter 33000, loss 3.40153, smoothed loss 3.06991, grad norm 40.36275, param norm 141.38776, batch time 1.940
+Epoch 24, Iter 33000, dev loss: 3.152499
+Epoch 24, Iter 33000, Train F1 score: 0.703211,                            Train EM score: 0.563000
+Epoch 24, Iter 33000, Dev F1 score: 0.662357,                            Dev EM score: 0.514726
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 24, iter 33200, loss 3.39426, smoothed loss 3.03929, grad norm 42.16829, param norm 141.67613, batch time 2.154
+epoch 24, iter 33400, loss 3.72285, smoothed loss 3.00823, grad norm 55.22799, param norm 141.97165, batch time 1.901
+Epoch 24, Iter 33500, dev loss: 3.150634
+Epoch 24, Iter 33500, Train F1 score: 0.715393,                            Train EM score: 0.575000
+Epoch 24, Iter 33500, Dev F1 score: 0.656908,                            Dev EM score: 0.507315
+epoch 24, iter 33600, loss 3.71886, smoothed loss 3.09491, grad norm 56.49962, param norm 142.27492, batch time 1.917
+epoch 24, iter 33800, loss 2.34624, smoothed loss 2.99986, grad norm 33.89362, param norm 142.57619, batch time 1.896
+End of epoch 24. Time for epoch: 3465.403299
+epoch 25, iter 34000, loss 2.85032, smoothed loss 3.01474, grad norm 35.20230, param norm 142.86739, batch time 1.961
+Epoch 25, Iter 34000, dev loss: 3.163207
+Epoch 25, Iter 34000, Train F1 score: 0.724335,                            Train EM score: 0.600000
+Epoch 25, Iter 34000, Dev F1 score: 0.659851,                            Dev EM score: 0.511261
+epoch 25, iter 34200, loss 2.77137, smoothed loss 3.03612, grad norm 46.58992, param norm 143.15405, batch time 2.020
+epoch 25, iter 34400, loss 3.77295, smoothed loss 3.09455, grad norm 35.04592, param norm 143.43712, batch time 2.058
+Epoch 25, Iter 34500, dev loss: 3.094348
+Epoch 25, Iter 34500, Train F1 score: 0.720603,                            Train EM score: 0.578000
+Epoch 25, Iter 34500, Dev F1 score: 0.665103,                            Dev EM score: 0.507122
+epoch 25, iter 34600, loss 2.97623, smoothed loss 3.00252, grad norm 34.69461, param norm 143.72430, batch time 2.142
+epoch 25, iter 34800, loss 2.74477, smoothed loss 2.99377, grad norm 33.91253, param norm 143.98911, batch time 2.074
+epoch 25, iter 35000, loss 2.93986, smoothed loss 2.99713, grad norm 95.34952, param norm 144.27374, batch time 2.041
+Epoch 25, Iter 35000, dev loss: 3.118044
+Epoch 25, Iter 35000, Train F1 score: 0.725786,                            Train EM score: 0.592000
+Epoch 25, Iter 35000, Dev F1 score: 0.659651,                            Dev EM score: 0.514341
+epoch 25, iter 35200, loss 3.49947, smoothed loss 3.00365, grad norm 50.23360, param norm 144.55518, batch time 2.018
+End of epoch 25. Time for epoch: 3754.593654
+epoch 26, iter 35400, loss 2.91049, smoothed loss 3.00378, grad norm 48.90116, param norm 144.84543, batch time 2.131
+Epoch 26, Iter 35500, dev loss: 3.129870
+Epoch 26, Iter 35500, Train F1 score: 0.747587,                            Train EM score: 0.597000
+Epoch 26, Iter 35500, Dev F1 score: 0.663549,                            Dev EM score: 0.518191
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+epoch 26, iter 35600, loss 3.20686, smoothed loss 3.01554, grad norm 53.85936, param norm 145.12971, batch time 2.100
+epoch 26, iter 35800, loss 3.11821, smoothed loss 3.00725, grad norm 109.83640, param norm 145.41840, batch time 2.055
+epoch 26, iter 36000, loss 3.34265, smoothed loss 2.96565, grad norm 38.23756, param norm 145.69287, batch time 1.925
+Epoch 26, Iter 36000, dev loss: 3.155985
+Epoch 26, Iter 36000, Train F1 score: 0.732767,                            Train EM score: 0.590000
+Epoch 26, Iter 36000, Dev F1 score: 0.660222,                            Dev EM score: 0.513763
+epoch 26, iter 36200, loss 2.94624, smoothed loss 2.99072, grad norm 56.24574, param norm 145.96986, batch time 2.046
+epoch 26, iter 36400, loss 2.24301, smoothed loss 2.98898, grad norm 36.15878, param norm 146.23856, batch time 2.071
+Epoch 26, Iter 36500, dev loss: 3.153268
+Epoch 26, Iter 36500, Train F1 score: 0.718728,                            Train EM score: 0.579000
+Epoch 26, Iter 36500, Dev F1 score: 0.663086,                            Dev EM score: 0.509143
+epoch 26, iter 36600, loss 3.06732, smoothed loss 2.95055, grad norm 41.69295, param norm 146.52371, batch time 2.067
+End of epoch 26. Time for epoch: 3756.014260
+epoch 27, iter 36800, loss 3.38583, smoothed loss 2.98295, grad norm 52.85818, param norm 146.80670, batch time 2.138
+epoch 27, iter 37000, loss 3.54302, smoothed loss 2.93502, grad norm 52.35068, param norm 147.08458, batch time 2.103
+Epoch 27, Iter 37000, dev loss: 3.160320
+Epoch 27, Iter 37000, Train F1 score: 0.721866,                            Train EM score: 0.584000
+Epoch 27, Iter 37000, Dev F1 score: 0.665790,                            Dev EM score: 0.517036
+epoch 27, iter 37200, loss 4.03346, smoothed loss 2.94191, grad norm 63.00804, param norm 147.35779, batch time 1.939
+epoch 27, iter 37400, loss 4.19105, smoothed loss 2.92627, grad norm 48.49763, param norm 147.63400, batch time 1.967
+Epoch 27, Iter 37500, dev loss: 3.171399
+Epoch 27, Iter 37500, Train F1 score: 0.717655,                            Train EM score: 0.578000
+Epoch 27, Iter 37500, Dev F1 score: 0.664888,                            Dev EM score: 0.512705
+epoch 27, iter 37600, loss 3.01488, smoothed loss 2.95032, grad norm 69.14199, param norm 147.91492, batch time 2.017
+epoch 27, iter 37800, loss 2.68303, smoothed loss 2.93815, grad norm 40.07089, param norm 148.19522, batch time 2.104
+epoch 27, iter 38000, loss 2.85591, smoothed loss 2.91282, grad norm 39.82317, param norm 148.46529, batch time 2.080
+Epoch 27, Iter 38000, dev loss: 3.090250
+Epoch 27, Iter 38000, Train F1 score: 0.739830,                            Train EM score: 0.585000
+Epoch 27, Iter 38000, Dev F1 score: 0.668290,                            Dev EM score: 0.520500
+Saving to ../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint/qa_best.ckpt...
+End of epoch 27. Time for epoch: 3757.396371
+epoch 28, iter 38200, loss 3.03370, smoothed loss 2.93126, grad norm 47.44652, param norm 148.75078, batch time 1.942
+epoch 28, iter 38400, loss 1.99285, smoothed loss 2.93591, grad norm 31.73031, param norm 149.02226, batch time 2.069
+Epoch 28, Iter 38500, dev loss: 3.132671
+Epoch 28, Iter 38500, Train F1 score: 0.739241,                            Train EM score: 0.586000
+Epoch 28, Iter 38500, Dev F1 score: 0.665849,                            Dev EM score: 0.516458
+epoch 28, iter 38600, loss 2.76454, smoothed loss 2.91564, grad norm 41.17543, param norm 149.28606, batch time 1.889
+epoch 28, iter 38800, loss 2.34594, smoothed loss 2.89868, grad norm 37.92595, param norm 149.55679, batch time 1.945
+epoch 28, iter 39000, loss 2.20401, smoothed loss 2.87284, grad norm 33.46246, param norm 149.82364, batch time 1.876
+Epoch 28, Iter 39000, dev loss: 3.173692
+Epoch 28, Iter 39000, Train F1 score: 0.735532,                            Train EM score: 0.585000
+Epoch 28, Iter 39000, Dev F1 score: 0.663850,                            Dev EM score: 0.517517
+epoch 28, iter 39200, loss 3.37074, smoothed loss 2.91110, grad norm 79.07338, param norm 150.10483, batch time 1.905
+epoch 28, iter 39400, loss 3.47344, smoothed loss 2.87466, grad norm 52.10620, param norm 150.35637, batch time 1.910
+Epoch 28, Iter 39500, dev loss: 3.122348
+Epoch 28, Iter 39500, Train F1 score: 0.729378,                            Train EM score: 0.587000
+Epoch 28, Iter 39500, Dev F1 score: 0.667878,                            Dev EM score: 0.519442
+End of epoch 28. Time for epoch: 3753.881851
+epoch 29, iter 39600, loss 3.27325, smoothed loss 2.93079, grad norm 94.92553, param norm 150.62791, batch time 1.925
+epoch 29, iter 39800, loss 2.52726, smoothed loss 2.87568, grad norm 38.28744, param norm 150.89215, batch time 1.876
+epoch 29, iter 40000, loss 3.03246, smoothed loss 2.93121, grad norm 43.13732, param norm 151.16249, batch time 1.966
+Epoch 29, Iter 40000, dev loss: 3.235805
+Epoch 29, Iter 40000, Train F1 score: 0.738040,                            Train EM score: 0.582000
+Epoch 29, Iter 40000, Dev F1 score: 0.660293,                            Dev EM score: 0.512320
+epoch 29, iter 40200, loss 2.60203, smoothed loss 2.87501, grad norm 52.45245, param norm 151.42462, batch time 1.988
+epoch 29, iter 40400, loss 3.02892, smoothed loss 2.83411, grad norm 40.43891, param norm 151.67821, batch time 1.955
