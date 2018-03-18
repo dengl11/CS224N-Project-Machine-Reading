@@ -49,9 +49,10 @@ class PredictionDenseSoftmax(PredictionBasic):
             probdist_start = tf.nn.l2_normalize(probdist_start, 1)
             probdist_end = tf.nn.l2_normalize(probdist_end, 1)
 
-            probdist_start = tf.div(probdist_start, tf.reduce_sum(probdist_start, 1))
+            probdist_start = tf.div(probdist_start, tf.reduce_sum(probdist_start, 1,
+                                                                  keep_dims=True))
             probdist_end = tf.div(probdist_end,
-                                  tf.reduce_sum(probdist_end, 1))
+                                  tf.reduce_sum(probdist_end, 1, keep_dims=True))
 
             return (logits_start, probdist_start, logits_end, probdist_end)
 
