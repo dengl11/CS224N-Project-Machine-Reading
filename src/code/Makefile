@@ -260,7 +260,7 @@ combined_small_learning_with_dense_softmax_pred:
                 --hidden_size=150\
                 --output_size=200\
                 --output double_lstm_dense\
-                --pred_layer softmax+dense\
+                --pred_layer dense+softmax\
                 --pred_hidden_sz 200\
                 --dropout 0.15\
                 --mode=train\
