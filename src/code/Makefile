@@ -273,7 +273,7 @@ combined_small_learning_with_dense_softmax_pred:
                 --attn_layer=combined_attn\
                 --batch_size=100\
                 --context_len=300\
-                --hidden_size=150\
+                --hidden_size=120\
                 --output_size=200\
                 --output double_lstm_dense\
                 --pred_layer dense+softmax\
