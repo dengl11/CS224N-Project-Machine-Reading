@@ -6,6 +6,7 @@ model
 raw_output
 runs/**/*.png
 experiments
+best_checkpoint
 *.pyc
 *.png
 *.swa

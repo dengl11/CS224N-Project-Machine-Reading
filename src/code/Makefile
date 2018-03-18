@@ -251,6 +251,23 @@ combined_small_learning_double_lstm_dense:
                 --learning_rate 7e-4\
 		--encoder lstm
 
+combined_small_learning_with_dense_softmax_pred:
+	python -W ignore main.py \
+                --embedding_size 100\
+                --attn_layer=combined_attn\
+                --batch_size=100\
+                --context_len=300\
+                --hidden_size=150\
+                --output_size=200\
+                --output double_lstm_dense\
+                --pred_layer dense+softmax\
+                --pred_hidden_sz 200\
+                --dropout 0.15\
+                --mode=train\
+                --learning_rate 7e-4\
+                --encoder lstm
+ 
+
 cli:
 	pip install codalabworker
 	 pip install codalab
@@ -259,5 +276,5 @@ cld:
 	cl work main::cs224n-DDD
 
 clr:
-	cl run --name gen-answers --request-cpus 1 --request-memory 4g --request-disk 1g --request-time 1d --request-docker-image abisee/cs224n-dfp:v4 :code :best_checkpoint glove.txt:0x97c870/glove.6B.100d.txt data.json:0x8f29fe 'python code/main.py --mode=official_eval --context_len=400 --attn_layer bi_attn --hidden_size 200 --output double_lstm_dense --output_size 200 --pred_hidden_sz 100 --dropout 0.25 --glove_path=glove.txt --json_in_path=data.json --ckpt_load_dir=best_checkpoint'
+	cl run --name gen-answers --request-cpus 1 --request-memory 4g --request-disk 1g --request-time 1d --request-docker-image abisee/cs224n-dfp:v4 context_idf.txt:context_idf.txt code:code best_checkpoint:best_checkpoint glove.txt:0x97c870/glove.6B.100d.txt data.json:0x8f29fe 'python code/main.py --idf_path=../context_idf.txt --mode=official_eval --context_len=300 --attn_layer bi_attn --hidden_size 300 --output double_lstm_dense --output_size 200 --pred_hidden_sz 200 --dropout 0.28 --glove_path=glove.txt --json_in_path=data.json --ckpt_load_dir=best_checkpoint'
 							
