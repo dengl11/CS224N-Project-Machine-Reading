@@ -12,7 +12,7 @@ from qa_model import QAModel
 logger = ColoredLogger("Ensumbler")
 INT_ATTR = set(["context_len", "output_size", "embedding_size", "pred_hidden_sz", "batch_size", "hidden_size"])
 
-FLT_ATTR = set(["dropout", "learning_rate"])
+FLT_ATTR = set(["dropout", "decay_rate", "learning_rate"])
   
 class Ensumbler(object):
 
@@ -138,6 +138,10 @@ def parse_flags(dir_path):
         config["encoder"] = "gru"
     if not "save_every" in config:
         config["save_every"] = 500
+    if not "eval_every" in config:
+        config["eval_every"] = 500
+    if not "keep" in config:
+        config["keep"] = 1
     if not "decay_rate" in config:
         config["decay_rate"] = 0.8
     if not "max_gradient_norm" in config:
