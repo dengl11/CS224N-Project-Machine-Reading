@@ -27,7 +27,7 @@ logger = ColoredLogger("QAModel")
 class QAModel(object):
     """Top-level Question Answering module"""
 
-    def __init__(self, FLAGS, id2word, word2id, emb_matrix, id2idf, is_training=False):
+    def __init__(self, FLAGS, id2word, word2id, emb_matrix, id2idf, is_training=False, scope = "QAModel"):
         """
         Initializes the QA model.
 
@@ -39,7 +39,6 @@ class QAModel(object):
                       containing pre-trained GloVe embeddings
         """
         logger.info("Initializing QAModel: is_training = {}".format(is_training))
-        print(FLAGS.__dict__)
         self.FLAGS = FLAGS
         self.id2word = id2word
         self.id2idf = id2idf
@@ -49,7 +48,7 @@ class QAModel(object):
         # Add all parts of the graph
         initializer = tf.contrib.layers.\
                       variance_scaling_initializer(factor=1.0, uniform=True)
-        with tf.variable_scope("QAModel", initializer=initializer):
+        with tf.variable_scope(scope, initializer=initializer):
             self.add_placeholders()
             self.add_embedding_layer(emb_matrix)
             self.build_graph()
@@ -77,7 +76,6 @@ class QAModel(object):
         self.bestmodel_saver = tf.train.Saver(tf.global_variables(), 
                                               max_to_keep=1)
         self.summaries       = tf.summary.merge_all()
-        print(self.FLAGS.__dict__)
 
 
     def initialize_from_checkpoint(self, session, train_dir, expect_exists):
@@ -193,8 +191,11 @@ class QAModel(object):
         # Note: here the RNNEncoder is shared (i.e. the weights are the same)
         # between the context and the question.
         encoder = RNNEncoder(self.FLAGS.hidden_size, self.keep_prob, self.FLAGS.encoder)
+        logger.error("Encoding Context ...")
         # [batch_size, context_len, hidden_size*2]
         context_hiddens = encoder.build_graph(self.context_embs, self.context_mask) 
+
+        logger.error("Encoding Questions ...")
         # [batch_size, question_len, hidden_size*2]
         question_hiddens = encoder.build_graph(self.qn_embs, self.qn_mask) 
 

@@ -30,9 +30,9 @@ bi100:
 		--pred_hidden_sz 200\
 		--learning_rate 2e-4\
 		--dropout 0.28
+
 ensumble:
 	python main.py\
-			--embedding_size 50\
 		    --mode=eval\
 			--ensumble=../analysis/runs/test_emsumble\
 
@@ -57,11 +57,11 @@ bie100:
 		--output double_lstm_dense\
 		--output_size 200\
 		--pred_layer condition\
-		--hidden_size 300\
+		--hidden_size 200\
 		--pred_hidden_sz 200\
 		--glove_path=../data/glove.6B.100d.txt\
 		--json_in_path=../data/dev-v1.1.json\
-		--ckpt_load_dir=../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint 
+		--ckpt_load_dir=../analysis/runs/test_emsumble/1_A_bi_attn_E_100_D_0.22_double_lstm/best_checkpoint 
 							
 				   
                                          

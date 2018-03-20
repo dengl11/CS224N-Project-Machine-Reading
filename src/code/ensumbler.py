@@ -1,5 +1,6 @@
 """ ensumble of model for prediction """
 import os, sys, re 
+import numpy as np 
 from lib.util import sys_ops
 from lib.util.logger import ColoredLogger
 from lib.util.dot_dict import DotDict
@@ -19,7 +20,7 @@ class Ensumbler(object):
 
     def __init__(self, ensumble_path, config, id2word, word2id, emb_matrix, id2idf):
         self.id2word = id2word 
-        self.models = self._init_models(config, ensumble_path, id2word, word2id, emb_matrix, id2idf) 
+        self._init_models(config, ensumble_path, id2word, word2id, emb_matrix, id2idf) 
         self.id2idf = id2idf
         self.word2id = word2id
         self.batch_size = 100
@@ -32,21 +33,24 @@ class Ensumbler(object):
 
         Return: 
         """
+        self.id2word = id2word 
+        self.word2id = word2id 
+        self.id2idf = id2idf 
+        self.emb_matrix = emb_matrix 
+
+        self.tf_config = tf_config 
         ensumble_path = os.path.abspath(ensumble_path)
         best_checkpoints = sys_ops.dirs_in_dir(ensumble_path)
         logger.info("Parsing config from {}...".format(best_checkpoints))
-        self.sessions = []
+        self.flags = []
+        self.ckpts = []
         for dir_path in best_checkpoints:   
-            FLAGS = parse_flags(dir_path)
-            with tf.Session(config=tf_config) as session:
-                # Initialize model
-                qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf, is_training=False)
-                checkpoint_path = os.path.join(dir_path, "best_checkpoint")
-                logger.error("qa_model: {}".format(qa_model))
-                qa_model.initialize_from_checkpoint(session, checkpoint_path, True)
+            f = parse_flags(dir_path)
+            checkpoint_path = os.path.join(dir_path, "best_checkpoint") 
+            self.ckpts.append(checkpoint_path)
+            self.flags.append(f)
 
-                self.models.append(qa_model)
-                self.sessions.append(session)
+        logger.error("Found {} models".format(len(self.ckpts)))
 
 
     def get_predictions(self, batch):
@@ -54,24 +58,32 @@ class Ensumbler(object):
         Return: 
         """
         starts, ends = [], []
-        for m, session in zip(self.models, self.sessions):
-            pred_start_pos, pred_end_pos = m.get_start_end_pos(session, batch)
-            starts.append(pred_start_pos)
-            ends.append(pred_end_pos)
-        starts = stats.mode(np.array(starts)).mode 
-        ends = stats.mode(np.array(ends)).mode 
-        return (starts, ends)
+        for ckpt, FLAGS in zip(self.ckpts, self.flags):
+            qa_model = QAModel(FLAGS, self.id2word, self.word2id, self.emb_matrix, self.id2idf, is_training=False)
+            with tf.Session(config=self.tf_config) as session:
+                qa_model.initialize_from_checkpoint(session, ckpt, True)
+                pred_start_pos, pred_end_pos = qa_model.get_start_end_pos(session, batch)
+                starts.append(pred_start_pos)
+                ends.append(pred_end_pos)
+            del qa_model 
+            tf.reset_default_graph()
 
-    def check_f1_em(self, context_path, qn_path, ans_path, dataset, num_samples=100):
+        starts, _ = stats.mode(np.array(starts))
+        ends, _ = stats.mode(np.array(ends)) 
+        return (starts[0].astype(np.int), ends[0].astype(np.int))
+
+
+    def check_f1_em(self, context_path, qn_path, ans_path, dataset, num_samples=1000):
         f1_total = 0.
         em_total = 0.
         example_num = 0
+
         for batch in get_batch_generator(self.word2id, self.id2idf,
                                          context_path,
                                          qn_path, ans_path,
-                                         self.FLAGS.batch_size,
-                                         context_len=self.FLAGS.context_len,
-                                         question_len=self.FLAGS.question_len,
+                                         num_samples,
+                                         context_len=300,
+                                         question_len=30,
                                          discard_long=False):
 
             pred_start_pos, pred_end_pos = self.get_predictions(batch)
