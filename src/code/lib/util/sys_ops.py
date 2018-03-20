@@ -32,6 +32,21 @@ def files_in_folder(folder, format="jpeg"):
     return imgs
 
 
+def dirs_in_dir(parent_path):
+    """get list of directories in parent folder
+    Args:
+        dir_path: [abs_path for each subdirectory]
+
+    Return: 
+    """
+    dirs = []
+    for dir_path in os.listdir(parent_path):
+        dir_path = os.path.join(parent_path, dir_path)
+        if not os.path.isdir(dir_path): continue 
+        dirs.append(dir_path)
+    return dirs 
+    
+
 def get_fpath(f):
     """get the absolute path of a file
     Args:

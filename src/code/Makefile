@@ -30,6 +30,12 @@ bi100:
             --pred_hidden_sz 200\
             --learning_rate 2e-4\
             --dropout 0.28
+ensumble:
+	python main.py\
+			--embedding_size 50\
+		    --mode=eval\
+			--ensumble=../analysis/runs/test_emsumble\
+
 
 bi300:
 	python  -W ignore main.py\

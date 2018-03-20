@@ -78,6 +78,31 @@ class QAModel(object):
         self.summaries       = tf.summary.merge_all()
 
 
+    def initialize_from_checkpoint(self, session, train_dir, expect_exists):
+	"""
+	Initializes model from train_dir.
+	Inputs:
+	  session: TensorFlow session
+	  model: QAModel
+	  train_dir: path to directory where we'll look for checkpoint
+	  expect_exists: If True, throw an error if no checkpoint is found.
+			 If False, initialize fresh model if no checkpoint is found.
+	"""
+	logger.info("Looking for model at %s..." % train_dir)
+	ckpt = tf.train.get_checkpoint_state(train_dir)
+	v2_path = ckpt.model_checkpoint_path + ".index" if ckpt else ""
+	if ckpt and (tf.gfile.Exists(ckpt.model_checkpoint_path) or tf.gfile.Exists(v2_path)):
+	    logger.info("Reading model parameters from %s" % ckpt.model_checkpoint_path)
+	    self.saver.restore(session, ckpt.model_checkpoint_path)
+	else:
+	    if expect_exists:
+		raise Exception("There is no saved checkpoint at %s" % train_dir)
+	    else:
+		logger.warning("There is no saved checkpoint at %s. Creating model with fresh parameters." % train_dir)
+		session.run(tf.global_variables_initializer())
+
+		logger.error('Num params: %d' % sum(v.get_shape().num_elements() for v in tf.trainable_variables()))
+
     def add_placeholders(self):
         """
         Add placeholders to the graph. Placeholders are used to feed in inputs.

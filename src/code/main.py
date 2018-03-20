@@ -17,6 +17,7 @@ from official_eval_helper import get_json_data, generate_answers
 
 from lib.util.logger import ColoredLogger
 from lib.util.timer import Timer
+from ensumbler import *
 
 
 logging.basicConfig(level=logging.INFO)
@@ -45,6 +46,8 @@ tf.app.flags.DEFINE_string("pred_layer", "basic",
                           "prediction layer after output layer for final prediction")
 tf.app.flags.DEFINE_string("idf_path", "../data/context_idf.txt",
                           "prediction layer after output layer for final prediction")
+tf.app.flags.DEFINE_string("ensumble", "",
+                          "path of an ensumble of models")
 
 tf.app.flags.DEFINE_integer("gpu", 0, "Which GPU to use, if you have multiple.")
 
@@ -117,31 +120,6 @@ FLAGS = tf.app.flags.FLAGS
 os.environ["CUDA_VISIBLE_DEVICES"] = str(FLAGS.gpu)
 
 
-def initialize_model(session, model, train_dir, expect_exists):
-    """
-    Initializes model from train_dir.
-
-    Inputs:
-      session: TensorFlow session
-      model: QAModel
-      train_dir: path to directory where we'll look for checkpoint
-      expect_exists: If True, throw an error if no checkpoint is found.
-                     If False, initialize fresh model if no checkpoint is found.
-    """
-    logger.info("Looking for model at %s..." % train_dir)
-    ckpt = tf.train.get_checkpoint_state(train_dir)
-    v2_path = ckpt.model_checkpoint_path + ".index" if ckpt else ""
-    if ckpt and (tf.gfile.Exists(ckpt.model_checkpoint_path) or tf.gfile.Exists(v2_path)):
-        logger.info("Reading model parameters from %s" % ckpt.model_checkpoint_path)
-        model.saver.restore(session, ckpt.model_checkpoint_path)
-    else:
-        if expect_exists:
-            raise Exception("There is no saved checkpoint at %s" % train_dir)
-        else:
-            logger.warning("There is no saved checkpoint at %s. Creating model with fresh parameters." % train_dir)
-            session.run(tf.global_variables_initializer())
-
-            logger.error('Num params: %d' % sum(v.get_shape().num_elements() for v in tf.trainable_variables()))
 
 
 def main(unused_argv):
@@ -153,10 +131,22 @@ def main(unused_argv):
     if sys.version_info[0] != 2:
         raise Exception("ERROR: You must use Python 2 but you are running Python %i" % sys.version_info[0])
 
+    # Define path for glove vecs
+    FLAGS.glove_path = FLAGS.glove_path or \
+                       os.path.join(DEFAULT_DATA_DIR, 
+                            "glove.6B.{}d.txt".format(FLAGS.embedding_size))
+
+    # Load embedding matrix and vocab mappings
+    timer.start("glove_getter")
+    emb_matrix, word2id, id2word = get_glove(FLAGS.glove_path, FLAGS.embedding_size)
+    id2idf = get_idf(FLAGS.idf_path, word2id)
+    logger.warn("Get glove embedding of size {} takes {:.2f} s".format(FLAGS.embedding_size, timer.stop("glove_getter")))
     # Print out Tensorflow version
     # print "This code was developed and tested on TensorFlow 1.4.1. Your TensorFlow version: %s" % tf.__version__
 
-    if not FLAGS.attn_layer and not FLAGS.train_dir and FLAGS.mode != "official_eval":
+    ensumble = FLAGS.ensumble
+    print(ensumble)
+    if not ensumble and not FLAGS.attn_layer and not FLAGS.train_dir and FLAGS.mode != "official_eval":
         raise Exception("You need to specify either --attn_layer or --train_dir")
 
     # Define train_dir
@@ -172,16 +162,6 @@ def main(unused_argv):
     # Initialize bestmodel directory
     bestmodel_dir = os.path.join(FLAGS.train_dir, "best_checkpoint")
 
-    # Define path for glove vecs
-    FLAGS.glove_path = FLAGS.glove_path or \
-                       os.path.join(DEFAULT_DATA_DIR, 
-                            "glove.6B.{}d.txt".format(FLAGS.embedding_size))
-
-    # Load embedding matrix and vocab mappings
-    timer.start("glove_getter")
-    emb_matrix, word2id, id2word = get_glove(FLAGS.glove_path, FLAGS.embedding_size)
-    id2idf = get_idf(FLAGS.idf_path, word2id)
-    logger.warn("Get glove embedding of size {} takes {:.2f} s".format(FLAGS.embedding_size, timer.stop("glove_getter")))
 
     # Get filepaths to train/dev datafiles for tokenized queries, contexts and answers
     train_context_path = os.path.join(FLAGS.data_dir, "train.context")
@@ -197,8 +177,9 @@ def main(unused_argv):
     config.gpu_options.allow_growth = True
 
     is_training = (FLAGS.mode == "train")
-    # Initialize model
-    qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf, is_training)
+    if not ensumble:
+        # Initialize model
+        qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf, is_training)
 
     # Split by mode
     if FLAGS.mode == "train": 
@@ -218,7 +199,7 @@ def main(unused_argv):
 
         with tf.Session(config=config) as sess: 
             # Load most recent model
-            initialize_model(sess, qa_model, FLAGS.train_dir, expect_exists=False)
+            qa_model.initialize_from_checkpoint(sess, FLAGS.train_dir, expect_exists=False)
 
             # Train
             qa_model.train(sess, train_context_path, train_qn_path,
@@ -230,7 +211,7 @@ def main(unused_argv):
         with tf.Session(config=config) as sess:
 
             # Load best model
-            initialize_model(sess, qa_model, bestmodel_dir, expect_exists=True)
+            qa_model.initialize_model(sess, bestmodel_dir, expect_exists=True)
 
             # Show examples with F1/EM scores
             f1, em = qa_model.check_f1_em(sess, dev_context_path,
@@ -241,23 +222,35 @@ def main(unused_argv):
 
 
     elif FLAGS.mode == "eval":
-        with tf.Session(config=config) as sess:
-
-            # Load best model
-            initialize_model(sess, qa_model, bestmodel_dir, expect_exists=True)
-
+        if ensumble: 
+            ensumbler = Ensumbler(ensumble, config, id2word, word2id, emb_matrix, id2idf)
             # train
-            f1, em = qa_model.check_f1_em(sess, train_context_path,
+            train_f1, train_em = ensumbler.check_f1_em(train_context_path,
                                         train_qn_path, train_ans_path,
-                                        "train", num_samples=100000000000,
-                                        print_to_screen=False)
-            logger.error("Train: F1 = {:.3}, EM = {:.3}".format(f1, em))
+                                        "train", num_samples=100000000000)
             # dev
-            f1, em = qa_model.check_f1_em(sess, dev_context_path,
+            dev_f1, dev_em = ensumbler.check_f1_em(dev_context_path,
                                         dev_qn_path, dev_ans_path,
-                                        "dev", num_samples=10000000000,
-                                        print_to_screen=False)
-            logger.error("Dev:   F1 = {:.3}, EM = {:.3}".format(f1, em))
+                                        "dev", num_samples=100000000000)
+
+        else:
+            with tf.Session(config=config) as sess:
+
+                # Load best model
+                qa_model.initialize_model(sess, bestmodel_dir, expect_exists=True)
+
+                # train
+                train_f1, train_em = qa_model.check_f1_em(sess, train_context_path,
+                                            train_qn_path, train_ans_path,
+                                            "train", num_samples=100000000000,
+                                            print_to_screen=False)
+                # dev
+                dev_f1, dev_em = qa_model.check_f1_em(sess, dev_context_path,
+                                            dev_qn_path, dev_ans_path,
+                                            "dev", num_samples=10000000000,
+                                            print_to_screen=False)
+        logger.error("Train: F1 = {:.3}, EM = {:.3}".format(train_f1, train_em))
+        logger.error("Dev:   F1 = {:.3}, EM = {:.3}".format(dev_f1, dev_em))
 
     elif FLAGS.mode == "official_eval":
         if FLAGS.json_in_path == "":
@@ -271,7 +264,7 @@ def main(unused_argv):
         with tf.Session(config=config) as sess:
 
             # Load model from ckpt_load_dir
-            initialize_model(sess, qa_model, FLAGS.ckpt_load_dir, expect_exists=True)
+            qa_model.initialize_model(sess, FLAGS.ckpt_load_dir, expect_exists=True)
 
             # Get a predicted answer for each example in the data
             # Return a mapping answers_dict from uuid to answer
