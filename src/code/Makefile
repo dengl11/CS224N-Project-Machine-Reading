@@ -50,16 +50,18 @@ bi300:
 bie100:
 	python main.py  \
 		--mode=eval\
-		--context_len=400\
-		--attn_layer bi_attn\
-		--hidden_size 200\
+		--context_len=300\
+		--embedding_size 100\
+		--attn_layer=bi_attn\
+		--batch_size 60\
 		--output double_lstm_dense\
 		--output_size 200\
-		--pred_hidden_sz 100\
-		--dropout 0.25\
+		--pred_layer condition\
+		--hidden_size 300\
+		--pred_hidden_sz 200\
 		--glove_path=../data/glove.6B.100d.txt\
 		--json_in_path=../data/dev-v1.1.json\
-		--ckpt_load_dir=../experiments/A_bi_attn_E_100_D_0.25/glove100/best_checkpoint 
+		--ckpt_load_dir=../experiments/A_bi_attn_E_100_D_0.28/glove100/best_checkpoint 
 							
 				   
                                          
