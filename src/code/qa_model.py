@@ -39,6 +39,7 @@ class QAModel(object):
                       containing pre-trained GloVe embeddings
         """
         logger.info("Initializing QAModel: is_training = {}".format(is_training))
+        print(FLAGS.__dict__)
         self.FLAGS = FLAGS
         self.id2word = id2word
         self.id2idf = id2idf
@@ -76,6 +77,7 @@ class QAModel(object):
         self.bestmodel_saver = tf.train.Saver(tf.global_variables(), 
                                               max_to_keep=1)
         self.summaries       = tf.summary.merge_all()
+        print(self.FLAGS.__dict__)
 
 
     def initialize_from_checkpoint(self, session, train_dir, expect_exists):

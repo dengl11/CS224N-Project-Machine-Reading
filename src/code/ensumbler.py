@@ -38,14 +38,15 @@ class Ensumbler(object):
         self.sessions = []
         for dir_path in best_checkpoints:   
             FLAGS = parse_flags(dir_path)
-            session = tf.Session(config=tf_config)
-            # Initialize model
-            qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf, is_training=False)
-	    checkpoint_path = os.path.join(dir_path, "best_checkpoint")
-            qa_model.initialize_from_checkpoint(session, checkpoint_path, True)
+            with tf.Session(config=tf_config) as session:
+                # Initialize model
+                qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf, is_training=False)
+                checkpoint_path = os.path.join(dir_path, "best_checkpoint")
+                logger.error("qa_model: {}".format(qa_model))
+                qa_model.initialize_from_checkpoint(session, checkpoint_path, True)
 
-            self.models.append(qa_model)
-            self.sessions.append(session)
+                self.models.append(qa_model)
+                self.sessions.append(session)
 
 
     def get_predictions(self, batch):

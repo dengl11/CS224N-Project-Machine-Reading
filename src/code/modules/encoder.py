@@ -53,7 +53,7 @@ class RNNEncoder(object):
         self.rnn_cell_bw = DropoutWrapper(rnn_cell_bw,
                                           input_keep_prob=self.keep_prob)
         self.scope = scope
-        logger.info("Encoder created: {}".format(cell_type))
+        logger.info("Encoder created: {} | hidden_size = {}".format(cell_type, hidden_size))
 
     def build_graph(self, inputs, masks):
         """

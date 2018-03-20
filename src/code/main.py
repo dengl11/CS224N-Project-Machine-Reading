@@ -227,11 +227,11 @@ def main(unused_argv):
             # train
             train_f1, train_em = ensumbler.check_f1_em(train_context_path,
                                         train_qn_path, train_ans_path,
-                                        "train", num_samples=100000000000)
+                                        "train", num_samples=10)
             # dev
             dev_f1, dev_em = ensumbler.check_f1_em(dev_context_path,
                                         dev_qn_path, dev_ans_path,
-                                        "dev", num_samples=100000000000)
+                                        "dev", num_samples=10)
 
         else:
             with tf.Session(config=config) as sess:
@@ -248,7 +248,7 @@ def main(unused_argv):
                 # dev
                 dev_f1, dev_em = qa_model.check_f1_em(sess, dev_context_path,
                                             dev_qn_path, dev_ans_path,
-                                            "dev", num_samples=100,
+                                            "dev", num_samples=10000,
                                             print_to_screen=False)
         logger.error("Train: F1 = {:.3}, EM = {:.3}".format(train_f1, train_em))
         logger.error("Dev:   F1 = {:.3}, EM = {:.3}".format(dev_f1, dev_em))
