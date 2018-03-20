@@ -146,6 +146,8 @@ def parse_flags(dir_path):
         config["decay_rate"] = 0.8
     if not "max_gradient_norm" in config:
         config["max_gradient_norm"] = 5.0
+    if not "question_len" in config:
+        config["question_len"] = 30
 
     logger.warn("Parse: {}".format(config))
     return DotDict(config )

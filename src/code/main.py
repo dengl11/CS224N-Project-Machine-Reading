@@ -211,7 +211,7 @@ def main(unused_argv):
         with tf.Session(config=config) as sess:
 
             # Load best model
-            qa_model.initialize_model(sess, bestmodel_dir, expect_exists=True)
+            qa_model.initialize_from_checkpoint(sess, bestmodel_dir, expect_exists=True)
 
             # Show examples with F1/EM scores
             f1, em = qa_model.check_f1_em(sess, dev_context_path,
@@ -237,7 +237,7 @@ def main(unused_argv):
             with tf.Session(config=config) as sess:
 
                 # Load best model
-                qa_model.initialize_model(sess, bestmodel_dir, expect_exists=True)
+                qa_model.initialize_from_checkpoint(sess, bestmodel_dir, expect_exists=True)
 
                 # train
                 train_f1, train_em = qa_model.check_f1_em(sess, train_context_path,
@@ -264,7 +264,7 @@ def main(unused_argv):
         with tf.Session(config=config) as sess:
 
             # Load model from ckpt_load_dir
-            qa_model.initialize_model(sess, FLAGS.ckpt_load_dir, expect_exists=True)
+            qa_model.initialize_from_checkpoint(sess, FLAGS.ckpt_load_dir, expect_exists=True)
 
             # Get a predicted answer for each example in the data
             # Return a mapping answers_dict from uuid to answer
