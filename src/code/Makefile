@@ -25,7 +25,7 @@ bi100:
             --batch_size 60\
 			--output double_lstm\
             --output_size 200\
-			--pred_layer condition\
+			--pred_layer mix\
             --hidden_size 300\
             --pred_hidden_sz 200\
             --learning_rate 2e-4\

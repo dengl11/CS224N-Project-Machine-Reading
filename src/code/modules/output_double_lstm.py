@@ -20,7 +20,7 @@ class OutputDoubleLSTM(object):
         self.output_sz = output_sz
         self.scope = "double_lstm"
         self.keep_prob = keep_prob 
-        self.lstm_encoder1 = RNNEncoder(output_sz, keep_prob, "lstm", "encoder1")
+        self.lstm_encoder1 = RNNEncoder(output_sz, 1, "lstm", "encoder1")
         self.lstm_encoder2 = RNNEncoder(output_sz, keep_prob, "lstm", "encoder2")
 
 

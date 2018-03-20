@@ -21,13 +21,13 @@ from modules import *
 from lib.util.logger import ColoredLogger
 
 logging.basicConfig(level=logging.INFO)
-logger = ColoredLogger("main")
+logger = ColoredLogger("QAModel")
 
 
 class QAModel(object):
     """Top-level Question Answering module"""
 
-    def __init__(self, FLAGS, id2word, word2id, emb_matrix, id2idf):
+    def __init__(self, FLAGS, id2word, word2id, emb_matrix, id2idf, is_training=False):
         """
         Initializes the QA model.
 
@@ -38,18 +38,18 @@ class QAModel(object):
           emb_matrix: numpy array shape (400002, embedding_size)
                       containing pre-trained GloVe embeddings
         """
-        print "Initializing the QAModel..."
+        logger.info("Initializing QAModel: is_training = {}".format(is_training))
         self.FLAGS = FLAGS
         self.id2word = id2word
         self.id2idf = id2idf
         self.word2id = word2id
+        self.is_training = is_training
 
         # Add all parts of the graph
         initializer = tf.contrib.layers.\
                       variance_scaling_initializer(factor=1.0, uniform=True)
         with tf.variable_scope("QAModel", initializer=initializer):
             self.add_placeholders()
-            # self.add_char_embedding_layer() 
             self.add_embedding_layer(emb_matrix)
             self.build_graph()
             self.add_loss()
@@ -199,7 +199,7 @@ class QAModel(object):
         reps_final   = output_layer.build_graph(blended_reps, self.context_mask)
 
         #-------------------- Prediction Layer ------------------------------
-        pred_layer = get_prediction_layer(self.FLAGS.pred_layer, self.FLAGS.pred_hidden_sz)
+        pred_layer = get_prediction_layer(self.FLAGS.pred_layer, self.FLAGS.pred_hidden_sz, self.is_training)
         self.logits_start, self.probdist_start, self.logits_end, self.probdist_end\
                 = pred_layer.build_graph(reps_final, self.context_mask)
 

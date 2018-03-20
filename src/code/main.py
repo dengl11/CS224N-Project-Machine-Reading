@@ -191,12 +191,14 @@ def main(unused_argv):
     dev_qn_path = os.path.join(FLAGS.data_dir, "dev.question")
     dev_ans_path = os.path.join(FLAGS.data_dir, "dev.span")
 
-    # Initialize model
-    qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf)
 
     # Some GPU settings
     config=tf.ConfigProto()
     config.gpu_options.allow_growth = True
+
+    is_training = (FLAGS.mode == "train")
+    # Initialize model
+    qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf, is_training)
 
     # Split by mode
     if FLAGS.mode == "train": 
