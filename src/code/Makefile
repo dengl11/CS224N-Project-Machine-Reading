@@ -33,9 +33,16 @@ bi100:
 
 ensumble:
 	python main.py\
+		--n_eval=2000\
 		    --mode=eval\
-			--ensumble=../analysis/runs/test_emsumble\
+			--ensumble=../experiments/ensumble 
 
+
+eno:
+	python main.py\
+		    --mode=official_eval\
+			--json_in_path=../data/dev-v1.1.json\
+			--ensumble=../experiments/ensumble 
 
 bi300:
 	python  -W ignore main.py\

@@ -253,10 +253,11 @@ def main(unused_argv):
         logger.error("Dev:   F1 = {:.3}, EM = {:.3}".format(dev_f1, dev_em))
 
     elif FLAGS.mode == "official_eval":
-        if FLAGS.json_in_path == "":
-            raise Exception("For official_eval mode, you need to specify --json_in_path")
-        if FLAGS.ckpt_load_dir == "":
-            raise Exception("For official_eval mode, you need to specify --ckpt_load_dir")
+        if not ensumble:
+            if FLAGS.json_in_path == "":
+                raise Exception("For official_eval mode, you need to specify --json_in_path")
+            if FLAGS.ckpt_load_dir == "":
+                raise Exception("For official_eval mode, you need to specify --ckpt_load_dir")
 
         # Read the JSON data from file
         qn_uuid_data, context_token_data, qn_token_data = get_json_data(FLAGS.json_in_path)

@@ -7,6 +7,11 @@ from lib.util.dot_dict import DotDict
 from data_batcher import get_batch_generator
 from scipy import stats
 from evaluate import exact_match_score, f1_score
+from six.moves import xrange
+from nltk.tokenize.moses import MosesDetokenizer
+
+from preprocessing.squad_preprocess import data_from_json, tokenize
+from vocab import UNK_ID, PAD_ID
 import tensorflow as tf
 from qa_model import QAModel
 
@@ -23,7 +28,7 @@ class Ensumbler(object):
         self._init_models(config, ensumble_path, id2word, word2id, emb_matrix, id2idf) 
         self.id2idf = id2idf
         self.word2id = word2id
-        self.batch_size = 100
+        self.batch_size = 200
 
     
     def _init_models(self, tf_config, ensumble_path, id2word, word2id, emb_matrix, id2idf):
@@ -81,13 +86,12 @@ class Ensumbler(object):
         """
         uuid2ans = {} # maps uuid to string containing predicted answer
         data_size = len(qn_uuid_data)
-        num_batches = ((data_size-1) / model.FLAGS.batch_size) + 1
+        num_batches = ((data_size-1) / self.batch_size) + 1
         batch_num = 0
         detokenizer = MosesDetokenizer()
 
-        print "Generating answers..."
 
-        for batch in get_batch_generator(self.word2id, self.id2idf, qn_uuid_data, context_token_data, qn_token_data, data_size, 300, 30):
+        for batch in get_batch_generator(self.word2id, self.id2idf, qn_uuid_data, context_token_data, qn_token_data, self.batch_size, 300, 30, discard_long=False):
 
             pred_start_batch, pred_end_batch = self.get_predictions(batch)
 
@@ -123,7 +127,7 @@ class Ensumbler(object):
         for batch in get_batch_generator(self.word2id, self.id2idf,
                                          context_path,
                                          qn_path, ans_path,
-                                         num_samples,
+                                         self.batch_size,
                                          context_len=300,
                                          question_len=30,
                                          discard_long=False):

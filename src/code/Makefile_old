@@ -1,0 +1,198 @@
+################ Baseline ################# 
+
+#baseline training
+bt:
+	python  -W ignore main.py --attn_layer=baseline --mode=train
+
+################# Bi-Directional ################# 
+
+# for debug locally 
+bi:
+	python  -W ignore main.py\
+			--attn_layer=bi_attn\
+			--print_every 1\
+            --batch_size 2\
+			--embedding_size 50\
+			--pred_layer condition\
+			--mode=train\
+			--dropout 0.5
+bi100:
+	python  -W ignore main.py \
+            --mode=train\
+            --context_len=300\
+            --embedding_size 100\
+            --attn_layer=bi_attn\
+            --batch_size 60\
+			--output double_lstm_dense\
+            --output_size 200\
+			--pred_layer condition\
+            --hidden_size 300\
+            --pred_hidden_sz 200\
+            --learning_rate 2e-4\
+            --dropout 0.28
+
+bi300:
+	python  -W ignore main.py\
+			--attn_layer=bi_attn\
+			--context_len=300\
+			--embedding_size 300\
+			--mode=train\
+			--dropout 0.35
+
+
+#bidirectional evaluation
+bie100:
+	python main.py  \
+		--mode=eval\
+		--context_len=400\
+		--attn_layer bi_attn\
+		--hidden_size 200\
+		--output double_lstm_dense\
+		--output_size 200\
+		--pred_hidden_sz 100\
+		--dropout 0.25\
+		--glove_path=../data/glove.6B.100d.txt\
+		--json_in_path=../data/dev-v1.1.json\
+		--ckpt_load_dir=../experiments/A_bi_attn_E_100_D_0.25/glove100/best_checkpoint 
+							
+				   
+                                         
+                                                                   
+bie-300:
+	python  -W ignore main.py --attn_layer=bi_attn\
+			--embedding_size 300\
+			--mode=eval\
+			--json_in_path ../data/dev-v1.1.json \
+			--ckpt_load_dir ../experiments/bi_attn/glove300/best_checkpoint/
+
+
+################# Co-Attention ################# 
+
+
+#co-attentional training
+co100:
+	python  -W ignore main.py \
+			--embedding_size 200\
+			--attn_layer=co_attn\
+			--batch_size=200\
+			--context_len=500\
+            --output_size 200\
+            --output lstm\
+			--hidden_size=300\
+			--output_size=200\
+			--dropout 0.20\
+			--mode=train
+
+co100cond:
+	python  -W ignore main.py \
+			--embedding_size 50\
+			--attn_layer=co_attn\
+			--batch_size=200\
+			--context_len=500\
+			--hidden_size=300\
+			--pred_layer condition\
+			--output_size=200\
+			--dropout 0.20\
+			--mode=train
+
+co100ds:
+	python  -W ignore main.py \
+			--embedding_size 200\
+			--attn_layer=co_attn\
+			--batch_size=200\
+			--context_len=480\
+			--hidden_size=200\
+			--pred_layer dense+softmax\
+			--output_size=200\
+			--dropout 0.20\
+			--mode=train
+
+co200:
+	python  -W ignore main.py \
+			--embedding_size 200\
+			--attn_layer=co_attn\
+			--batch_size=200\
+			--context_len=360\
+			--hidden_size=150\
+			--output_size=100\
+			--dropout 0.25\
+			--mode=train
+
+
+#co-attentional training
+coe100:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--attn_layer=co_attn\
+			--mode=eval\
+			--json_in_path ../data/dev-v1.1.json \
+			--ckpt_load_dir ../experiments/co_attn/glove100/best_checkpoint/
+
+
+
+
+################# Self-Attention #################
+#Don't change. If want to change, just create a new one.
+self:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--attn_layer=self_attn\
+			--batch_size=100\
+			--context_len=300\
+			--hidden_size=50\
+			--output_size=100\
+			--output lstm\
+			--dropout 0.15\
+			--mode=train
+
+self_small_learning:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--attn_layer=self_attn\
+			--batch_size=100\
+			--context_len=300\
+			--hidden_size=70\
+			--output_size=100\
+			--output lstm\
+			--dropout 0.15\
+			--mode=train\
+			--learning_rate 3e-4
+
+
+self_small_learning_double_lstm:
+	python -W ignore main.py \
+		--embedding_size 100\
+		--attn_layer=self_attn\
+		--batch_size=100\
+		--context_len=300\
+		--hidden_size=85\
+		--output_size=100\
+		--output double_lstm\
+		--dropout 0.15\
+		--mode=train\
+		--learning_rate 3e-4
+
+
+self_big:
+	python  -W ignore main.py \
+			--embedding_size 100\
+			--attn_layer=self_attn\
+			--batch_size=100\
+			--context_len=500\
+			--hidden_size=160\
+			--output_size=200\
+			--output lstm\
+			--dropout 0.15\
+			--mode=train
+
+
+cli:
+	pip install codalabworker
+	 pip install codalab
+
+cld:
+	cl work main::cs224n-DDD
+
+clr:
+	cl run --name gen-answers --request-cpus 1 --request-memory 4g --request-disk 1g --request-time 1d --request-docker-image abisee/cs224n-dfp:v4 :code :best_checkpoint glove.txt:0x97c870/glove.6B.100d.txt data.json:0x8f29fe 'python code/main.py --mode=official_eval --context_len=400 --attn_layer bi_attn --hidden_size 200 --output double_lstm_dense --output_size 200 --pred_hidden_sz 100 --dropout 0.25 --glove_path=glove.txt --json_in_path=data.json --ckpt_load_dir=best_checkpoint'
+							
