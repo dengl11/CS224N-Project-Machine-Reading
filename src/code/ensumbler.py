@@ -4,7 +4,7 @@ import numpy as np
 from lib.util import sys_ops
 from lib.util.logger import ColoredLogger
 from lib.util.dot_dict import DotDict
-from data_batcher import get_batch_generator
+import data_batcher, official_eval_helper 
 from scipy import stats
 from evaluate import exact_match_score, f1_score
 from six.moves import xrange
@@ -90,8 +90,7 @@ class Ensumbler(object):
         batch_num = 0
         detokenizer = MosesDetokenizer()
 
-
-        for batch in get_batch_generator(self.word2id, self.id2idf, qn_uuid_data, context_token_data, qn_token_data, self.batch_size, 300, 30, discard_long=False):
+        for batch in official_eval_helper.get_batch_generator(self.word2id, self.id2idf, qn_uuid_data, context_token_data, qn_token_data, self.batch_size, 300, 30):
 
             pred_start_batch, pred_end_batch = self.get_predictions(batch)
 
@@ -124,7 +123,7 @@ class Ensumbler(object):
         em_total = 0.
         example_num = 0
 
-        for batch in get_batch_generator(self.word2id, self.id2idf,
+        for batch in data_batcher.get_batch_generator(self.word2id, self.id2idf,
                                          context_path,
                                          qn_path, ans_path,
                                          self.batch_size,
