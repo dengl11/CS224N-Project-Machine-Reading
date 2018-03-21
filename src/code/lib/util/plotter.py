@@ -191,7 +191,7 @@ def bar_plot(xticks, y, xlabel, ylabel, title, **kwargs):
     plt.bar(range(n), y, color=light_purple)
         
     fig_set_title(fig, title)
-    plt.xticks(range(n), xticks if xlabels is None else xlabels, rotation = 90)
+    plt.xticks(range(n), xticks if xlabels is None else xlabels, rotation = 45)
     plt.ylabel(ylabel, fontsize=16)
     plt.xlabel(xlabel, fontsize=16)
     plt.tight_layout()
