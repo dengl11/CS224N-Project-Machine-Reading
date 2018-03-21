@@ -28,7 +28,7 @@ class Ensumbler(object):
         self._init_models(config, ensumble_path, id2word, word2id, emb_matrix, id2idf) 
         self.id2idf = id2idf
         self.word2id = word2id
-        self.batch_size = 400
+        self.batch_size = 100
 
     
     def _init_models(self, tf_config, ensumble_path, id2word, word2id, emb_matrix, id2idf):
@@ -50,6 +50,8 @@ class Ensumbler(object):
         self.flags = []
         self.ckpts = []
         for dir_path in best_checkpoints:   
+            if dir_path.split("/")[-1][0] == "_":
+                continue
             f = parse_flags(dir_path)
             checkpoint_path = os.path.join(dir_path, "best_checkpoint") 
             self.ckpts.append(checkpoint_path)
