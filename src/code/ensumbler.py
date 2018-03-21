@@ -28,7 +28,7 @@ class Ensumbler(object):
         self._init_models(config, ensumble_path, id2word, word2id, emb_matrix, id2idf) 
         self.id2idf = id2idf
         self.word2id = word2id
-        self.batch_size = 200
+        self.batch_size = 400
 
     
     def _init_models(self, tf_config, ensumble_path, id2word, word2id, emb_matrix, id2idf):

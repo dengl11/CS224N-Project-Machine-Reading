@@ -29,6 +29,7 @@ def get_idf(idf_path, word2id):
     Return: 
     """
     id2idf = dict()
+    print("idf: {}".format(idf_path))
     with open(idf_path, "r") as f:
         [w, idf] = f.readline().split()
         if w in word2id: 

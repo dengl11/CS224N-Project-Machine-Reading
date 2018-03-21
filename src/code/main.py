@@ -136,7 +136,7 @@ def main(unused_argv):
     # Load embedding matrix and vocab mappings
     timer.start("glove_getter")
     emb_matrix, word2id, id2word = get_glove(FLAGS.glove_path, FLAGS.embedding_size)
-    id2idf = get_idf(FLAGS.idf_path, word2id)
+    id2idf = get_idf(os.path.abspath(FLAGS.idf_path), word2id)
     logger.warn("Get glove embedding of size {} takes {:.2f} s".format(FLAGS.embedding_size, timer.stop("glove_getter")))
     # Print out Tensorflow version
     # print "This code was developed and tested on TensorFlow 1.4.1. Your TensorFlow version: %s" % tf.__version__
