@@ -73,6 +73,48 @@ class Ensumbler(object):
         return (starts[0].astype(np.int), ends[0].astype(np.int))
 
 
+    def generate_answers(self, qn_uuid_data, context_token_data, qn_token_data):
+        """
+        Args:
+
+        Return: 
+        """
+        uuid2ans = {} # maps uuid to string containing predicted answer
+        data_size = len(qn_uuid_data)
+        num_batches = ((data_size-1) / model.FLAGS.batch_size) + 1
+        batch_num = 0
+        detokenizer = MosesDetokenizer()
+
+        print "Generating answers..."
+
+        for batch in get_batch_generator(self.word2id, self.id2idf, qn_uuid_data, context_token_data, qn_token_data, data_size, 300, 30):
+
+            pred_start_batch, pred_end_batch = self.get_predictions(batch)
+
+            # Convert pred_start_batch and pred_end_batch to lists length batch_size
+            pred_start_batch = pred_start_batch.tolist()
+            pred_end_batch = pred_end_batch.tolist()
+
+            # For each example in the batch:
+            for ex_idx, (pred_start, pred_end) in enumerate(zip(pred_start_batch, pred_end_batch)):
+
+                # Original context tokens (no UNKs or padding) for this example
+                context_tokens = batch.context_tokens[ex_idx] # list of strings
+
+                # Check the predicted span is in range
+                assert pred_start in range(len(context_tokens))
+                assert pred_end in range(len(context_tokens))
+
+                # Predicted answer tokens
+                pred_ans_tokens = context_tokens[pred_start : pred_end +1] # list of strings
+
+                # Detokenize and add to dict
+                uuid = batch.uuids[ex_idx]
+                uuid2ans[uuid] = detokenizer.detokenize(pred_ans_tokens, return_str=True)
+
+        return uuid2ans
+
+
     def check_f1_em(self, context_path, qn_path, ans_path, dataset, num_samples=1000):
         f1_total = 0.
         em_total = 0.

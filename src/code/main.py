@@ -50,11 +50,8 @@ tf.app.flags.DEFINE_string("ensumble", "",
                           "path of an ensumble of models")
 
 tf.app.flags.DEFINE_integer("gpu", 0, "Which GPU to use, if you have multiple.")
+tf.app.flags.DEFINE_integer("n_eval", 100, "number of examples to evaluate in dev")
 
-# tf.app.flags.DEFINE_integer("char_vocab_sz", 95,
-                            # "vocabulary size of chars")
-# tf.app.flags.DEFINE_integer("char_encoding_sz", 10,
-                            # "0 if not use character encoding else some positive number")
 tf.app.flags.DEFINE_string("mode", "train", 
                       "Available modes: train / show_examples / official_eval")
 tf.app.flags.DEFINE_string("experiment_name", "",
@@ -180,6 +177,9 @@ def main(unused_argv):
     if not ensumble:
         # Initialize model
         qa_model = QAModel(FLAGS, id2word, word2id, emb_matrix, id2idf, is_training)
+    else:
+        ensumbler = Ensumbler(ensumble, config, id2word, word2id, emb_matrix, id2idf)
+
 
     # Split by mode
     if FLAGS.mode == "train": 
@@ -223,15 +223,14 @@ def main(unused_argv):
 
     elif FLAGS.mode == "eval":
         if ensumble: 
-            ensumbler = Ensumbler(ensumble, config, id2word, word2id, emb_matrix, id2idf)
             # train
             train_f1, train_em = ensumbler.check_f1_em(train_context_path,
                                         train_qn_path, train_ans_path,
-                                        "train", num_samples=10)
+                                        "train", FLAGS.n_eval)
             # dev
             dev_f1, dev_em = ensumbler.check_f1_em(dev_context_path,
                                         dev_qn_path, dev_ans_path,
-                                        "dev", num_samples=10)
+                                        "dev", FLAGS.n_eval)
 
         else:
             with tf.Session(config=config) as sess:
@@ -262,21 +261,22 @@ def main(unused_argv):
         # Read the JSON data from file
         qn_uuid_data, context_token_data, qn_token_data = get_json_data(FLAGS.json_in_path)
 
-        with tf.Session(config=config) as sess:
+        if ensumble: 
+            answers_dict = ensumbler.generate_answers(qn_uuid_data, context_token_data, qn_token_data)
+        else:
+            with tf.Session(config=config) as sess: 
+                # Load model from ckpt_load_dir
+                qa_model.initialize_from_checkpoint(sess, FLAGS.ckpt_load_dir, expect_exists=True) 
+                # Get a predicted answer for each example in the data
+                # Return a mapping answers_dict from uuid to answer
+                answers_dict = generate_answers(sess, qa_model, word2id, id2idf, 
+                        qn_uuid_data, context_token_data, qn_token_data)
 
-            # Load model from ckpt_load_dir
-            qa_model.initialize_from_checkpoint(sess, FLAGS.ckpt_load_dir, expect_exists=True)
-
-            # Get a predicted answer for each example in the data
-            # Return a mapping answers_dict from uuid to answer
-            answers_dict = generate_answers(sess, qa_model, word2id, id2idf, 
-                    qn_uuid_data, context_token_data, qn_token_data)
-
-            # Write the uuid->answer mapping a to json file in root dir
-            print "Writing predictions to %s..." % FLAGS.json_out_path
-            with io.open(FLAGS.json_out_path, 'w', encoding='utf-8') as f:
-                f.write(unicode(json.dumps(answers_dict, ensure_ascii=False)))
-                print "Wrote predictions to %s" % FLAGS.json_out_path
+        # Write the uuid->answer mapping a to json file in root dir
+        print "Writing predictions to %s..." % FLAGS.json_out_path
+        with io.open(FLAGS.json_out_path, 'w', encoding='utf-8') as f:
+            f.write(unicode(json.dumps(answers_dict, ensure_ascii=False)))
+            print "Wrote predictions to %s" % FLAGS.json_out_path
 
 
     else:
