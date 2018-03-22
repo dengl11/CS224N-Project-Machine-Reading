@@ -22,7 +22,7 @@
 
 ### Error Analysis
 
-<div style="text-align: center; margin: auto">
+<div style="text-align: center; width=100%">
 <img src="./doc/res/eval_all.png" width=70%>
 <img src="./doc/res/f1_by_an.png" width=70%>
 <img src="./doc/res/em_by_an.png" width=70%>
