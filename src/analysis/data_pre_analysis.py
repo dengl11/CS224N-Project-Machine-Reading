@@ -8,16 +8,16 @@ with open('../data/dev.answer') as f:
     # remove '\n' at the end.
     answers.append(line[:-1])
 
-# answers_length_count = collections.Counter([len(x.split()) for x in answers])
-#
-#
-# y = answers_length_count.values()
-# x = answers_length_count.keys()
-# width = 1/1.5
-# plt.bar(x, y, width, color="blue")
-# plt.ylabel('Count')
-# plt.xlabel('Answer Word Length')
-# plt.show()
+answers_length_count = collections.Counter([len(x.split()) for x in answers])
+
+
+y = answers_length_count.values()
+x = answers_length_count.keys()
+width = 1/1.5
+plt.bar(x, y, width, color='#b2df8a')
+plt.ylabel('Count', fontsize=14)
+plt.xlabel('Answer Word Length', fontsize=14)
+plt.savefig("./answer_length.png")
 
 
 # Context Length Analysis.
@@ -27,15 +27,14 @@ with open('../data/dev.context') as f:
     # remove '\n' at the end.
     context.append(line[:-1])
 
-# context_length_count = collections.Counter([len(x.split()) for x in context])
-#
+context_length_count = collections.Counter([len(x.split()) for x in context])
+
 # y = context_length_count.values()
 # x = context_length_count.keys()
 # width = 1/1.5
 # plt.bar(x, y, width, color="blue")
 # plt.ylabel('Count')
 # plt.xlabel('Context Word Length')
-# plt.show()
 
 
 # Analyze Answer in Context Starting Position (in terms of context length percentage, ~X% of context length)
@@ -69,4 +68,4 @@ width = 1/1.5
 plt.bar(x, y, width, color='#cf5246')
 plt.ylabel('Count', fontsize=14)
 plt.xlabel('Number of Word Before Answer in Context', fontsize=14)
-plt.savefig("./answer_word_length.png")
+plt.savefig("./number_of_word_before_answer.png")
