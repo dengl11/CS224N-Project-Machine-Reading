@@ -4,8 +4,8 @@ import json, sys
 from evaluate import *
 import numpy as np 
 
-# DEV_PRED = "./ensumble_prediction.json"
-DEV_PRED = "./predictions.json"
+DEV_PRED = "./ensumble_prediction.json"
+# DEV_PRED = "./predictions.json"
 DEV_DATA = "../data/dev-v1.1.json"
 DEV_QN = "../data/dev.question"
 KEY_WORDS = set(["how", "when", "where", "who", "what", "why", "which"])
@@ -127,9 +127,9 @@ def eval_by_qntype():
     with open(output, "w") as f:
         json.dump(ans, f)
 
-eval_by_qntype() 
+# eval_by_qntype() 
 # eval_len_math()
-# eval_all()
+eval_all()
 # eval_by_len("f1", "qn")
 # eval_by_len("f1", "an")
 # eval_by_len("em", "qn")
