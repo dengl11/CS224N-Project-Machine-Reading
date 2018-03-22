@@ -28,7 +28,7 @@ class Ensumbler(object):
         self._init_models(config, ensumble_path, id2word, word2id, emb_matrix, id2idf) 
         self.id2idf = id2idf
         self.word2id = word2id
-        self.batch_size = 100
+        self.batch_size = 150
 
     
     def _init_models(self, tf_config, ensumble_path, id2word, word2id, emb_matrix, id2idf):
@@ -204,6 +204,8 @@ def parse_flags(dir_path):
         config["keep"] = 1
     if not "decay_rate" in config:
         config["decay_rate"] = 0.8
+    if not "pred_layer" in config:
+        config["pred_layer"] = "basic"
     if not "max_gradient_norm" in config:
         config["max_gradient_norm"] = 5.0
     if not "question_len" in config:
