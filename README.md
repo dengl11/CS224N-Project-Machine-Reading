@@ -22,7 +22,7 @@
 
 ### Error Analysis
 
-<div style="text-align: center">
+<div style="text-align: center; margin: auto">
 <img src="./doc/res/eval_all.png" width=70%>
 <img src="./doc/res/f1_by_an.png" width=70%>
 <img src="./doc/res/em_by_an.png" width=70%>
@@ -34,14 +34,14 @@
 
 ### Poster 
 <div style="text-align: center; margin-bottom:2em">
-<a href="./doc/submission/CS224N-Poster.pdf">
+<a href="https://github.com/dengl11/CS224N-Project-Machine-Reading/blob/master/doc/submission/CS224N-Poster.pdf">
 <img src="./doc/res/poster.png" width=100%>
 </a>
 </div>
 
 ### Report  
 <div style="text-align: center">
-<a href="./doc/submission/CS224N-CS224N-Report.pdf">
+<a href=" https://github.com/dengl11/CS224N-Project-Machine-Reading/blob/master/doc/submission/CS224N-Report.pdf ">
 <img src="./doc/res/report.png" width=100%>
 </a>
 </div>
