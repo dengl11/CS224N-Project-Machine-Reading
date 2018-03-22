@@ -10,8 +10,7 @@
 
 ### Test Score 
 ----------------
-#### F1 76.2% 
-#### EM 66.2%
+#### F1 76.2% , EM 66.2%
 
 <div style="text-align: center">
 <img src="./doc/res/test.png" width=120%>
