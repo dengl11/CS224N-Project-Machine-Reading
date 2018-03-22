@@ -1,49 +1,47 @@
-# CS224N-Project-Machine-Reading
+# CS224N-Project-Machine-Reading 
+#### Stanford 2018 Winter
 
-Stanford 2018 Winter
 ---------------
 
 ### Team 
 - **Li Deng** (dengl11@stanford.edu)
 - **Zhiling Huang** (zhiling@stanford.edu)
 
+### Test Score: F1 76.2% , EM 66.2%
+
+<div style="text-align: center">
+<img src="./doc/res/test.png" width=120%>
+</div>
 
 
-### Environment Setup
+### Architecture
 
-1. install Codelab-cli
-```  
-sudo pip install codalabworker
-sudo pip install codalab
- ```  
+<div style="text-align: center">
+<img src="./doc/res/architecture.png" width=90%>
+</div>
 
-### How to run
+### Error Analysis
 
-1. codelab setup
-```  
-cl work main::
-cl new cs224n-<group-name>
-cli work cs224n-<group-name>
-cl wperm . public none
-cl wperm . cs224n-win18-staff read 
-cl gnew cs224n-<group-name>
-cl uadd <partner> cs224n-<group-name>
-cl wperm . cs224n-<group-name> all 
-```  
+<div style="text-align: center">
+<img src="./doc/res/eval_all.png" width=70%>
+<img src="./doc/res/f1_by_an.png" width=70%>
+<img src="./doc/res/em_by_an.png" width=70%>
+<img src="./doc/res/ans_len_match.png" width=70%>
+<img src="./doc/res/f1_by_qn_type.png" width=70%>
+<img src="./doc/res/em_by_qn_type.png" width=70%>
+</div>
 
-2. train    
-```  
-python code/train.py 
-```  
 
-3. upload code/data to codelab
-```  
-cl upload <dir_name>
-```  
+### Poster 
+<div style="text-align: center; margin-bottom:2em">
+<a href="./doc/submission/CS224N-Poster.pdf">
+<img src="./doc/res/poster.png" width=100%>
+</a>
+</div>
 
-### Reference:
-- [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/)
-
-### Papers 
-- [SQuAD Original Data](https://arxiv.org/pdf/1606.05250.pdf): dataset generation and basic model performance 
-- [](https://arxiv.org/pdf/1608.07905.pdf)
+### Report  
+<div style="text-align: center">
+<a href="./doc/submission/CS224N-CS224N-Report.pdf">
+<img src="./doc/res/report.png" width=100%>
+</a>
+</div>
