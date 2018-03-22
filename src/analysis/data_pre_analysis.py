@@ -3,7 +3,7 @@ import collections
 
 # Answer Length Analysis.
 answers = []
-with open('dev.answer') as f:
+with open('../data/dev.answer') as f:
   for line in f.readlines():
     # remove '\n' at the end.
     answers.append(line[:-1])
@@ -22,7 +22,7 @@ with open('dev.answer') as f:
 
 # Context Length Analysis.
 context = []
-with open('dev.context') as f:
+with open('../data/dev.context') as f:
   for line in f.readlines():
     # remove '\n' at the end.
     context.append(line[:-1])
@@ -56,17 +56,17 @@ with open('dev.context') as f:
 
 
 # # Analyze Number of Words before Answer in Context
-# numer_of_words_before_answer_count = collections.Counter()
-# for index, answer in enumerate(answers):
-#   one_context = context[index]
-#   context_word_length = len(one_context.split())
-#   previous_context_word_length = len(one_context[:one_context.find(answer)].split())
-#   numer_of_words_before_answer_count[previous_context_word_length] += 1
-#
-# y = [numer_of_words_before_answer_count[position] for position in numer_of_words_before_answer_count.keys()]
-# x = numer_of_words_before_answer_count.keys()
-# width = 1/1.5
-# plt.bar(x, y, width, color="blue")
-# plt.ylabel('Count')
-# plt.xlabel('Number of Word Before Answer in Context')
-# plt.show()
+numer_of_words_before_answer_count = collections.Counter()
+for index, answer in enumerate(answers):
+  one_context = context[index]
+  context_word_length = len(one_context.split())
+  previous_context_word_length = len(one_context[:one_context.find(answer)].split())
+  numer_of_words_before_answer_count[previous_context_word_length] += 1
+
+y = [numer_of_words_before_answer_count[position] for position in numer_of_words_before_answer_count.keys()]
+x = numer_of_words_before_answer_count.keys()
+width = 1/1.5
+plt.bar(x, y, width, color='#cf5246')
+plt.ylabel('Count', fontsize=14)
+plt.xlabel('Number of Word Before Answer in Context', fontsize=14)
+plt.savefig("./answer_word_length.png")
