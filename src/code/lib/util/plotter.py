@@ -35,7 +35,7 @@ orange = '#fdbf6f'
 
 yellow = '#FFD92F'
 
-palette_dict = {'green': green, 'gray': gray, 'blue': blue, 'red': '#ab162a', 'yellow': yellow, 'purple': purple}
+palette_dict = {'green': green, 'gray': gray, 'blue': blue, 'red': '#ab162a', 'yellow': yellow, 'purple': purple, "pink": pink}
 default_palette = [green, blue, gray]
 
 ###########################################################
@@ -150,18 +150,20 @@ def hbar_plot(yticks, y, xlabel, ylabel, title, **kwargs):
     y_arr = kwargs.get('y_arr', None)
     xtick_rot = kwargs.get('xtick_rot', None)
     ytick_rot = kwargs.get('ytick_rot', None)
+    color = kwargs.get('color', "green")
+    color = get_color(color)
+
 
     if size: fig = plt.figure(figsize=size)
     else:    fig = plt.figure()
 
     n = len(yticks)
-    plt.barh(range(n), y, color=light_purple)
+    plt.barh(range(n), y, color=color)
         
     fig_set_title(fig, title)
     plt.yticks(range(n), yticks if ylabels is None else ylabels)
     plt.ylabel(ylabel, fontsize=10)
     plt.xlabel(xlabel, fontsize=10)
-    print(xtick_rot)
     if xtick_rot: rotate_axis_ticks("x", xtick_rot)
     if ytick_rot: rotate_axis_ticks("y", ytick_rot)
 
@@ -172,7 +174,7 @@ def hbar_plot(yticks, y, xlabel, ylabel, title, **kwargs):
 
     return plt.gca()
 
-def bar_plot(xticks, y, xlabel, ylabel, title, **kwargs):
+def bar_plot(xticks, y, xlabel = None, ylabel = None, title = None, **kwargs):
     """
     Args:
         xticks:  [tick]
@@ -182,7 +184,8 @@ def bar_plot(xticks, y, xlabel, ylabel, title, **kwargs):
     Return:
         axes
     """
-    # myLogger.info("bar plot: y = {}".format(y.shape))
+    if kwargs.get('new', True):
+        plt.figure()
     save_path = kwargs.get('save_path', None)
     xlabels = kwargs.get('xlabels', None)
     y_arr = kwargs.get('y_arr', None)
@@ -200,9 +203,12 @@ def bar_plot(xticks, y, xlabel, ylabel, title, **kwargs):
         for i in range( len( ax.patches ) ):
             p = ax.patches[i]
             ax.annotate(int(y_arr[i]), (p.get_x() + p.get_width()/3, p.get_height()*1.01))
+
+    legend = kwargs.get('legend', [])
+    if legend:
+        plt.legend(legend)
     if save_path:
         plt.savefig(save_path)
-        # myLogger.info("Image saved: {}".format(save_path))
 
     return plt.gca()
 
@@ -397,7 +403,10 @@ def curve_plot(xs, ys, **kwargs):
     if kwargs.get('new', True):
         plt.figure()
 
-    plt.plot(xs, ys)
+    color = kwargs.get('color', "green")
+    color = get_color(color)
+
+    plt.plot(xs, ys, color=color)
     save_path = kwargs.get('save_path', None)
     ax = plt.gca() 
     ax_set_title(ax, kwargs.get('title', ''))

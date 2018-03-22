@@ -346,7 +346,7 @@ bio100:
 		--pred_hidden_sz 200\
 		--glove_path=../data/glove.6B.100d.txt\
 		--json_in_path=../data/dev-v1.1.json\
-		--ckpt_load_dir=../experiments/ensumble/2_A_bi_attn_E_100_D_0.28/best_checkpoint 
+		--ckpt_load_dir=../experiments/ensumble/2_A_bi_attn_E_100_D_0.28_double_lstm_dense/best_checkpoint 
 
 clr:
 	cl run --name gen-answers --request-cpus 1 --request-memory 4g --request-disk 4g --request-time 1d --request-docker-image abisee/cs224n-dfp:v4 context_idf.txt:context_idf.txt code:code best_checkpoint:best_checkpoint glove.txt:0x97c870/glove.6B.100d.txt data.json:0x8f29fe 'python code/main.py --idf_path=context_idf.txt --mode=official_eval --context_len=300 --attn_layer bi_attn --hidden_size 300 --output double_lstm_dense --output_size 200 --pred_layer condition --pred_hidden_sz 200 --dropout 0.28 --glove_path=glove.txt --json_in_path=data.json --ckpt_load_dir=best_checkpoint'
